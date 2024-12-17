@@ -23,7 +23,6 @@
     "array.prototype.tosorted": "^1.1.4",
     "arraybuffer.prototype.slice": "^1.0.3",
     "ast-types-flow": "^0.0.8",
-    "autoprefixer": "^10.4.20",
     "available-typed-arrays": "^1.0.7",
     "axe-core": "^4.10.2",
     "axobject-query": "^4.1.0",
@@ -177,7 +176,6 @@
     "lodash.merge": "^4.6.2",
     "loose-envify": "^1.4.0",
     "lru-cache": "^10.4.3",
-    "lucide-react": "^0.468.0",
     "merge2": "^1.4.1",
     "micromatch": "^4.0.8",
     "minimatch": "^3.1.2",
@@ -295,11 +293,18 @@
     "yaml": "^2.6.1",
     "yocto-queue": "^0.1.0"
   },
+  "devDependencies": {},
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+ "dev": "next dev",
+"build": "next build",
+"start": "next start",
+"test": "echo \"Error: no test specified\" && exit 1"
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   },
   "keywords": [],
   "author": "",
