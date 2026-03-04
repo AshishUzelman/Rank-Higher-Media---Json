@@ -21,7 +21,7 @@ Digital entrepreneur, SEM/PPC expert, and product builder. I run **Rank Higher M
 | Mind Challenger AI | 🟡 In Progress | TBD | `mindchallengerai` account | Separate Gmail + Firebase account |
 | Pricing SaaS | 🔵 Concept | TBD | TBD | Drive folder exists |
 | SEED Initiative | 🔵 Concept | TBD | TBD | SEO services proposal in Drive |
-| Opal | 🔵 Concept | TBD | TBD | SEO Auditor tool — Drive has spec file + mockups (Nov 2025) |
+| ARES (SEO Auditor) | 🟡 Planned | TBD | `ashish-ares` | SEO Auditor — formerly "Opal". Drive folder has spec + mockups |
 | Children with Anxiety | 🔵 Concept | TBD | TBD | Drive folder exists |
 
 **Status key:** 🟢 Active · 🟡 In Progress/Planned · 🔵 Concept · 🔴 On Hold
@@ -121,6 +121,12 @@ These patterns carry over to every project — Claude should apply them by defau
 | Trello Rules for Organization | My Drive | Project org system notes |
 | Building SEO Tools and Reports | Resume folder | SEO tooling ideas |
 | SEED Initiative Proposal | Seed Initiative folder | SEO services business plan |
+
+---
+
+## Session Memory
+> 📋 **See `CONTEXT.md`** for the live session log, ongoing tasks, and current state.
+> Claude must read `CONTEXT.md` at the start of every session and update it before ending.
 
 ---
 
