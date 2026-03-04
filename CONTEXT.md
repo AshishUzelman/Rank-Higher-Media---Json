@@ -1,6 +1,6 @@
 # Claude Session Context — Ashish Uzelman
 > ⚠️ READ THIS FIRST at the start of every session. Update it before ending.
-> Last updated: 2026-03-04 (Session 2 — Firebase creation in progress)
+> Last updated: 2026-03-04 (Session 2 — Firebase setup COMPLETE ✅)
 
 ---
 
@@ -22,32 +22,34 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 
 ## Firebase Projects (5 max per account)
 
-### ash.revolution@gmail.com — 2/5 used ✅ updated 2026-03-04 Session 2
+### ash.revolution@gmail.com — 4/5 used ✅ ALL CREATED 2026-03-04
 | Slot | Project ID | Status | Notes |
 |---|---|---|---|
-| 1 | rank-high-media | ✅ Exists | SEM agency site |
-| 2 | ashish-ad-creator | ✅ CREATED | Ad Creator Web App — created this session |
-| 3 | ashish-ares | 🔲 To create | ARES — SEO Auditor tool |
-| 4 | ashish-hub | 🔲 To create | Project Visualizer / Dashboard |
+| 1 | rank-high-media | ✅ Exists | SEM agency site (Next.js 15, deployed on Vercel) |
+| 2 | ashish-ad-creator | ✅ CREATED | Ad Creator Web App — created 2026-03-04 |
+| 3 | ashish-ares | ✅ CREATED | ARES — SEO Auditor tool — created 2026-03-04 |
+| 4 | ashish-hub | ✅ CREATED | Project Visualizer / Dashboard — created 2026-03-04 |
 | 5 | (reserved) | — | Keep free for now |
 
-### Other accounts — to verify
+**Settings used for all new projects:**
+- Gemini in Firebase: ✅ Enabled (Recommended)
+- Google Analytics: ✅ Enabled → Default Account for Firebase
+
+### Other accounts
 | Account | Known Projects | Notes |
 |---|---|---|
 | `mindchallengerai@gmail.com` | Mind Challenger AI | Separate Firebase account |
 | `ashish.uzelman@gmail.com` | Maze? | Need to check — Maze may live here |
 
-**Note:** Gemini in Firebase was enabled on all projects (it's integrated in the Firebase console). All projects use "Default Account for Firebase" for Google Analytics.
-
 ---
 
 ## Active Projects
-| Project | Status | Repo | Firebase | Priority |
+| Project | Status | Repo | Firebase ID | Priority |
 |---|---|---|---|---|
 | Rank Higher Media | 🟢 Active | Rank-Higher-Media---Json | rank-high-media | 2 |
-| Ad Creator Web App | 🟡 Planned | TBD | ashish-ad-creator ✅ | 1 (full spec in Drive) |
-| ARES (SEO Auditor) | 🟡 Planned | TBD | ashish-ares 🔲 | 2 (spec + mockups in Drive/Opal folder) |
-| Project Visualizer | 🔵 Build last | TBD | ashish-hub 🔲 | 3 (build after AD Creator + ARES) |
+| Ad Creator Web App | 🟡 Ready to build | TBD | ashish-ad-creator ✅ | 1 — BUILD NEXT |
+| ARES (SEO Auditor) | 🟡 Ready to build | TBD | ashish-ares ✅ | 2 |
+| Project Visualizer | 🔵 Build last | TBD | ashish-hub ✅ | 3 |
 | Mind Challenger AI | 🟡 In Progress | TBD | mindchallengerai account | — |
 | Pricing SaaS | 🔵 Concept | TBD | TBD | — |
 | SEED Initiative | 🔵 Concept | TBD | TBD | — |
@@ -56,10 +58,10 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 ---
 
 ## Build Order
-1. **Set up Firebase** — ✅ ashish-ad-creator done; still need ashish-ares + ashish-hub
-2. **Ad Creator** — full technical spec exists in Drive ("Breakdown on how to create ad creative site")
-3. **ARES** — SEO Auditor, spec + mockups in Drive (folder was called "Opal", project renamed to ARES)
-4. **Visualizer** — build last, once real projects exist to display
+1. ✅ **Firebase setup** — All 4 projects exist on ash.revolution@gmail.com
+2. 🔲 **Ad Creator** — Read full spec from Drive → scaffold repo → build
+3. 🔲 **ARES** — Read spec from Drive (Opal folder) → scaffold → build
+4. 🔲 **Visualizer** — Build last, once real projects exist to display
 
 ---
 
@@ -70,7 +72,7 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 /CONTEXT.md         ← THIS FILE — session memory, updated every session
 /skills/            ← Reusable Claude skills & agent prompts
 /projects/
-  /ad-creator/      ← BRIEF.md (next to build)
+  /ad-creator/      ← BRIEF.md — BUILD NEXT
   /ares/            ← BRIEF.md (SEO Auditor, formerly "Opal")
   /visualizer/      ← BRIEF.md (build last)
   /mind-challenger-ai/
@@ -82,9 +84,9 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 ## Key Drive Documents
 | Doc | How to Find | Notes |
 |---|---|---|
-| Ad Creator Spec | Search Drive: "Breakdown on how to create ad creative site" | 11-section full technical spec — Tab open in browser |
+| Ad Creator Spec | Search Drive: "Breakdown on how to create ad creative site" | 11-section full technical spec |
+| Ad Creator Spec (direct URL) | https://docs.google.com/document/d/1-CzqwgqY5YTLz0iYnHunrw8kZUt7drd4krZ6LQ4w6Lw/edit | Tab already open in browser |
 | ARES Spec | Drive → Opal folder → "SEO Auditor" file (58KB) | + 2 mockup images |
-| Website that builds ads | Search Drive | Related ad tool concept |
 | SEED Initiative Proposal | Drive → Seed Initiative folder | SEO services business |
 
 ---
@@ -98,36 +100,39 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 - Mapped all Drive folders and projects
 - Created /skills and /projects skeleton structure
 - Renamed Opal → ARES (SEO Auditor)
-- Created CONTEXT.md (this file)
-- Confirmed Firebase on ash.revolution@gmail.com: 1/5 slots used (rank-high-media only)
-- Maze project is NOT on primary account — likely on ashish.uzelman@gmail.com
-- **Next:** Create 3 Firebase projects on ash.revolution@gmail.com, then scaffold Ad Creator
+- Created CONTEXT.md
+- Confirmed Firebase on ash.revolution@gmail.com: 1/5 slots used
 
 ### 2026-03-04 — Session 2
-- Confirmed all projects are under ash.revolution@gmail.com (Gemini was also working on it)
-- ✅ Created Firebase project: `ashish-ad-creator` (2/5 slots used)
-- Ad Creator spec Google Doc tab is open in browser
-- Still need: ashish-ares, ashish-hub
-- **In progress:** Creating remaining Firebase projects
+- Confirmed all projects are under ash.revolution@gmail.com (Gemini was also working on it — explains why projects appeared on multiple accounts)
+- ✅ Created Firebase project: `ashish-ad-creator`
+- ✅ Created Firebase project: `ashish-ares`
+- ✅ Created Firebase project: `ashish-hub`
+- Firebase is now 4/5 slots used — 1 reserved slot remaining
+- All projects use: Gemini enabled + Default Analytics account
+- Ad Creator spec Google Doc is open in browser tab
+- **Next session:** Read Ad Creator spec → populate projects/ad-creator/BRIEF.md → scaffold repo
 
 ---
 
 ## Ongoing Tasks
-- [x] Reconnect Chrome — resolved
-- [x] Confirmed Firebase account: ash.revolution@gmail.com has 4 free slots
-- [x] Create Firebase project: `ashish-ad-creator` ✅ DONE
-- [ ] Create Firebase project: `ashish-ares`
-- [ ] Create Firebase project: `ashish-hub`
-- [ ] Check ashish.uzelman@gmail.com Firebase for Maze project
-- [ ] Search Drive for ARES/ARES files to confirm full project name
-- [ ] Read full Ad Creator spec from Drive into projects/ad-creator/BRIEF.md
-- [ ] Read ARES spec from Drive into projects/ares/BRIEF.md
+- [x] Reconnect Chrome
+- [x] Confirmed Firebase account slots
+- [x] Create Firebase project: `ashish-ad-creator` ✅
+- [x] Create Firebase project: `ashish-ares` ✅
+- [x] Create Firebase project: `ashish-hub` ✅
+- [ ] Update CLAUDE.md Firebase column (all projects now created)
+- [ ] Read full Ad Creator spec from Drive → projects/ad-creator/BRIEF.md
+- [ ] Read ARES spec from Drive (Opal folder) → projects/ares/BRIEF.md
+- [ ] Scaffold Ad Creator repo (separate GitHub repo)
 - [ ] Set up `main` branch on GitHub as base branch
-- [ ] Update CLAUDE.md Firebase column once all projects are created
-- [ ] Commit CONTEXT.md + CLAUDE.md updates to GitHub
+- [ ] Check ashish.uzelman@gmail.com Firebase for Maze project
+
+---
 
 ## ⚠️ Session Continuity Protocol
-- Claude should update CONTEXT.md frequently during long sessions — not just at the end
-- If context window is getting full, pause and update CONTEXT.md before proceeding
+- Update CONTEXT.md frequently during long sessions — not just at end
 - Git commit CONTEXT.md regularly so it's backed up to GitHub
-- The Ad Creator spec Google Doc is at: https://docs.google.com/document/d/1-CzqwgqY5YTLz0iYnHunrw8kZUt7drd4krZ6LQ4w6Lw/edit
+- If context window getting full: update + commit CONTEXT.md FIRST, then continue
+- Ad Creator spec is at: https://docs.google.com/document/d/1-CzqwgqY5YTLz0iYnHunrw8kZUt7drd4krZ6LQ4w6Lw/edit
+- Branch: `claude/intelligent-torvalds` (default branch — no `main` yet)
