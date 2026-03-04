@@ -1,14 +1,14 @@
 # Ashish Uzelman — Master CLAUDE.md
 
 ## Who I Am
-Digital entrepreneur, SEM/PPC expert, and product builder. I run **Rank Higher Media** (SEM agency) and am actively building multiple AI-assisted web products. I work across several Google accounts and Firebase projects. Context continuity across sessions is critical — this file is the source of truth.
+Digital entrepreneur, SEM/PPC expert, 15+ years in the industry. I run **Rank Higher Media** (owned SEM agency) and contract with **Imajery (Montreal)** as Digital PM / ops / demand gen. I manage $40M+ monthly ad budgets and am building multiple AI-assisted products. Context continuity across sessions is critical — this file is the source of truth.
 
 **Accounts:**
 - `ash.revolution@gmail.com` — Primary / Rank Higher Media
 - `mindchallengerai@gmail.com` — Mind Challenger AI project
 - `ashish.uzelman@gmail.com` — Drive storage / planning docs
 
-**Google Drive (planning docs):** `ash.revolution@gmail.com` → My Drive
+**Google Drive (memory files):** `ash.revolution@gmail.com` → My Drive → AI folder → folder ID `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1`
 
 ---
 
@@ -21,7 +21,9 @@ Digital entrepreneur, SEM/PPC expert, and product builder. I run **Rank Higher M
 | Mind Challenger AI | 🟡 In Progress | TBD | `mindchallengerai` account | Separate Gmail + Firebase account |
 | Pricing SaaS | 🔵 Concept | TBD | TBD | Drive folder exists |
 | SEED Initiative | 🔵 Concept | TBD | TBD | SEO services proposal in Drive |
-| ARES (SEO Auditor) | 🟡 Planned | TBD | `ashish-ares` | SEO Auditor — formerly "Opal". Drive folder has spec + mockups |
+| ARES Platform | 🟡 Active Dev | React + Firebase + Hybrid LLM | `ashish-ares` | Agentic Resource & Execution System — multi-agent orchestration platform. Includes SEO Auditor as one managed project. |
+| Vanguard: Galactic Rescue | 🔴 Parked | Phaser.js + Firebase | TBD | Game project — parked at P3 |
+| Maze Generator | 🔴 Parked | TBD | TBD | TikTok/Shorts automation — parked at P3 |
 | Children with Anxiety | 🔵 Concept | TBD | TBD | Drive folder exists |
 
 **Status key:** 🟢 Active · 🟡 In Progress/Planned · 🔵 Concept · 🔴 On Hold
@@ -124,10 +126,20 @@ These patterns carry over to every project — Claude should apply them by defau
 
 ---
 
-## Session Memory
-> 📋 **See `CONTEXT.md`** for the live session log, ongoing tasks, and current state.
-> 🧠 **See `SOUL.md`** for Ashish's preferences, working style, and best practices.
-> Claude must read both `CONTEXT.md` and `SOUL.md` at the start of every session.
+## Session Memory — Read These Every Session
+> Claude must load ALL of these at the start of every session, in order:
+
+| File | Purpose |
+|---|---|
+| `SOUL_BASE.md` | Agent constitution — identity, core principles, behavioral protocols, LLM routing rules |
+| `SOUL_ARES.md` | ARES platform extension — architecture, agent tiers, Firebase rules, dashboard spec |
+| `SOUL.md` | Ashish's personal working style, preferences, and build philosophy |
+| `permanent.json` | Agency facts + active client data (Centre Willow, Goldwater Law via Imajery) |
+| `client_override.json` | Per-client rule exceptions |
+| `rolling_summary.md` | Last 3 session summaries — what was done, open items, next steps |
+| `CONTEXT.md` | Live session log — current tasks, Firebase state, build order |
+
+> ⚠️ **Cold-start rule:** End of every session → save all memory files to Google Drive folder `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1` (`ash.revolution@gmail.com` → My Drive → AI folder)
 
 ---
 
