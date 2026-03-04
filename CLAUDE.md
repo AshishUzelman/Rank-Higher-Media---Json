@@ -21,7 +21,7 @@ Digital entrepreneur, SEM/PPC expert, and product builder. I run **Rank Higher M
 | Mind Challenger AI | 🟡 In Progress | TBD | `mindchallengerai` account | Separate Gmail + Firebase account |
 | Pricing SaaS | 🔵 Concept | TBD | TBD | Drive folder exists |
 | SEED Initiative | 🔵 Concept | TBD | TBD | SEO services proposal in Drive |
-| Opal | 🔵 Concept | TBD | TBD | Recent Drive folder (Nov 2025) — scope unclear |
+| Opal | 🔵 Concept | TBD | TBD | SEO Auditor tool — Drive has spec file + mockups (Nov 2025) |
 | Children with Anxiety | 🔵 Concept | TBD | TBD | Drive folder exists |
 
 **Status key:** 🟢 Active · 🟡 In Progress/Planned · 🔵 Concept · 🔴 On Hold
