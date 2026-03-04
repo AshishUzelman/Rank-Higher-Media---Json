@@ -97,6 +97,84 @@
 
 ---
 
+## ARES — SEO Auditor Vision & Agent Architecture
+
+> This section captures how Ashish thinks about SEO research, what ARES should do, and how agents should be trained and structured to produce the right outputs.
+
+### What ARES Is
+ARES is Ashish's SEO auditing tool. It's not just a report generator — it's a system that **replicates how Ashish researches SEO himself**, then automates it at scale. The goal is: agents that think like Ashish, data pipelines that feed them the right inputs, and reports that match what a skilled SEM expert would actually produce.
+
+### Data Connections ARES Needs
+Agents are only as good as their data. ARES should connect to:
+- **Google Search Console** — organic impressions, clicks, CTR, position data per URL/query
+- **Google Analytics (GA4)** — traffic, conversions, bounce rate, session data
+- **Google Ads** — paid keyword data, quality scores, ad performance (overlap with organic)
+- **Ahrefs / SEMrush API (or scraping)** — competitor backlinks, DR, keyword gaps
+- **Google PageSpeed / Core Web Vitals API** — page performance scores
+- **Screaming Frog / crawl data** — technical SEO: broken links, redirects, duplicate content, meta issues
+- **SERPs data** — live keyword ranking checks (via API like DataForSEO or ValueSERP)
+- **Firestore** — store all audit results, historical data, client profiles
+
+### How Ashish Researches SEO (Train Agents on This)
+This is the methodology agents should replicate:
+
+**Step 1 — Understand the site's current position**
+- Pull GSC data: top queries, top pages, pages with high impressions but low CTR
+- Identify quick wins: pages ranking 6–20 that can be pushed to page 1 with optimization
+- Flag pages with declining rankings — figure out why (algorithm update, competitor, thin content)
+
+**Step 2 — Technical audit**
+- Crawl the site for: broken links, redirect chains, missing meta tags, duplicate content, missing H1s, slow pages
+- Check Core Web Vitals — LCP, CLS, FID/INP scores
+- Index coverage: which pages are indexed, which are excluded and why
+
+**Step 3 — Content gap analysis**
+- Compare top organic keywords vs competitor keywords
+- Find keywords competitors rank for that the site doesn't
+- Identify pages with no content targeting valuable keywords
+
+**Step 4 — Backlink profile**
+- Total referring domains, DR distribution
+- Lost backlinks (need to recover or replace)
+- Toxic/spammy link patterns
+- Opportunities: competitor backlinks the site doesn't have
+
+**Step 5 — Prioritized recommendations**
+- Every audit ends with a **priority-ranked action list** — High / Medium / Low
+- Each item has: what to fix, why it matters, estimated impact, how to do it
+- Never just list problems — always give the fix
+
+### Report Outputs ARES Should Produce
+- **Executive Summary** — 1 page, plain language, what's working, what's broken, top 3 priorities
+- **Full Audit Report** — all sections with data, visuals, and recommendations
+- **Quick Wins Sheet** — just the high-impact / low-effort items
+- **Monthly Progress Report** — changes vs last audit, rankings movement, tasks completed
+- Reports should be formatted as: PDF export + Firestore data (so the visualizer can read them later)
+
+### Agent Architecture for ARES
+Think of it as a team of specialists:
+
+| Agent | Role |
+|---|---|
+| Crawler Agent | Runs technical audit — crawls site, flags issues |
+| Data Fetcher Agent | Pulls GSC, GA4, Ads data via APIs |
+| Keyword Agent | Identifies opportunities, gaps, quick wins |
+| Content Analyst Agent | Reviews content quality, thin content, gaps |
+| Backlink Agent | Analyzes link profile, finds opportunities |
+| Report Compiler Agent | Takes all agent outputs → assembles final report |
+| Training Agent | Learns from Ashish's edits/corrections to improve future outputs |
+
+**Orchestration:** Claude acts as the supervisor — kicks off agents in order, reviews outputs, flags anomalies, compiles final report.
+
+### Training Agents on Ashish's Research Style
+- Agents should be trained on **examples of good outputs Ashish has approved**
+- When Ashish edits a report, those edits become training signal: "this is what good looks like"
+- Key things Ashish cares about: actionability, prioritization, plain language summaries
+- Agents should ask: "Would a non-technical client understand this recommendation?"
+- Tone: confident, direct, no hedging — don't say "might consider" when you mean "do this"
+
+---
+
 ## Things That Slow Ashish Down (Avoid These)
 - Asking too many clarifying questions when the intent is clear
 - Forgetting context from earlier in the session
