@@ -126,7 +126,8 @@ These patterns carry over to every project — Claude should apply them by defau
 
 ## Session Memory
 > 📋 **See `CONTEXT.md`** for the live session log, ongoing tasks, and current state.
-> Claude must read `CONTEXT.md` at the start of every session and update it before ending.
+> 🧠 **See `SOUL.md`** for Ashish's preferences, working style, and best practices.
+> Claude must read both `CONTEXT.md` and `SOUL.md` at the start of every session.
 
 ---
 
