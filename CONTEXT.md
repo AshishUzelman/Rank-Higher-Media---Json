@@ -143,6 +143,12 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 - [ ] Scaffold Ad Creator repo (new GitHub repo, Firebase: `ashish-ad-creator`)
 - [ ] Define tech stack for Ad Creator
 
+### ☁️ Google Antigravity Migration
+- [ ] Set up Google Antigravity environment
+- [ ] Install Claude Code in Antigravity terminal
+- [ ] Migrate relevant workflow from local → Antigravity
+- [ ] Confirm memory file stack accessible from Antigravity workspace
+
 ### 🔧 Infrastructure
 - [ ] Build Drive save script: `scripts/save_to_drive.js` (end-of-session automation)
 - [ ] Set up `main` branch on GitHub as base branch
