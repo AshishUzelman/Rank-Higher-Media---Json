@@ -1,6 +1,6 @@
 # Claude Session Context — Ashish Uzelman
 > ⚠️ READ THIS FIRST at the start of every session. Update it before ending.
-> Last updated: 2026-03-04 (Session 2 — Firebase setup COMPLETE ✅)
+> Last updated: 2026-03-04 (Session 3 — Memory stack integrated ✅ | Next: Ad Creator)
 
 ---
 
@@ -27,7 +27,7 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 |---|---|---|---|
 | 1 | rank-high-media | ✅ Exists | SEM agency site (Next.js 15, deployed on Vercel) |
 | 2 | ashish-ad-creator | ✅ CREATED | Ad Creator Web App — created 2026-03-04 |
-| 3 | ashish-ares | ✅ CREATED | ARES — SEO Auditor tool — created 2026-03-04 |
+| 3 | ashish-ares | ✅ CREATED | ARES — Agentic Resource & Execution System — created 2026-03-04 |
 | 4 | ashish-hub | ✅ CREATED | Project Visualizer / Dashboard — created 2026-03-04 |
 | 5 | (reserved) | — | Keep free for now |
 
@@ -48,7 +48,7 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 |---|---|---|---|---|
 | Rank Higher Media | 🟢 Active | Rank-Higher-Media---Json | rank-high-media | 2 |
 | Ad Creator Web App | 🟡 Ready to build | TBD | ashish-ad-creator ✅ | 1 — BUILD NEXT |
-| ARES (SEO Auditor) | 🟡 Ready to build | TBD | ashish-ares ✅ | 2 |
+| ARES Platform | 🟡 Active Dev | React + Firebase + Hybrid LLM | ashish-ares ✅ | 2 |
 | Project Visualizer | 🔵 Build last | TBD | ashish-hub ✅ | 3 |
 | Mind Challenger AI | 🟡 In Progress | TBD | mindchallengerai account | — |
 | Pricing SaaS | 🔵 Concept | TBD | TBD | — |
@@ -111,22 +111,49 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 - Firebase is now 4/5 slots used — 1 reserved slot remaining
 - All projects use: Gemini enabled + Default Analytics account
 - Ad Creator spec Google Doc is open in browser tab
-- **Next session:** Read Ad Creator spec → populate projects/ad-creator/BRIEF.md → scaffold repo
+
+### 2026-03-04 — Session 3
+- Created SOUL.md (Ashish's personal working preferences + build philosophy)
+- Added full ARES agent architecture to SOUL.md + rebuilt projects/ares/BRIEF.md
+- Discovered files.zip in Downloads → full pre-existing memory stack from prior Claude Code sessions
+- Recovered + integrated 5 memory files into project root:
+  - `SOUL_BASE.md` — agent constitution (Scrutinizer, Loop Guard, E-E-A-T, LLM routing)
+  - `SOUL_ARES.md` — ARES platform extension (Director→Manager→Worker, Firestore schema, dashboard spec)
+  - `permanent.json` — agency + client facts (Centre Willow + Goldwater Law via Imajery)
+  - `client_override.json` — per-client rule exceptions
+  - `rolling_summary.md` — last 3 sessions + archive protocol
+- Updated CLAUDE.md: Session Memory → full 7-file load-order table + cold-start warning
+- Corrected ARES everywhere: "Agentic Resource & Execution System" (SEO Auditor is one sub-project)
+- Added Vanguard: Galactic Rescue + Maze Generator to Project Registry (parked P3)
+- Committed all to GitHub ✅
+- **Next session:** Read Ad Creator spec → BRIEF.md → scaffold repo
 
 ---
 
-## Ongoing Tasks
-- [x] Reconnect Chrome
-- [x] Confirmed Firebase account slots
-- [x] Create Firebase project: `ashish-ad-creator` ✅
-- [x] Create Firebase project: `ashish-ares` ✅
-- [x] Create Firebase project: `ashish-hub` ✅
-- [ ] Update CLAUDE.md Firebase column (all projects now created)
-- [ ] Read full Ad Creator spec from Drive → projects/ad-creator/BRIEF.md
-- [ ] Read ARES spec from Drive (Opal folder) → projects/ares/BRIEF.md
-- [ ] Scaffold Ad Creator repo (separate GitHub repo)
+## Next Session Checklist — Start Here
+
+### 🔁 Session Start (always)
+- [ ] Load memory files in order: SOUL_BASE.md → SOUL_ARES.md → SOUL.md → permanent.json → client_override.json → rolling_summary.md → CONTEXT.md
+- [ ] Review rolling_summary.md Session 3 open items
+
+### 🏗️ Ad Creator — Priority 1 (kick off next session)
+- [ ] Read Ad Creator spec: `~/Downloads/Breakdown on how to create ad creative site.txt`
+  - OR open Google Doc: https://docs.google.com/document/d/1-CzqwgqY5YTLz0iYnHunrw8kZUt7drd4krZ6LQ4w6Lw/edit
+- [ ] Populate `projects/ad-creator/BRIEF.md` with architecture + feature set
+- [ ] Scaffold Ad Creator repo (new GitHub repo, Firebase: `ashish-ad-creator`)
+- [ ] Define tech stack for Ad Creator
+
+### 🔧 Infrastructure
+- [ ] Build Drive save script: `scripts/save_to_drive.js` (end-of-session automation)
 - [ ] Set up `main` branch on GitHub as base branch
-- [ ] Check ashish.uzelman@gmail.com Firebase for Maze project
+- [ ] Check `ashish.uzelman@gmail.com` Firebase — confirm if Maze project lives there
+
+### 🌐 Rank Higher Media Site
+- [ ] Investigate DNS config issue blocking site (noted as high priority in SOUL_ARES.md)
+
+### 📋 Backlog
+- [ ] Read ARES spec from Drive (Opal folder → SEO Auditor file 58KB) → merge into ARES BRIEF
+- [ ] Archive rolling_summary_archive_2026-02.md to Drive (folder: 15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1)
 
 ---
 
