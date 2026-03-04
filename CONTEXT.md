@@ -20,14 +20,22 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 
 ---
 
-## Firebase Projects (5 max)
+## Firebase Projects (5 max per account)
+
+### ash.revolution@gmail.com — 1/5 used ✅ confirmed 2026-03-04
 | Slot | Project ID | Status | Notes |
 |---|---|---|---|
-| 1 | rank-higher-media | ✅ Exists | SEM agency site |
-| 2 | maze-master | ✅ Exists | Older project |
-| 3 | ashish-hub | 🔲 To create | Project Visualizer / Dashboard |
-| 4 | ashish-ad-creator | 🔲 To create | Ad Creator Web App |
-| 5 | ashish-ares | 🔲 To create | ARES — SEO Auditor tool |
+| 1 | rank-high-media | ✅ Exists | SEM agency site (actual ID: rank-high-media) |
+| 2 | ashish-ad-creator | 🔲 To create | Ad Creator Web App |
+| 3 | ashish-ares | 🔲 To create | ARES — SEO Auditor tool |
+| 4 | ashish-hub | 🔲 To create | Project Visualizer / Dashboard |
+| 5 | (reserved) | — | Keep free for now |
+
+### Other accounts — to verify
+| Account | Known Projects | Notes |
+|---|---|---|
+| `mindchallengerai@gmail.com` | Mind Challenger AI | Separate Firebase account |
+| `ashish.uzelman@gmail.com` | Maze? | Need to check — Maze may live here |
 
 ---
 
@@ -88,12 +96,16 @@ End goal includes a **16-bit style visual dashboard** (Project Visualizer) showi
 - Created /skills and /projects skeleton structure
 - Renamed Opal → ARES (SEO Auditor)
 - Created CONTEXT.md (this file)
-- **Next:** Create 3 Firebase projects, then scaffold Ad Creator
+- Confirmed Firebase on ash.revolution@gmail.com: 1/5 slots used (rank-high-media only)
+- Maze project is NOT on primary account — likely on ashish.uzelman@gmail.com
+- **Next:** Create 3 Firebase projects on ash.revolution@gmail.com, then scaffold Ad Creator
 
 ---
 
 ## Ongoing Tasks
-- [ ] Reconnect Chrome to right window (multiple extensions issue)
+- [x] Reconnect Chrome — resolved
+- [x] Confirmed Firebase account: ash.revolution@gmail.com has 4 free slots
+- [ ] Check ashish.uzelman@gmail.com Firebase for Maze project
 - [ ] Search Drive for ARES/ARES files to confirm full project name
 - [ ] Create Firebase project: `ashish-hub`
 - [ ] Create Firebase project: `ashish-ad-creator`
