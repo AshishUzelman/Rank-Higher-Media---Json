@@ -138,6 +138,7 @@ These patterns carry over to every project — Claude should apply them by defau
 | `client_override.json` | Per-client rule exceptions |
 | `rolling_summary.md` | Last 3 session summaries — what was done, open items, next steps |
 | `CONTEXT.md` | Live session log — current tasks, Firebase state, build order |
+| `PROJECT_STATUS.md` | Tiered status: daily/weekly/monthly milestones + open items master list |
 
 > ⚠️ **Cold-start rule:** End of every session → save all memory files to Google Drive folder `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1` (`ash.revolution@gmail.com` → My Drive → AI folder)
 

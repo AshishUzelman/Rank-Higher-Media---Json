@@ -1,6 +1,6 @@
 # Claude Session Context — Ashish Uzelman
 > ⚠️ READ THIS FIRST at the start of every session. Update it before ending.
-> Last updated: 2026-03-04 (Session 4 — Ad Creator scaffolded ✅ | Next: Auth + Antigravity)
+> Last updated: 2026-03-04 (Session 5 — ARES Firestore live + Agent Context Packets built | Next: Fill .env.local + Ad Creator auth)
 
 ---
 
@@ -45,10 +45,10 @@ Dev environment: **Google Antigravity** (cloud VS Code) with Claude Code in term
 | Project | Status | Repo | Firebase ID | Priority |
 |---|---|---|---|---|
 | Ad Creator Web App | 🟡 Scaffolded | ashish-ad-creator | ashish-ad-creator ✅ | 1 — Auth next |
-| Rank Higher Media | 🟢 Active | Rank-Higher-Media---Json | rank-high-media | 2 |
-| ARES Platform | 🟡 Active Dev | TBD | ashish-ares ✅ | 2 |
+| ARES Platform | 🟡 Dashboard live | ashish-ares | ashish-ares ✅ | 1 — Fill .env.local |
+| Rank Higher Media | 🔴 DNS blocked | Rank-Higher-Media---Json | rank-high-media | 2 |
 | Project Visualizer | 🔵 Build last | TBD | ashish-hub ✅ | 3 |
-| Mind Challenger AI | 🟡 In Progress | TBD | mindchallengerai account | — |
+| Mind Challenger AI | 🟡 In progress | TBD | mindchallengerai account | — |
 | Pricing SaaS | 🔵 Concept | TBD | TBD | — |
 | SEED Initiative | 🔵 Concept | TBD | TBD | — |
 | Children with Anxiety | 🔵 Concept | TBD | TBD | — |
@@ -80,30 +80,49 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 1. ✅ Firebase setup — all 4 projects created
 2. ✅ Ad Creator spec read + BRIEF.md populated
 3. ✅ Ad Creator repo scaffolded + pushed to GitHub
-4. 🔲 Ad Creator auth (Google SSO + Firestore user creation)
-5. 🔲 Ad Creator canvas editor
-6. 🔲 ARES — read spec → scaffold → build
-7. 🔲 Visualizer — build last
+4. ✅ ARES dashboard scaffolded by Gemini (Phase 1 UI)
+5. ✅ ARES dashboard Phase 4: real Firestore connections for all components
+6. ✅ Agent connector system: Firestore task tracking + Agent Context Packets
+7. 🔲 Fill Firebase credentials (.env.local for ares + ad-creator)
+8. 🔲 Ad Creator auth (Google SSO + Firestore user creation)
+9. 🔲 Ad Creator canvas editor
+10. 🔲 ARES: Drive OAuth → automated session saves
+11. 🔲 Visualizer — build last
 
 ---
 
 ## Repo Structure (Rank Higher Media = Hub)
 ```
-/                   ← Next.js 15 marketing site (Rank Higher Media)
-/CLAUDE.md          ← Master project context + load order
-/CONTEXT.md         ← THIS FILE
-/SOUL.md            ← Ashish's working style + preferences
-/SOUL_BASE.md       ← Agent constitution
-/SOUL_ARES.md       ← ARES platform extension
-/permanent.json     ← Agency + client facts
+/                     ← Next.js 15 marketing site (Rank Higher Media)
+/CLAUDE.md            ← Master project context + load order
+/CONTEXT.md           ← THIS FILE
+/PROJECT_STATUS.md    ← Tiered project status (daily/weekly/monthly) ← NEW
+/SOUL.md              ← Ashish's working style + preferences
+/SOUL_BASE.md         ← Agent constitution
+/SOUL_ARES.md         ← ARES platform extension
+/permanent.json       ← Agency + client facts
 /client_override.json ← Per-client rule exceptions
-/rolling_summary.md ← Last 3 session summaries
-/skills/            ← Reusable Claude skills & agent prompts
-/scripts/           ← Automation scripts (save_to_drive.js — TODO)
+/rolling_summary.md   ← Last 3 session summaries
+/skills/              ← Reusable Claude skills & agent prompts
+/scripts/             ← (empty — automation scripts live in ares/scripts/)
 /projects/
-  /ad-creator/      ← BRIEF.md ✅ (code lives in separate repo)
-  /ares/            ← BRIEF.md
-  /visualizer/      ← BRIEF.md
+  /ad-creator/        ← BRIEF.md ✅ (code lives in separate repo)
+  /ares/              ← BRIEF.md (code lives in ares/ subdir)
+  /visualizer/        ← BRIEF.md
+
+/ares/                ← ARES platform (separate .git, separate Firebase)
+  /scripts/
+    agent_connector.js  ← orchestrator: inbox watcher + Claude invoker
+    firestore-client.js ← Node.js Firebase CRUD helper
+    load_context.js     ← Agent Context Packet builder
+    save_to_drive.js    ← Firestore backup + Drive scaffold
+  /src/
+    /app/               ← Next.js App Router
+    /components/        ← AgentStatus, TaskQueue, TokenUsage, MemoryState, SystemHeader, Sidebar
+    /hooks/             ← useAgentState, useTaskQueue, useTokenUsage, useMemoryState
+    /lib/firebase/      ← config.js, firestore.js, schema.js
+  /agent_inbox/         ← tasks written here by Manager agents (Gemini)
+  /agent_outbox/        ← results written here by Worker agents (Claude)
 ```
 
 ---
@@ -119,6 +138,17 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 ---
 
 ## Session Log
+
+### 2026-03-04 — Session 5
+- Reviewed Gemini's ARES Phase 1 scaffold + implemented Phase 4 (real Firestore)
+- Created firestore.js service layer + 4 hooks + 5 components
+- Fixed Firebase config crash (hasConfig guard), fixed React hook purity errors
+- Executed task_001.md: first real Gemini→Claude agent handoff ✅
+- Built enhanced agent connector: firestore-client.js, load_context.js, save_to_drive.js, agent_connector.js
+- Agent Context Packets: agents now load soul files + Firestore memory at task start
+- Backup system: Firestore session_summary active; Drive OAuth scaffold ready
+- Created PROJECT_STATUS.md (tiered daily/weekly/monthly recessive memory) ✅
+- Committed + pushed: ashish-ares repo (main)
 
 ### 2026-03-04 — Session 4
 - Loaded all 7 memory files from worktree into active context
@@ -153,34 +183,31 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 ## Next Session Checklist — Start Here
 
 ### 🔁 Always
-- [ ] Load memory files: SOUL_BASE.md → SOUL_ARES.md → SOUL.md → permanent.json → client_override.json → rolling_summary.md → CONTEXT.md
-- [ ] Review open items below
+- [ ] Load: SOUL_BASE.md → SOUL_ARES.md → SOUL.md → permanent.json → client_override.json → rolling_summary.md → CONTEXT.md → PROJECT_STATUS.md
+- [ ] Review PROJECT_STATUS.md Today + Open Items sections
+
+### 🔑 Unblock First (5 min each)
+- [ ] Fill `ares/.env.local` — get API_KEY, AUTH_DOMAIN, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID from Firebase Console → ashish-ares → Project Settings → Web App
+- [ ] Fill `ad-creator/.env.local` — same from ashish-ad-creator project
 
 ### 🏗️ Ad Creator — Priority 1
-- [ ] Get Firebase credentials from console (ashish-ad-creator → Project Settings)
-- [ ] Fill in `~/ad-creator/.env.local`
 - [ ] Build auth: Firebase Google SSO + Firestore user doc on first login
 - [ ] Build dashboard page (project list)
 - [ ] Start canvas editor component
 
-### ☁️ Antigravity + Local LLMs
-- [ ] Clone RHM repo + ad-creator repo into Antigravity
-- [ ] Confirm Claude Code running in Antigravity terminal
-- [ ] Decide: Mac (ngrok) vs GCP VM for Ollama — set up chosen option
-- [ ] Test Ollama API call from Antigravity
+### 🤖 ARES
+- [ ] Verify live Firestore data on ARES dashboard after filling .env.local
+- [ ] Set up Google Drive OAuth: add credentials.json → run drive_auth.js → Drive uploads live
 
-### 🤖 ARES + Skills
-- [ ] Read ARES spec from Drive (Opal folder → SEO Auditor 58KB)
-- [ ] Scaffold ARES repo
-- [ ] Start building skill library using Claude's skill testing feature
+### ☁️ Antigravity + Local LLMs
+- [ ] Clone RHM repo + ares repo into Antigravity
+- [ ] Confirm Claude Code running in Antigravity terminal
+- [ ] GCP VM for Ollama — provision + install
 
 ### 🔧 Infrastructure
-- [ ] Build `scripts/save_to_drive.js` — end-of-session Drive save automation
+- [ ] Fix Rank Higher Media DNS issue
 - [ ] Check ashish.uzelman@gmail.com Firebase — Maze project location
 - [ ] Archive rolling_summary_archive_2026-02.md to Drive
-
-### 🌐 Rank Higher Media
-- [ ] Investigate + fix DNS config issue blocking the site
 
 ---
 
