@@ -1,3 +1,7 @@
 .vercel
 node_modules
 .next
+
+# Client output data — never commit
+clients/*/
+!clients/.gitkeep
