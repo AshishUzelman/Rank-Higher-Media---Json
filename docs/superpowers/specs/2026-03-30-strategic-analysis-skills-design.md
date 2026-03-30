@@ -218,27 +218,80 @@ Standard deck structure:
 
 ## 4. Data Sources Reference
 
-### APIs to integrate (for ARES program phase)
-| Tool | API Docs | Cost model | Priority |
-|------|----------|-----------|---------|
-| DataForSEO | dataforseo.com/apis | Pay per call | P1 — already used in SEO skills |
-| Similarweb | similarweb.com/corp/developer | Subscription | P1 |
-| SpyFu | spyfu.com/api | Subscription | P1 |
-| Wappalyzer | wappalyzer.com/api | Pay per call | P2 |
-| SparkToro | sparktoro.com/api | Subscription | P2 |
-| Google Trends | trends.google.com (unofficial) | Free / scrape | P2 |
-| AnswerThePublic | answerthepublic.com | Manual / paid | P2 |
-| BuzzSumo | buzzsumo.com/api | Subscription | P3 |
-| Brandwatch | brandwatch.com/api | Enterprise | P3 |
-| GWI (Global Web Index) | globalwebindex.com/api | Subscription | P3 — psychographic / audience data |
-| Statista | statista.com/api | Subscription | P2 — industry stats + market forecasts |
+### Philosophy: DataForSEO-first, free APIs to fill gaps
 
-### Fallback strategy (for skills phase, before program is built)
-- DataForSEO: Ashish has access — use existing patterns from seo-audit-workflow
-- Similarweb/SpyFu: Manual pull → paste data into skill session
-- Google Trends: Ashish pulls manually, pastes CSV or screenshot
-- AnswerThePublic: Pull PAA via DataForSEO (already available)
-- Wappalyzer: Free browser extension — Ashish runs manually
+DataForSEO covers ~75% of what's needed. Everything else is either a free API or a manual browser pull. No paid subscriptions beyond DataForSEO required.
+
+---
+
+### Tier 1 — DataForSEO (primary data engine)
+DataForSEO has dedicated APIs for all of these — use these first before anything else.
+
+| Intelligence Need | DataForSEO API | Notes |
+|-------------------|---------------|-------|
+| Keyword research | Google Ads API + DataForSEO Labs API | Volume, CPC, difficulty, trends |
+| SERP data | SERP API | Organic, maps, news, images, video |
+| People Also Ask (PAA) | SERP API (people_also_ask_element) | FAQ demand intelligence — core to Ashish's methodology |
+| Competitor keyword gaps | DataForSEO Labs API | Domain vs domain comparison |
+| Backlink analysis | Backlinks API | 2.1T+ live backlinks, history back to 2019 |
+| Tech stack detection | Domain Technologies API | CRM, analytics, CMS, payment, chat tools |
+| Competitor ads (Google) | Ads Transparency API | Historical + active Google Ads, ad copy, creative |
+| Traffic estimates | DataForSEO Labs API | Domain-level traffic estimation |
+| On-page analysis | On-Page API | Technical SEO, content analysis |
+| Content Analysis | Content Analysis API | Topic coverage, E-E-A-T signals |
+| Brand/LLM mentions | AI Optimization Data API | Tracks brand mentions in LLM outputs |
+
+---
+
+### Tier 2 — Free APIs (programmatic, zero cost)
+These complement DataForSEO and add data it doesn't cover.
+
+| Tool | What It Provides | API Access | Notes |
+|------|-----------------|-----------|-------|
+| Google Search Console API | Client's own queries, clicks, impressions, positions | Free, OAuth2 | Mandatory for any client whose GSC you manage |
+| BuiltWith Free API | Tech stack verification | Free, 1 req/sec, requires account | Returns category/group counts; detailed breakdown needs paid |
+| Reddit API | Audience communities, real customer language, pain points | Free (non-commercial OAuth) | 100 queries/min authenticated — ideal for FAQ demand research |
+| trendspyg | Google Trends data | Free open-source Python library | Replacement for archived pytrends; active maintenance |
+| Google Ads Transparency | Competitor Google ad creatives | Via DataForSEO Ads Transparency API | Google has no official API; DataForSEO wraps it |
+
+---
+
+### Tier 3 — Free browser-based (manual pulls, paste into skill)
+No API. Ashish pulls manually and pastes data into the skill session.
+
+| Tool | What It Provides | Free Limit | Notes |
+|------|-----------------|-----------|-------|
+| Meta Ad Library | Competitor Facebook/Instagram ads | Unlimited | Browser only; no API for commercial ads |
+| SparkToro | Where audiences hang out online | 50 searches/month | No API — automation prohibited |
+| AnswerThePublic | FAQ question visualization | 3 searches/day | No API by design; PAA via DataForSEO is better anyway |
+| Think With Google | Consumer trend reports, industry data | Unlimited | Browser content only, no API |
+| Google Trends (browser) | Trend direction, seasonal patterns | Unlimited | Use trendspyg for programmatic; manual for quick checks |
+| Social Searcher | Basic brand sentiment | 100 keyword requests | Browser only; good for spot checks |
+
+---
+
+### What this stack replaces (and why we don't need them)
+
+| Tool You Listed | Why We Don't Need It | What Covers It Instead |
+|-----------------|---------------------|------------------------|
+| Similarweb | Expensive subscription | DataForSEO Labs API (traffic estimates) |
+| SpyFu | Paid subscription | DataForSEO Ads Transparency API |
+| Wappalyzer (paid) | Paid | DataForSEO Domain Technologies API + BuiltWith free API |
+| GWI | Enterprise subscription | Reddit API (real audience language) + Think With Google |
+| Statista | Paywalled stats | Manual: Think With Google, IBISWorld free reports, StatCounter |
+| BuzzSumo | Paid subscription | DataForSEO Content Analysis API + trendspyg |
+| Brandwatch | Enterprise | DataForSEO AI Optimization API + Social Searcher (manual) |
+
+---
+
+### Skills-phase data collection (before program is built)
+During the skills phase, data collection is guided but manual:
+- DataForSEO: Ashish runs API calls directly or uses existing patterns from seo-audit-workflow
+- GSC: Ashish exports from client's GSC and pastes the data
+- BuiltWith: Quick API call or browser lookup
+- Reddit: Manual search, paste relevant threads
+- Everything else: Manual browser pull → paste into skill session
+- Skills prompt Ashish on exactly what to pull from each source
 
 ---
 
