@@ -6,6 +6,32 @@
 
 ---
 
+## TODAY — 2026-03-30
+
+### Completed
+- [x] Skill-builder (Sub-system 1): all 8 tasks done, smoke tests passing, live at ~/.claude/skills/skill-builder/
+- [x] ashish-skills GitHub repo made private (was public — security fix)
+- [x] SEO skill: seo-audit-workflow (4-agent pipeline from SEO Audit Tool Master Spec)
+- [x] SEO skill: seo-content-strategy (4-phase content strategy from Imajery guides)
+- [x] SEO skill: homepage-ux-audit (5-step audit with scoring system + Centre Willow reference)
+- [x] SEO skill: keyword-research (6-step research with tiered output)
+- [x] SEO skill: client-seo-report (6-step client report, Centre Willow style example)
+- [x] youtube-agent skill built (transcript → classify → break down → ARES mapping)
+- [x] agent-teams skill built from official Claude Code docs
+- [x] docs/agent-teams-reference.md committed to worktree dazzling-bartik
+- [x] 8 skills live in ~/.claude/skills/ + ashish-skills repo pushed
+- [x] Memory files updated (this update)
+
+### In Progress
+- [ ] ares/.env.local: only PROJECT_ID filled — need API_KEY, APP_ID, etc.
+- [ ] ad-creator/.env.local: credentials not filled
+
+### Blocked
+- DNS issue: Rank Higher Media site not resolving (root cause unknown)
+- Drive OAuth: `save_to_drive.js` Drive upload disabled until credentials.json added
+
+---
+
 ## TODAY — 2026-03-04
 
 ### Completed
@@ -64,6 +90,10 @@
 | 2026-03-04 | ARES dashboard Phase 4: live Firestore data |
 | 2026-03-04 | First working agent handoff: Gemini → agent_inbox → Claude → agent_outbox |
 | 2026-03-04 | Agent Context Packet system built (recessive memory for agents) |
+| 2026-03-30 | Skill Factory Sub-system 1 complete: skill-builder live at ~/.claude/skills/skill-builder/ |
+| 2026-03-30 | 7 skills built + deployed (5 SEO + youtube-agent + agent-teams) |
+| 2026-03-30 | ashish-skills private repo live: github.com/AshishUzelman/ashish-skills |
+| 2026-03-30 | Progressive disclosure token strategy established across all skills |
 
 ### March Goals
 - [ ] Ad Creator: Google SSO auth + Firestore user doc
@@ -90,6 +120,9 @@
 | 2026-03-04 | ARES: Gemini built Phase 1 UI → Claude built Phase 4 Firestore integration |
 | 2026-03-04 | ARES: First working Gemini→Claude agent handoff (Director→Manager→Worker pattern live) |
 | 2026-03-04 | Agent Context Packets: agents now have persistent memory at task start |
+| 2026-03-30 | Skill Factory Sub-system 1 complete: skill-builder (validate + scaffold + package) |
+| 2026-03-30 | Skills library live: 8 skills in ~/.claude/skills/ + ashish-skills private repo |
+| 2026-03-30 | Agent Teams docs captured as skill + local reference (dazzling-bartik worktree) |
 
 ---
 
@@ -144,6 +177,17 @@
 | Firebase account | mindchallengerai@gmail.com |
 | Next step | TBD — not the current focus |
 
+### Skill Factory Pipeline
+| Field | Value |
+|-------|-------|
+| Status | 🟢 Sub-system 1 active |
+| Repo | github.com/AshishUzelman/ashish-skills (private) |
+| Local path | ~/ashish-skills/ |
+| Sub-system 1 | skill-builder ✅ — live at ~/.claude/skills/skill-builder/ |
+| Sub-system 2 | Data Scraper / Ingestor — next |
+| Sub-system 3 | Plugin Packager (distributable like superpowers) — last |
+| Skills deployed | 8 total: skill-builder + seo (×5) + youtube-agent + agent-teams |
+
 ---
 
 ## OPEN ITEMS MASTER LIST
@@ -158,11 +202,12 @@
 - [ ] Ad Creator: Dashboard page (project list component)
 - [ ] Drive OAuth: add `drive_credentials.json` → run `drive_auth.js` → Drive uploads go live
 - [ ] Antigravity: clone repos + verify Claude Code in terminal
+- [ ] Skill Factory Sub-system 2: Data Scraper / Ingestor
 
 ### 🔵 Queued / Parked
 - [ ] Ollama on GCP Compute Engine VM
 - [ ] Ad Creator canvas editor
-- [ ] ARES skill library (Claude skill testing feature)
+- [ ] Skill Factory Sub-system 3: Plugin Packager
 - [ ] Project Visualizer (builds last)
 - [ ] Check ashish.uzelman@gmail.com Firebase — Maze project
 - [ ] Archive rolling_summary_archive_2026-02.md to Drive

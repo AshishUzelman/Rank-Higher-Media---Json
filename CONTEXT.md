@@ -1,6 +1,6 @@
 # Claude Session Context — Ashish Uzelman
 > ⚠️ READ THIS FIRST at the start of every session. Update it before ending.
-> Last updated: 2026-03-04 (Session 5 — ARES Firestore live + Agent Context Packets built | Next: Fill .env.local + Ad Creator auth)
+> Last updated: 2026-03-30 (Session 6 — Skill Factory Pipeline active: skill-builder complete + 7 skills built + ashish-skills private repo | Next: Fill .env.local + Ad Creator auth)
 
 ---
 
@@ -46,6 +46,7 @@ Dev environment: **Google Antigravity** (cloud VS Code) with Claude Code in term
 |---|---|---|---|---|
 | Ad Creator Web App | 🟡 Scaffolded | ashish-ad-creator | ashish-ad-creator ✅ | 1 — Auth next |
 | ARES Platform | 🟡 Dashboard live | ashish-ares | ashish-ares ✅ | 1 — Fill .env.local |
+| Skill Factory Pipeline | 🟢 Sub-system 1 active | ashish-skills (private) | N/A | 1 — Sub-system 2 next |
 | Rank Higher Media | 🔴 DNS blocked | Rank-Higher-Media---Json | rank-high-media | 2 |
 | Project Visualizer | 🔵 Build last | TBD | ashish-hub ✅ | 3 |
 | Mind Challenger AI | 🟡 In progress | TBD | mindchallengerai account | — |
@@ -83,11 +84,14 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 4. ✅ ARES dashboard scaffolded by Gemini (Phase 1 UI)
 5. ✅ ARES dashboard Phase 4: real Firestore connections for all components
 6. ✅ Agent connector system: Firestore task tracking + Agent Context Packets
-7. 🔲 Fill Firebase credentials (.env.local for ares + ad-creator)
-8. 🔲 Ad Creator auth (Google SSO + Firestore user creation)
-9. 🔲 Ad Creator canvas editor
-10. 🔲 ARES: Drive OAuth → automated session saves
-11. 🔲 Visualizer — build last
+7. ✅ Skill Factory Pipeline Sub-system 1: skill-builder complete (validate + scaffold + package + SKILL.md)
+8. ✅ 7 skills built + live (5 SEO + youtube-agent + agent-teams) in ashish-skills (private repo)
+9. 🔲 Fill Firebase credentials (.env.local for ares + ad-creator)
+10. 🔲 Ad Creator auth (Google SSO + Firestore user creation)
+11. 🔲 Ad Creator canvas editor
+12. 🔲 ARES: Drive OAuth → automated session saves
+13. 🔲 Skill Factory Sub-system 2: Data Scraper / Ingestor
+14. 🔲 Visualizer — build last
 
 ---
 
@@ -103,7 +107,9 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 /permanent.json       ← Agency + client facts
 /client_override.json ← Per-client rule exceptions
 /rolling_summary.md   ← Last 3 session summaries
-/skills/              ← Reusable Claude skills & agent prompts
+/skills/              ← Reusable Claude skills & agent prompts (in RHM repo)
+# ~/ashish-skills/   ← Private skills repo (github.com/AshishUzelman/ashish-skills)
+#   skill-builder/, seo/, youtube-agent/, agent-teams/
 /scripts/             ← (empty — automation scripts live in ares/scripts/)
 /projects/
   /ad-creator/        ← BRIEF.md ✅ (code lives in separate repo)
@@ -138,6 +144,17 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 ---
 
 ## Session Log
+
+### 2026-03-30 — Session 6
+- Completed skill-builder: all 8 tasks, smoke tests passing, live at ~/.claude/skills/skill-builder/
+- Made ashish-skills GitHub repo private (was accidentally public)
+- Built 5 SEO skills from Imajery/Centre Willow docs: seo-audit-workflow, seo-content-strategy, homepage-ux-audit, keyword-research, client-seo-report
+- Built youtube-agent skill (from Claude Code Agent Teams YouTube video transcript)
+- Built agent-teams skill from official Claude Code docs + docs/agent-teams-reference.md in worktree
+- 8 skills total now live in ~/.claude/skills/
+- ashish-skills repo: all 8 skills committed + pushed to main (private)
+- Progressive disclosure pattern established: frontmatter → SKILL.md → references/ (on demand)
+- Committed to worktree branch claude/dazzling-bartik
 
 ### 2026-03-04 — Session 5
 - Reviewed Gemini's ARES Phase 1 scaffold + implemented Phase 4 (real Firestore)
