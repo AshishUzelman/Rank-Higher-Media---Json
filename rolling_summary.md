@@ -5,7 +5,32 @@
 
 ---
 
-## Session 6 — [Most Recent]
+## Session 7 — [Most Recent]
+**Date:** 2026-03-30 (continuation of Session 6)
+**Primary Work:**
+- Designed + built 3 strategic analysis skills: strategic-intake, competitive-intel, strategic-analysis
+- 8 frameworks: Competitor Analysis, SWOT, PESTEL, TOWS, SOAR, VRIO, Gap Analysis, Five Forces
+- DataForSEO-first data stack + free APIs (BuiltWith, Reddit, trendspyg, GSC)
+- Client output folder: ~/rank-higher-media/clients/[slug]/[YYYY-MM-DD]/
+- 17 files: 3 SKILL.md + 14 reference files. All validated + installed.
+- ashish-skills: 11 skills total, pushed to main (private)
+
+**Open Items (carried forward):**
+- Fill ares/.env.local + ad-creator/.env.local credentials (still blocked)
+- Ad Creator auth (Google SSO + Firestore user)
+- Drive OAuth for save_to_drive.js
+- DNS fix for Rank Higher Media
+- Ollama on separate SSD — Claude will have access when set up
+- Strategic analysis program (Next.js app on subdomain) — next project to spec
+
+**Next Session Should Start With:**
+1. Load memory stack
+2. Fill Firebase credentials (.env.local for ares + ad-creator) — quick unblock
+3. OR spec the strategic analysis program (Next.js + ARES integration)
+
+---
+
+## Session 6 — [Previous — 2 sessions ago]
 **Date:** 2026-03-30 (Claude Code session — Antigravity terminal / worktree dazzling-bartik)
 **Primary Work:**
 - Completed skill-builder (Sub-system 1 of Skill Factory Pipeline) — all 8 tasks done
@@ -57,7 +82,7 @@
 
 ---
 
-## Session 5 — [Previous]
+## Session 5 — [Older]
 **Date:** 2026-03-04 (Claude Code session — Antigravity terminal)
 **Primary Work:**
 - Implemented ARES Phase 4: real Firestore connections for all 4 dashboard widgets
@@ -80,21 +105,8 @@
 
 ---
 
-## Session 4 — [Older]
-**Date:** 2026-03-04 (Claude Code session — local + Antigravity)
-**Primary Work:**
-- Moved all memory files from .claude/worktrees/intelligent-torvalds/ → project root
-- Created scripts/ directory, fixed .gitignore, removed .next + node_modules from git index
-- Set up main branch on GitHub as upstream
-- Read Ad Creator spec from ~/Downloads/Breakdown on how to create ad creative site.txt
-- Populated projects/ad-creator/BRIEF.md — full architecture, Firestore schema, API routes, build order
-- Scaffolded Ad Creator repo: Next.js 15 + Tailwind + Firebase + JS
-- Created GitHub repo: github.com/AshishUzelman/ashish-ad-creator ✅
-
----
-
 ## Archive Protocol
-When Session 4 would be overwritten:
+When Session 5 would be overwritten:
 1. Copy current rolling_summary.md to Drive (folder: 15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1)
 2. Name it: `rolling_summary_archive_YYYY-MM.md`
 3. Then overwrite Session 4 slot with new session

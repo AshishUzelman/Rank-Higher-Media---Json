@@ -21,6 +21,9 @@
 - [x] docs/agent-teams-reference.md committed to worktree dazzling-bartik
 - [x] 8 skills live in ~/.claude/skills/ + ashish-skills repo pushed
 - [x] Memory files updated (this update)
+- [x] Strategic analysis skills built and installed: strategic-intake + competitive-intel + strategic-analysis
+- [x] 11 skills total in ~/.claude/skills/ (was 8, now 11)
+- [x] ashish-skills: strategic/ folder committed and pushed to main
 
 ### In Progress
 - [ ] ares/.env.local: only PROJECT_ID filled — need API_KEY, APP_ID, etc.
@@ -123,6 +126,7 @@
 | 2026-03-30 | Skill Factory Sub-system 1 complete: skill-builder (validate + scaffold + package) |
 | 2026-03-30 | Skills library live: 8 skills in ~/.claude/skills/ + ashish-skills private repo |
 | 2026-03-30 | Agent Teams docs captured as skill + local reference (dazzling-bartik worktree) |
+| 2026-03-30 | Strategic Analysis Skills: 3-skill pipeline (strategic-intake + competitive-intel + strategic-analysis) with 8 frameworks, DataForSEO-first data layer, client folder output system |
 
 ---
 
