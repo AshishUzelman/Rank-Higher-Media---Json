@@ -49,13 +49,19 @@
 
 ## 4. LLM ROUTING RULES
 
-| Task Type | Route To | Reason |
-|---|---|---|
-| Research, scraping, bulk content | Local LLM (Ollama/Gemma 3) | Cost efficiency |
-| Supervisor decisions, strategy | Claude API | Quality-critical |
-| Scrutinizer review | Claude API | Quality-critical |
-| Data formatting, templating | Local LLM | Routine |
-| Client-facing deliverables | Claude API | Quality-critical |
+| Task Type | Route To | Model | Reason |
+|---|---|---|---|
+| Research, scraping, bulk content | Local (Ollama) | qwen2.5-coder:14b | Cost efficiency |
+| Code generation, agentic tasks | Local (Ollama) | qwen2.5-coder:14b | Fast, free |
+| Long context (>32K tokens) | Local (TurboQuant) | qwen2.5-coder:14b | TQ handles 128K ctx |
+| Data formatting, templating | Local (Ollama) | qwen2.5-coder:14b | Routine |
+| Supervisor decisions, strategy | Claude API | claude-sonnet-4-6 | Quality-critical |
+| Scrutinizer review | Claude API | claude-sonnet-4-6 | Quality-critical |
+| Client-facing deliverables | Claude API | claude-sonnet-4-6 | Quality-critical |
+| ARES Manager decisions | Gemini API | gemini-2.0-flash | Already wired |
+
+**Local endpoint:** ash-proxy at `http://localhost:4000` (routes to Ollama or TurboQuant automatically)
+**Fallback:** If local unavailable, route all tasks to Claude API.
 
 ---
 
