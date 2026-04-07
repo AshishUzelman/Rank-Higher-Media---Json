@@ -1,10 +1,13 @@
 // scripts/memory_config.js
 import { homedir } from 'os';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const HOME = homedir();
-const PROJECT_ROOT = join(HOME, 'rank-higher-media');
+const PROJECT_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const AUTO_MEMORY_ROOT = join(HOME, '.claude/projects/-Users-ashishuzelman-rank-higher-media/memory');
+// AUTO_MEMORY_ROOT slug: Claude Code converts the absolute repo path to a directory key
+// by replacing '/' with '-'. On this machine: /Users/ashishuzelman/rank-higher-media → -Users-ashishuzelman-rank-higher-media
 
 export const PATHS = {
   rollingSummary:  join(PROJECT_ROOT, 'rolling_summary.md'),
