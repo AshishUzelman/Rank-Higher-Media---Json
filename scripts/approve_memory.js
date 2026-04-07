@@ -73,7 +73,7 @@ function applySection(section, targetPath) {
     case 'rolling_summary': {
       // Prepend new entry; keep only 3 sessions total
       const header = current.match(/^(#[^\n]+\n>[^\n]+\n>[^\n]+\n>[^\n]+\n\n---\n\n)/s)?.[1] || '';
-      const sessions = current.replace(header, '').split(/\n(?=## Session)/);
+      const sessions = current.replace(header, '').split(/\n(?=## Session)/).filter(s => s.trim());
       const kept = sessions.slice(0, 2); // keep 2 existing + 1 new = 3 total
       writeFileSync(targetPath, `${header}${section.content}\n\n---\n\n${kept.join('\n\n---\n\n')}`);
       break;
