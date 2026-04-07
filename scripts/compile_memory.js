@@ -3,6 +3,9 @@ import { readFileSync, writeFileSync, existsSync } from 'fs';
 import Anthropic from '@anthropic-ai/sdk';
 import { PATHS, LLM, PROMPTS } from './memory_config.js';
 
+// --- Anthropic client singleton (instantiated once at module scope) ---
+const anthropicClient = LLM.provider === 'claude' ? new Anthropic() : null;
+
 // --- Pure helpers (exported for testing) ---
 
 export function isTranscriptValid(transcript) {
@@ -38,13 +41,15 @@ async function callLLM(prompt) {
         stream: false,
       }),
     });
+    if (!res.ok) {
+      throw new Error(`Ollama request failed: ${res.status} ${res.statusText}`);
+    }
     const data = await res.json();
     return data.message?.content || '';
   }
 
   // Default: Claude API
-  const client = new Anthropic();
-  const msg = await client.messages.create({
+  const msg = await anthropicClient.messages.create({
     model: LLM.claude.model,
     max_tokens: LLM.claude.maxTokens,
     messages: [{ role: 'user', content: prompt }],
@@ -64,6 +69,7 @@ async function main() {
   // Read hook payload from stdin
   let payload;
   try {
+    // Note: /dev/stdin is POSIX-only (macOS/Linux). This script targets macOS (M1 Mac).
     const stdin = readFileSync('/dev/stdin', 'utf8');
     payload = JSON.parse(stdin);
   } catch {
@@ -113,6 +119,7 @@ async function main() {
     }
 
     for (const update of autoMemoryUpdates) {
+      if (!update?.filename || !update?.content) continue;
       sections.push(buildDraftSection(`auto-memory: ${update.filename}`, update.content));
     }
 
