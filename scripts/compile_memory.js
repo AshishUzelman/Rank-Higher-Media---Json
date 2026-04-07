@@ -91,24 +91,18 @@ async function main() {
   const sections = [];
 
   try {
-    // 1. rolling_summary
-    const rollingSummaryContent = readFile(PATHS.rollingSummary);
-    const summaryResult = await callLLM(PROMPTS.rollingSummary(rollingSummaryContent, transcript));
+    // Run all 4 LLM calls in parallel — they are independent of each other
+    console.log('[memory-compiler] Running 4 parallel LLM calls...');
+    const [summaryResult, contextResult, statusResult, autoMemoryResult] = await Promise.all([
+      callLLM(PROMPTS.rollingSummary(readFile(PATHS.rollingSummary), transcript)),
+      callLLM(PROMPTS.context(readFile(PATHS.context), transcript)),
+      callLLM(PROMPTS.projectStatus(readFile(PATHS.projectStatus), transcript)),
+      callLLM(PROMPTS.autoMemory(readFile(PATHS.autoMemoryIndex), transcript)),
+    ]);
+
     sections.push(buildDraftSection('rolling_summary', summaryResult));
-
-    // 2. CONTEXT
-    const contextContent = readFile(PATHS.context);
-    const contextResult = await callLLM(PROMPTS.context(contextContent, transcript));
     sections.push(buildDraftSection('CONTEXT', contextResult));
-
-    // 3. PROJECT_STATUS
-    const statusContent = readFile(PATHS.projectStatus);
-    const statusResult = await callLLM(PROMPTS.projectStatus(statusContent, transcript));
     sections.push(buildDraftSection('PROJECT_STATUS', statusResult));
-
-    // 4. Auto-memory files
-    const memoryIndex = readFile(PATHS.autoMemoryIndex);
-    const autoMemoryResult = await callLLM(PROMPTS.autoMemory(memoryIndex, transcript));
 
     let autoMemoryUpdates = [];
     try {
