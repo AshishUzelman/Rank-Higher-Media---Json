@@ -25,14 +25,17 @@ export const PROTECTED_FILES = [
 ];
 
 export const LLM = {
-  provider: process.env.MEMORY_LLM || 'claude', // 'claude' | 'ollama'
+  // Default to ollama (qwen2.5-coder:14b on localhost:11434) to save Claude API tokens.
+  // Override with MEMORY_LLM=claude for quality-critical runs.
+  // qwen3.5:9b available once installed: ollama pull qwen3.5:9b
+  provider: process.env.MEMORY_LLM || 'ollama',
   claude: {
     model: 'claude-sonnet-4-6',
     maxTokens: 2048,
   },
   ollama: {
-    model: 'qwen3.5:9b',
-    baseUrl: 'http://localhost:4000',
+    model: process.env.OLLAMA_MODEL || 'qwen2.5-coder:14b', // swap to qwen3.5:9b once pulled
+    baseUrl: process.env.OLLAMA_URL || 'http://localhost:11434', // direct Ollama (ash-proxy at 4000 not yet working)
   },
 };
 

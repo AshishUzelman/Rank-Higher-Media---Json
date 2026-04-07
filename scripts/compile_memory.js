@@ -112,7 +112,9 @@ async function main() {
 
     let autoMemoryUpdates = [];
     try {
-      autoMemoryUpdates = JSON.parse(autoMemoryResult);
+      // Strip markdown code fences if present (qwen/local LLMs often wrap JSON in ```json...```)
+      const cleaned = autoMemoryResult.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim();
+      autoMemoryUpdates = JSON.parse(cleaned);
     } catch {
       // LLM returned non-JSON — log and skip auto-memory
       console.error('[memory-compiler] Auto-memory LLM response was not valid JSON — skipping');
