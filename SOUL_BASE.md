@@ -51,14 +51,16 @@
 
 | Task Type | Route To | Model | Reason |
 |---|---|---|---|
-| Research, scraping, bulk content | Local (Ollama) | qwen2.5-coder:14b | Cost efficiency |
-| Code generation, agentic tasks | Local (Ollama) | qwen2.5-coder:14b | Fast, free |
-| Long context (>32K tokens) | Local (TurboQuant) | qwen2.5-coder:14b | TQ handles 128K ctx |
-| Data formatting, templating | Local (Ollama) | qwen2.5-coder:14b | Routine |
+| Research, scraping, bulk content | Local (Ollama) | qwen3:30b-a3b | MoE: 3B active, 128K ctx, free |
+| Code generation, agentic tasks | Local (Ollama) | qwen3:30b-a3b | Native tool-calling, hybrid think |
+| Long context (>32K tokens) | Local (Ollama) | qwen3:30b-a3b | 128K ctx window, no truncation |
+| Data formatting, templating | Local (Ollama) | qwen3:30b-a3b | Fast MoE inference |
+| Supervisor review | Local (Ollama) | gemma3:12b | Lightweight judge, local |
 | Supervisor decisions, strategy | Claude API | claude-sonnet-4-6 | Quality-critical |
 | Scrutinizer review | Claude API | claude-sonnet-4-6 | Quality-critical |
 | Client-facing deliverables | Claude API | claude-sonnet-4-6 | Quality-critical |
 | ARES Manager decisions | Gemini API | gemini-2.0-flash | Already wired |
+| Fallback Worker | Local (Ollama) | qwen2.5-coder:32b | If qwen3 unavailable |
 
 **Local endpoint:** ash-proxy at `http://localhost:4000` (routes to Ollama or TurboQuant automatically)
 **Fallback:** If local unavailable, route all tasks to Claude API.
