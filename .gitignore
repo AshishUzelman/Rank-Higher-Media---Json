@@ -5,3 +5,7 @@ node_modules
 # Client output data — never commit
 clients/*/
 !clients/.gitkeep
+
+# Memory Compiler artifacts
+memory_draft.md
+scripts/fixtures/
