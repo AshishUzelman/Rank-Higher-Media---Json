@@ -1,0 +1,21 @@
+{
+  "session_id": "test-session-001",
+  "transcript": [
+    {
+      "role": "user",
+      "content": "Let's work on the memory compiler today. I want to build a system that automatically compiles Claude Code session transcripts into structured memory files using a Stop hook."
+    },
+    {
+      "role": "assistant",
+      "content": "Great idea. I'll design this as a Node.js script triggered by Claude Code's Stop hook. It will read the transcript, call Claude API with targeted prompts for each memory file, and write a staged draft to memory_draft.md. A separate approve script will handle the review and merge step."
+    },
+    {
+      "role": "user",
+      "content": "Use Claude API for now, and we'll switch to qwen3.5:9b via Ollama once Phase 1 local LLM is stable. For the review step, use a staging file approach."
+    },
+    {
+      "role": "assistant",
+      "content": "Confirmed. LLM provider is configurable via MEMORY_LLM env var — defaults to claude, can switch to ollama. The staging file is memory_draft.md, gitignored. The approve script shows a unified diff and prompts y/n/edit per section."
+    }
+  ]
+}
