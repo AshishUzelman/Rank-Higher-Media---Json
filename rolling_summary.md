@@ -5,7 +5,84 @@
 
 ---
 
-## Session 7 — [Most Recent]
+## Session 10 — [Most Recent]
+**Date:** 2026-04-07 (continuation of Session 9)
+**Primary Work:**
+- ARES System Map tab (Option B — live React + Firestore) — BUILT ✅
+  - subscribeToLatestTaskPerAgent() added to firestore.js
+  - useWorkflowState.js hook: maps agent_state + tasks → per-node status
+  - WorkflowNode (foreignObject, status dot, pulse), WorkflowEdge (SVG bezier, 8 color variants)
+  - NodeDetail (slide-out panel: status, last task, token count)
+  - WorkflowMap (1520×440 SVG canvas, 16 nodes, 16 edges, dot grid, two labeled flows)
+  - /system-map page + Network icon in Sidebar
+  - Clean build ✅ — pushed to ashish-ares main
+- qwen3:30b-a3b pulled via Ollama (18GB, MoE, 128K context, native tool-calling) ✅
+  - memory_config.js created: WORKER_MODEL, SUPERVISOR_MODEL, SUPERVISOR_MAX_RETRIES
+  - SOUL_BASE.md LLM routing table updated (qwen3 as Worker, gemma3:12b as Supervisor)
+  - task_pull_qwen3.md marked COMPLETE
+- Supervisor Pattern built ✅
+  - schema.js: supervisor_review + supervisor_rejected statuses + retryCount + supervisorFeedback fields
+  - agent_connector.js: runSupervisor() calls gemma3:12b, APPROVED/REJECTED loop, max 3 retries → escalated
+  - Supervisor is fail-safe: errors default to APPROVED so nothing blocks
+  - Clean build ✅ — pushed to ashish-ares main
+- Architectural discussion: multi-phase worker loop (research → draft → critic → refine → supervisor)
+  - NOT one-shot; deferred to dedicated session after Ad Creator dashboard
+
+**Open Items (carried forward):**
+- Ad Creator: dashboard page (project list) — START NEXT SESSION
+- Multi-phase Worker loop (research → draft → critic → refine → supervisor) — design + build soon
+- Drive OAuth: credentials.json → drive_auth.js
+- DNS fix for Rank Higher Media
+
+**Next Session Should Start With:**
+1. Load memory stack
+2. Open ~/ad-creator/ — build dashboard page (project list, token balance, new project flow)
+   - hooks/useProjects.js + lib/firestore.js (createProject, getUserProjects)
+   - Project card grid + empty state + token balance header
+   - New project → Firestore doc → redirect to /editor/[id] stub
+3. Then: multi-phase worker loop (research → draft → critic → refine → supervisor)
+
+## Session 9 — [2 sessions ago]
+**Date:** 2026-04-07 (continuation of Session 8)
+**Primary Work:**
+- Ad Creator Google SSO auth BUILT — hooks/useAuth.js + AuthContext provider + login page + protected dashboard shell
+  - ensureUserDoc() creates Firestore users/{uid} doc on first login: role:free, tokenBalance:5
+  - Clean production build confirmed ✅
+- Hermes architecture review: 3 gaps → project_ash_code_strategic.md (memory taxonomy, self-generating skills, launchd cron)
+- ARES n8n workflow map built (ares/public/workflow-map.html) + ares/.gitignore updated
+- Workflow Map tab options A/B/C presented — Ash picked B (live React)
+
+**Open Items (carried forward):**
+- Build ARES Workflow Map tab (B selected)
+- Ad Creator dashboard page
+
+## Session 8 — [Previous — 3 sessions ago]
+**Date:** 2026-04-07
+**Primary Work:**
+- Reviewed PROJECT_STATUS.md — confirmed stale since 2026-03-30, updated with new TODAY block
+- Discovered ares/.env.local was already fully filled (was falsely marked as blocked)
+- Filled ad-creator/.env.local with all 7 Firebase credentials (confirmed correct project: ashish-ad-creator)
+- Clarified: Ad Creator deploys to Vercel, NOT Firebase Hosting — skip firebase init/deploy/firebase-tools for this project
+- Gmail migration started: ashish.uzelman@gmail.com added as Owner to all 4 Firebase projects
+- Updated CLAUDE.md, MEMORY.md, project_ash_code.md, project_ash_code_strategic.md → ashish.uzelman as new primary
+- GitHub repos + Google Drive folder still pending migration to ashish.uzelman
+- Memory compiler confirmed complete from previous session (qwen2.5-coder:14b, Stop hook, 14 tests)
+
+**Open Items (carried forward):**
+- Ad Creator: Google SSO auth — COMPLETE next session ✅
+- Gmail migration: GitHub repos + Drive folder still on ash.revolution
+- Drive OAuth: credentials.json → drive_auth.js
+- DNS fix for Rank Higher Media
+- ash-proxy port 4000: returns {"error":"not found"} — unknown process, investigate
+
+**Next Session Should Start With:**
+1. Load memory stack
+2. Open ~/ad-creator/ and build Google SSO auth (Firebase Auth + Firestore user doc on first login)
+3. `npm run dev` in ~/ad-creator/ to confirm clean start before touching auth
+
+---
+
+## Session 7 — [Previous — 2 sessions ago]
 **Date:** 2026-03-30 (continuation of Session 6)
 **Primary Work:**
 - Designed + built 3 strategic analysis skills: strategic-intake, competitive-intel, strategic-analysis

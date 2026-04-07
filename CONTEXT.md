@@ -1,13 +1,13 @@
 # Claude Session Context — Ashish Uzelman
 > ⚠️ READ THIS FIRST at the start of every session. Update it before ending.
-> Last updated: 2026-03-30 (Session 6 — Skill Factory Pipeline active: skill-builder complete + 7 skills built + ashish-skills private repo | Next: Fill .env.local + Ad Creator auth)
+> Last updated: 2026-04-07 (Session 9 — Ad Creator auth ✅ | n8n workflow map built | Ash Code strategic gaps added | Next: pick workflow tab A/B/C)
 
 ---
 
 ## Who I Am
 - **Name:** Ashish Uzelman
 - **Focus:** Digital entrepreneur, SEM/PPC expert, multi-project product builder
-- **Accounts:** `ash.revolution@gmail.com` (primary), `mindchallengerai@gmail.com` (Mind Challenger AI), `ashish.uzelman@gmail.com` (Drive/storage)
+- **Accounts:** `ashish.uzelman@gmail.com` (**NEW primary** — Firebase migrated, GitHub+Drive pending), `ash.revolution@gmail.com` (previous primary, migrating out), `mindchallengerai@gmail.com` (Mind Challenger AI)
 - **GitHub:** https://github.com/AshishUzelman
 - **Drive:** Accessible via `ash.revolution@gmail.com` in Chrome (u/0)
 
@@ -60,20 +60,13 @@ Dev environment: **Google Antigravity** (cloud VS Code) with Claude Code in term
 - **Repo:** https://github.com/AshishUzelman/ashish-ad-creator
 - **Local path:** `~/ad-creator/`
 - **Stack:** Next.js 15 + React + Tailwind + Firebase (Auth, Firestore, Storage) + JS only
-- **Firebase config:** `lib/firebase.js` ready — `.env.local` needs credentials filled in
+- **Firebase config:** `lib/firebase.js` ready — `.env.local` fully filled ✅ (all 7 credentials, 2026-04-07)
 - **BRIEF:** `projects/ad-creator/BRIEF.md` in RHM repo — full spec, build order, Firestore schema
-- **Build status:** Scaffolded + builds clean ✅
-- **Next:** Fill `.env.local` → build Google SSO auth → Firestore user creation
-
-### Firebase Credentials Needed (from Firebase Console → ashish-ad-creator → Project Settings)
-```
-NEXT_PUBLIC_FIREBASE_API_KEY=
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=ashish-ad-creator
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
-NEXT_PUBLIC_FIREBASE_APP_ID=
-```
+- **Build status:** Clean build ✅ (confirmed 2026-04-07)
+- **Deploy:** Vercel only — do NOT use Firebase Hosting / firebase-tools for this project
+- **Auth:** ✅ COMPLETE (2026-04-07) — hooks/useAuth.js + AuthContext + login page + protected dashboard shell
+  - Google SSO → Firestore users/{uid} created on first login: role:free, tokenBalance:5
+- **Next:** Dashboard page (project list component)
 
 ---
 
@@ -86,9 +79,14 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 6. ✅ Agent connector system: Firestore task tracking + Agent Context Packets
 7. ✅ Skill Factory Pipeline Sub-system 1: skill-builder complete (validate + scaffold + package + SKILL.md)
 8. ✅ 7 skills built + live (5 SEO + youtube-agent + agent-teams) in ashish-skills (private repo)
-9. 🔲 Fill Firebase credentials (.env.local for ares + ad-creator)
-10. 🔲 Ad Creator auth (Google SSO + Firestore user creation)
-11. 🔲 Ad Creator canvas editor
+9. ✅ Fill Firebase credentials (.env.local for ares + ad-creator) — done 2026-04-07
+10. ✅ Ad Creator auth (Google SSO + Firestore user creation) — done 2026-04-07
+11. ✅ ARES Workflow Map tab (Option B — live React + Firestore) — done 2026-04-07
+12. ✅ qwen3:30b-a3b pulled + memory_config.js + SOUL_BASE routing updated — done 2026-04-07
+13. ✅ ARES Supervisor Pattern (gemma3:12b review loop) — done 2026-04-07
+14. 🔲 Ad Creator dashboard page (project list) ← NEXT
+15. 🔲 Multi-phase Worker loop (research → draft → critic → refine → supervisor)
+16. 🔲 Ad Creator canvas editor
 12. 🔲 ARES: Drive OAuth → automated session saves
 13. 🔲 Skill Factory Sub-system 2: Data Scraper / Ingestor
 14. 🔲 Visualizer — build last
@@ -144,6 +142,40 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 ---
 
 ## Session Log
+
+### 2026-04-07 — Session 10
+- ARES System Map tab (Option B) BUILT ✅
+  - subscribeToLatestTaskPerAgent, useWorkflowState, WorkflowNode/Edge/Detail/Map
+  - /system-map page + Sidebar Network icon — clean build, pushed
+- qwen3:30b-a3b pulled (18GB MoE) ✅ — memory_config.js + SOUL_BASE routing updated
+- Supervisor Pattern BUILT ✅ — gemma3:12b reviews Worker, APPROVED/REJECTED loop, max 3 retries → escalated
+- Architectural discussion: multi-phase worker loop (research → draft → critic → refine → supervisor) — deferred
+- Next: Ad Creator dashboard page
+
+### 2026-04-07 — Session 9
+- Ad Creator Google SSO auth BUILT ✅
+  - hooks/useAuth.js: Auth state listener + ensureUserDoc (role:free, tokenBalance:5)
+  - app/providers.js: AuthContext provider ('use client')
+  - app/page.js: Google Sign In login page with redirect to /dashboard
+  - app/dashboard/page.js: Protected shell (bounces to / if not authed)
+  - Clean production build confirmed ✅
+- Hermes architecture review → 3 gaps added to project_ash_code_strategic.md
+  - Memory layer taxonomy (user_profile|agent_memory|skill|session_history)
+  - Self-generating skills (compiler → skill-builder scaffold)
+  - launchd cron daemon for always-on headless tasks
+- ARES n8n workflow map: two-flow diagram built + saved to ares/public/workflow-map.html
+- ares/.gitignore updated (.superpowers/ excluded)
+- Workflow Map tab options presented (A/B/C) — awaiting Ash's decision
+- All memory files updated + queued for next session
+
+### 2026-04-07 — Session 8
+- Confirmed ares/.env.local fully filled (was falsely marked blocked)
+- Filled ad-creator/.env.local — all 7 Firebase credentials
+- Clarified: Ad Creator → Vercel deploy, NOT Firebase Hosting
+- Gmail migration: ashish.uzelman added as Owner to all 4 Firebase projects
+- Updated CLAUDE.md + all memory files → ashish.uzelman as new primary
+- Updated PROJECT_STATUS.md TODAY block + Open Items
+- Updated rolling_summary.md (Session 8 added)
 
 ### 2026-03-30 — Session 6
 - Completed skill-builder: all 8 tasks, smoke tests passing, live at ~/.claude/skills/skill-builder/
@@ -203,12 +235,8 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 - [ ] Load: SOUL_BASE.md → SOUL_ARES.md → SOUL.md → permanent.json → client_override.json → rolling_summary.md → CONTEXT.md → PROJECT_STATUS.md
 - [ ] Review PROJECT_STATUS.md Today + Open Items sections
 
-### 🔑 Unblock First (5 min each)
-- [ ] Fill `ares/.env.local` — get API_KEY, AUTH_DOMAIN, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID from Firebase Console → ashish-ares → Project Settings → Web App
-- [ ] Fill `ad-creator/.env.local` — same from ashish-ad-creator project
-
 ### 🏗️ Ad Creator — Priority 1
-- [ ] Build auth: Firebase Google SSO + Firestore user doc on first login
+- [x] Auth: Firebase Google SSO + Firestore user doc ✅ (2026-04-07)
 - [ ] Build dashboard page (project list)
 - [ ] Start canvas editor component
 

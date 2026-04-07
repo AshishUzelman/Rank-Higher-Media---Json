@@ -6,6 +6,37 @@
 
 ---
 
+## TODAY — 2026-04-07
+
+### Completed
+- [x] Memory compiler (compile_memory.js): 4 parallel LLM calls, Stop hook registered, 14 tests passing
+- [x] Default LLM: qwen2.5-coder:14b via Ollama at localhost:11434 (free, local)
+- [x] ARES Firestore seeded: 3 agents, 3 tasks, 2 token records, 2 memory records
+- [x] agent_connector.js fixed: Ollama at port 11434 directly (ash-proxy at 4000 bypassed)
+- [x] ares/.env.local confirmed fully filled + ad-creator/.env.local filled
+- [x] Ad Creator: Google SSO auth COMPLETE ✅
+- [x] Hermes analysis: 3 architecture gaps → project_ash_code_strategic.md
+- [x] ARES System Map tab (Option B — live React + Firestore) COMPLETE ✅
+  - WorkflowNode, WorkflowEdge, NodeDetail, WorkflowMap, useWorkflowState, subscribeToLatestTaskPerAgent
+  - /system-map page + Sidebar nav item — clean build, pushed to ashish-ares
+- [x] qwen3:30b-a3b pulled (18GB, MoE, 128K ctx) ✅ — live in Ollama
+- [x] memory_config.js created: WORKER_MODEL=qwen3:30b-a3b, SUPERVISOR_MODEL=gemma3:12b
+- [x] SOUL_BASE.md LLM routing table updated
+- [x] Supervisor Pattern COMPLETE ✅
+  - schema.js: supervisor_review + supervisor_rejected + retryCount + supervisorFeedback
+  - agent_connector.js: runSupervisor() + APPROVED/REJECTED loop (max 3 → escalated)
+  - Clean build, pushed to ashish-ares
+
+### In Progress
+- [ ] Ad Creator: Dashboard page (project list) — START NEXT SESSION
+
+### Blocked
+- DNS issue: Rank Higher Media site not resolving (root cause unknown)
+- Drive OAuth: `save_to_drive.js` Drive upload disabled until credentials.json added
+- ash-proxy port 4000: returns `{"error":"not found"}` — investigate what's running there
+
+---
+
 ## TODAY — 2026-03-30
 
 ### Completed
@@ -197,13 +228,14 @@
 ## OPEN ITEMS MASTER LIST
 
 ### 🔴 Critical (blocking active projects)
-- [ ] Fill `ares/.env.local` — API_KEY, AUTH_DOMAIN, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID
-- [ ] Fill `ad-creator/.env.local` — all 6 Firebase credentials
+- [x] Fill `ares/.env.local` — fully filled ✅ (was falsely marked blocked)
+- [x] Fill `ad-creator/.env.local` — all 6 credentials + measurementId ✅ (2026-04-07)
 - [ ] Fix Rank Higher Media DNS
 
 ### 🟡 Next Up
-- [ ] Ad Creator: Google SSO auth (Firebase Auth + Firestore user doc)
+- [x] Ad Creator: Google SSO auth ✅ (2026-04-07)
 - [ ] Ad Creator: Dashboard page (project list component)
+- [ ] ARES: Workflow Map tab — pick A/B/C → build (task queued in agent_inbox/)
 - [ ] Drive OAuth: add `drive_credentials.json` → run `drive_auth.js` → Drive uploads go live
 - [ ] Antigravity: clone repos + verify Claude Code in terminal
 - [ ] Skill Factory Sub-system 2: Data Scraper / Ingestor
