@@ -6,6 +6,20 @@
 
 ---
 
+
+## TODAY — 2026-04-08
+
+### Completed
+- [x] Session 11 summary written by qwen3 ✅
+
+### In Progress
+- [ ] (carry forward from previous session)
+
+### Blocked
+- (carry forward)
+
+---
+
 ## TODAY — 2026-04-07
 
 ### Completed
@@ -234,19 +248,33 @@
 
 ### 🟡 Next Up
 - [x] Ad Creator: Google SSO auth ✅ (2026-04-07)
-- [ ] Ad Creator: Dashboard page (project list component)
-- [ ] ARES: Workflow Map tab — pick A/B/C → build (task queued in agent_inbox/)
-- [ ] Drive OAuth: add `drive_credentials.json` → run `drive_auth.js` → Drive uploads go live
+- [x] Ad Creator: Dashboard page ✅ (2026-04-07)
+- [x] Ad Creator: Canvas editor — Tasks 2-14 complete via qwen2.5-coder:14b ✅ (2026-04-08)
+- [ ] Ad Creator: Tasks 15-16 (EditorShell wire-up + smoke test) — Claude handles
+- [ ] **Actor-Critic Loop:** extend Supervisor pattern → qwen↔gemma multi-turn debate before approval. Builds directly on existing runSupervisor(). 80/20 highest leverage improvement.
+- [ ] ARES: Workflow Map tab — task_workflow_tab.md timed out, re-queue
+- [ ] Drive OAuth: deprioritized — Google Drive MCP available
 - [ ] Antigravity: clone repos + verify Claude Code in terminal
 - [ ] Skill Factory Sub-system 2: Data Scraper / Ingestor
 
 ### 🔵 Queued / Parked
+
+**LLM Intelligence Layer (80/20 ordered):**
+- [ ] **1. System prompt injection for workers** — feed qwen/gemma a SOUL_ARES-style prompt with stack, conventions, patterns. Zero training, immediate quality lift.
+- [ ] **2. YouTube metadata pipeline** — yt-dlp transcripts → qwen3 summarizes → structured knowledge → Firestore + Obsidian vault. Feed as context to agents.
+- [ ] **3. Actor-Critic conversation loop** — qwen drafts → gemma critiques → qwen revises → N turns → final supervisor approval. Spec + build.
+- [ ] **4. Obsidian as agent knowledge base** — vault of processed notes, agents retrieve relevant chunks at task start (lightweight RAG without vector DB).
+- [ ] **5. RSS feed for technique discovery** — monitor Claude Code, Ollama, LLM news → qwen summarizes → relevant items fed to ARES context.
+- [ ] **6. Ash Code as delegator** — train Ash Code on Ashish's patterns + ARES architecture, becomes primary task delegator. Claude = advisor/reviewer only.
+- [ ] **7. Active Dreaming (Phase 2)** — MLX LoRA fine-tune gemma3:12b on your corrections. Nightly cycle via scheduled-tasks MCP.
+
+**Other:**
+- [ ] Local LLM Training (Active Dreaming — Phase 2): collect interactions → filter → export ChatML dataset → MLX LoRA → Ollama. Starts after Phase 1 verified.
 - [ ] Ollama on GCP Compute Engine VM
-- [ ] Ad Creator canvas editor
 - [ ] Skill Factory Sub-system 3: Plugin Packager
 - [ ] Project Visualizer (builds last)
 - [ ] Check ashish.uzelman@gmail.com Firebase — Maze project
-- [ ] Archive rolling_summary_archive_2026-02.md to Drive
+- [ ] Archive rolling_summary_archive_2026-02.md to Drive (Drive MCP available)
 - [ ] SEED Initiative (concept stage)
 - [ ] Pricing SaaS (concept stage)
 - [ ] Children with Anxiety project (concept stage)
