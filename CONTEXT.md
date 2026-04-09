@@ -1,6 +1,15 @@
 # Claude Session Context — Ashish Uzelman
 > ⚠️ READ THIS FIRST at the start of every session. Update it before ending.
-> Last updated: 2026-04-07 (Session 9 — Ad Creator auth ✅ | n8n workflow map built | Ash Code strategic gaps added | Next: pick workflow tab A/B/C)
+> Last updated: 2026-04-09 (Session 12 — Actor-Critic loop, system prompts, YouTube/RSS/KB pipeline, data-scraper skill, ARES daemon)
+
+## ⚠️ TERMINAL STATE ON CLOSE
+The ARES connector (`npm run connector`) was running in a terminal at session end.
+qwen3 may still be processing a task or the connector may still be watching.
+**At next session start:** check if connector is still running before dropping new tasks.
+```bash
+cd ~/rank-higher-media/ares && npm run ares-status
+```
+If not running, use `npm run ares-start` to restart as background daemon.
 
 ---
 
