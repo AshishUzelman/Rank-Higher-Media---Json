@@ -7,6 +7,40 @@
 ---
 
 
+## TODAY — 2026-04-09
+
+### Completed
+- [x] Ad Creator: Task 15 (EditorShell) ✅ already done | Task 16 (smoke test) ✅ — params.id bug fixed
+- [x] ARES: Actor-Critic Loop — qwen3 drafts → gemma3 critiques → qwen3 revises (N turns, configurable)
+- [x] ARES: System Prompt Injection — WORKER_SYSTEM_PROMPT + CRITIC_SYSTEM_PROMPT into all Ollama calls
+- [x] ARES: YouTube Pipeline — yt-dlp → qwen3 → Firestore + knowledge/ markdown
+- [x] ARES: Obsidian KB — knowledge_retrieval.js wired into load_context.js (section 5)
+- [x] ARES: RSS Ingestor — 4 feeds (Anthropic, Ollama, Simon Willison, Latent Space) → knowledge/
+- [x] ARES: Daemon — npm run ares-start/stop/status/log (background connector, no second terminal)
+- [x] Skills: data-scraper (Sub-system 2) — URL scrape, sitemap, file ingest, bulk URLs
+- [x] Corrections logger — 6 entries banked (training data for Active Dreaming Phase 2)
+- [x] Ad Creator: pushed to GitHub, Vercel auto-deploying
+- [x] Routing fix: high-priority code tasks → qwen3 MoE (was timing out on qwen2.5-coder:32b)
+
+### Blocked
+- Rank Higher Media DNS (ongoing)
+
+---
+
+
+## TODAY — 2026-04-09
+
+### Completed
+- [x] Session 12 summary written by qwen3 ✅
+
+### In Progress
+- [ ] (carry forward from previous session)
+
+### Blocked
+- (carry forward)
+
+---
+
 ## TODAY — 2026-04-08
 
 ### Completed
@@ -250,21 +284,22 @@
 - [x] Ad Creator: Google SSO auth ✅ (2026-04-07)
 - [x] Ad Creator: Dashboard page ✅ (2026-04-07)
 - [x] Ad Creator: Canvas editor — Tasks 2-14 complete via qwen2.5-coder:14b ✅ (2026-04-08)
-- [ ] Ad Creator: Tasks 15-16 (EditorShell wire-up + smoke test) — Claude handles
-- [ ] **Actor-Critic Loop:** extend Supervisor pattern → qwen↔gemma multi-turn debate before approval. Builds directly on existing runSupervisor(). 80/20 highest leverage improvement.
-- [ ] ARES: Workflow Map tab — task_workflow_tab.md timed out, re-queue
+- [x] Ad Creator: Tasks 15-16 (EditorShell wire-up + smoke test) ✅ (2026-04-09)
+- [x] Actor-Critic Loop ✅ (2026-04-09)
 - [ ] Drive OAuth: deprioritized — Google Drive MCP available
 - [ ] Antigravity: clone repos + verify Claude Code in terminal
-- [ ] Skill Factory Sub-system 2: Data Scraper / Ingestor
+- [x] Skill Factory Sub-system 2: Data Scraper ✅ (2026-04-09)
 
 ### 🔵 Queued / Parked
 
 **LLM Intelligence Layer (80/20 ordered):**
-- [ ] **1. System prompt injection for workers** — feed qwen/gemma a SOUL_ARES-style prompt with stack, conventions, patterns. Zero training, immediate quality lift.
-- [ ] **2. YouTube metadata pipeline** — yt-dlp transcripts → qwen3 summarizes → structured knowledge → Firestore + Obsidian vault. Feed as context to agents.
-- [ ] **3. Actor-Critic conversation loop** — qwen drafts → gemma critiques → qwen revises → N turns → final supervisor approval. Spec + build.
-- [ ] **4. Obsidian as agent knowledge base** — vault of processed notes, agents retrieve relevant chunks at task start (lightweight RAG without vector DB).
-- [ ] **5. RSS feed for technique discovery** — monitor Claude Code, Ollama, LLM news → qwen summarizes → relevant items fed to ARES context.
+- [x] **1. System prompt injection** ✅ (2026-04-09)
+- [x] **2. YouTube metadata pipeline** ✅ (2026-04-09)
+- [x] **3. Actor-Critic loop** ✅ (2026-04-09)
+- [x] **4. Obsidian KB** ✅ (2026-04-09)
+- [x] **5. RSS feed** ✅ (2026-04-09)
+- [ ] **6. Ash Code as delegator** — train Ash Code on Ashish's patterns + ARES architecture
+- [ ] **7. Active Dreaming (Phase 2)** — MLX LoRA fine-tune on corrections/. 6 entries banked, target ~20-30 before first run.
 - [ ] **6. Ash Code as delegator** — train Ash Code on Ashish's patterns + ARES architecture, becomes primary task delegator. Claude = advisor/reviewer only.
 - [ ] **7. Active Dreaming (Phase 2)** — MLX LoRA fine-tune gemma3:12b on your corrections. Nightly cycle via scheduled-tasks MCP.
 
