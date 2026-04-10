@@ -159,3 +159,22 @@ const SUPERVISOR_MODEL = 'gemma3:27b-it-qat'  // was: gemma3:12b
 - [Google Gemma 4 Blog](https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/)
 - [Ollama Cloud Inference API (Medium)](https://pbseven.medium.com/ollama-cloud-inference-api-is-now-ready-f7adf6b8ef3e)
 - [Infralovers: Ollama 2025 Updates](https://www.infralovers.com/blog/2025-08-13-ollama-2025-updates/)
+
+---
+
+## Action Items (2026-04-09 — IMPLEMENTED)
+
+### Done
+- Updated SUPERVISOR_MODEL in memory_config.js: gemma3:12b → gemma3:27b-it-qat
+- Added callGemma4Cloud() to brainstorm.js (SYNTHESIZER_USE_CLOUD=1 env var)
+
+### To do manually (requires Ollama running)
+```bash
+ollama pull gemma3:27b-it-qat
+```
+Then run a brainstorm to verify gemma3:27b-it-qat works as Synthesizer.
+
+### Cloud Synthesizer test
+```bash
+SYNTHESIZER_USE_CLOUD=1 npm run brainstorm -- "test topic" --project ares
+```
