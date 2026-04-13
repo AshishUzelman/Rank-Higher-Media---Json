@@ -8,3 +8,18 @@ clients/*/
 
 # Memory Compiler artifacts
 memory_draft.md
+
+# TypeScript (JS-only project)
+tsconfig.json
+next-env.d.ts
+
+# OS files
+.DS_Store
+.vscode/
+
+# Git worktrees
+.claude/worktrees/
+
+# IDE
+.idea/
+*.swp

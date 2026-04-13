@@ -4,11 +4,11 @@
 Digital entrepreneur, SEM/PPC expert, 15+ years in the industry. I run **Rank Higher Media** (owned SEM agency) and contract with **Imajery (Montreal)** as Digital PM / ops / demand gen. I manage $40M+ monthly ad budgets and am building multiple AI-assisted products. Context continuity across sessions is critical — this file is the source of truth.
 
 **Accounts:**
-- `ash.revolution@gmail.com` — Primary / Rank Higher Media
+- `ashish.uzelman@gmail.com` — **NEW Primary** (migrating from ash.revolution — Firebase updated 2026-04-07, GitHub + Drive pending)
+- `ash.revolution@gmail.com` — Previous primary (migrating out — still owns Drive AI folder during transition)
 - `mindchallengerai@gmail.com` — Mind Challenger AI project
-- `ashish.uzelman@gmail.com` — Drive storage / planning docs
 
-**Google Drive (memory files):** `ash.revolution@gmail.com` → My Drive → AI folder → folder ID `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1`
+**Google Drive (memory files):** `ash.revolution@gmail.com` → My Drive → AI folder → folder ID `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1` ⚠️ Re-share to ashish.uzelman once migration complete
 
 ---
 
