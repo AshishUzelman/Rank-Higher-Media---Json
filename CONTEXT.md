@@ -31,6 +31,93 @@ Dev environment: **Google Antigravity** (cloud VS Code) with Claude Code in term
 
 ---
 
+## LLM Routing Strategy (Token Optimization)
+
+**Goal:** Multi-phase work loop using Qwen (worker) + Gemma (critic) + Claude (architect/escalation). Target: 70-80% cost reduction by keeping work local/free.
+
+### Multi-Phase Worker Loop (Full Architecture)
+
+```
+User Request → RESEARCH → DRAFT → CRITIC → REFINE → SUPERVISOR → Result
+                (Qwen)     (Qwen)  (Gemma)  (Qwen)   (Gemma)
+```
+
+**Phase 1: RESEARCH** (Optional, for complex tasks)
+- Qwen gathers context from knowledge base (KB, Obsidian, RSS feeds)
+- Cost: FREE (local)
+
+**Phase 2: DRAFT** (Core work)
+- Qwen generates implementation/code/document
+- Cost: FREE (local)
+
+**Phase 3: CRITIC** (Quality gate)
+- Gemma reviews: checks logic, catches errors, validates approach
+- Returns APPROVED or REJECTED + feedback
+- Cost: FREE (local)
+
+**Phase 4: REFINE** (If rejected)
+- Qwen revises based on Gemma feedback (up to 2 iterations)
+- Then return to CRITIC
+- Cost: FREE (local)
+
+**Phase 5: SUPERVISOR** (Final approval)
+- Gemma final check + supervisor sign-off
+- APPROVED → Done ✅
+- REJECTED (again) → Escalate to Claude
+- Cost: FREE (local) or $$$ escalation
+
+### Decision: Which Model for What?
+
+| Task Type | Research | Draft | Critic | Escalate? |
+|---|---|---|---|---|
+| Code generation | - | Qwen ✅ | Gemma ✅ | If >3 rejections or architecture needed |
+| Bug diagnosis | Qwen ⚠️ | Qwen ✅ | Gemma ✅ | If system design affected |
+| Documentation | - | Qwen ✅ | Gemma ✅ | If client-facing or complex |
+| Strategy/design | - | - | - | Claude ALWAYS (skip local) |
+| Architecture | - | - | - | Claude ALWAYS (skip local) |
+
+### The Escalation Chain (When to Use Claude)
+
+✅ **Keep Local (Qwen + Gemma):**
+- Code generation, refactoring, bug fixes
+- Testing, documentation, summaries
+- General problem-solving + iteration
+
+❌ **Escalate to Claude:**
+- Architecture decisions (which approach is better?)
+- System design (how should this be structured?)
+- Strategic decisions (what's the next move?)
+- Client/executive communication
+- Work has been rejected 3+ times by Gemma
+- Non-coding domain expertise needed
+
+### Implementation in ARES
+
+**Current setup:**
+- `agent_connector.js` watches `agent_inbox/` for tasks
+- Each task: `{ type, prompt, context, retryCount, supervisorFeedback }`
+- Qwen processes task → writes result to `agent_outbox/`
+- Gemma supervisor reviews → APPROVED or REJECTED (feedback to Qwen)
+- On 3rd rejection → task escalated to Claude
+
+**To enable multi-phase loop:**
+```bash
+# Set in ares/.env.local
+WORKER_MODEL=qwen3:30b-a3b
+SUPERVISOR_MODEL=gemma3:12b
+ACTOR_CRITIC_TURNS=2
+RESEARCH_ENABLED=true  # pulls from knowledge/ before drafting
+ESCALATION_THRESHOLD=3  # reject count before Claude
+```
+
+**Current status:**
+- ✅ Actor-Critic loop working (Qwen draft → Gemma critique → Qwen refine)
+- ✅ Supervisor pattern live (APPROVED/REJECTED/escalate)
+- ✅ Knowledge base wired (Obsidian KB + RSS feeds accessible in load_context.js)
+- ⏳ Multi-phase loop: research phase needs activation (next iteration)
+
+---
+
 ## Firebase Projects (5 max per account)
 
 ### ash.revolution@gmail.com — 4/5 used ✅
