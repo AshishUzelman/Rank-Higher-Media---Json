@@ -1,14 +1,15 @@
-# Ashish Uzelman — Master CLAUDE.md
+# Ashish Uzelman — Master Router
 
-## Who I Am
-Digital entrepreneur, SEM/PPC expert, 15+ years in the industry. I run **Rank Higher Media** (owned SEM agency) and contract with **Imajery (Montreal)** as Digital PM / ops / demand gen. I manage $40M+ monthly ad budgets and am building multiple AI-assisted products. Context continuity across sessions is critical — this file is the source of truth.
+**Digital entrepreneur, SEM/PPC expert, 15+ years. Building AI-assisted products across multiple projects.**
 
-**Accounts:**
-- `ashish.uzelman@gmail.com` — **NEW Primary** (migrating from ash.revolution — Firebase updated 2026-04-07, GitHub + Drive pending)
-- `ash.revolution@gmail.com` — Previous primary (migrating out — still owns Drive AI folder during transition)
-- `mindchallengerai@gmail.com` — Mind Challenger AI project
+---
 
-**Google Drive (memory files):** `ash.revolution@gmail.com` → My Drive → AI folder → folder ID `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1` ⚠️ Re-share to ashish.uzelman once migration complete
+## Identity & Accounts
+- **Primary:** `ashish.uzelman@gmail.com` (active, Firebase updated 2026-04-07)
+- **Legacy:** `ash.revolution@gmail.com` (migrating out, owns Drive AI folder during transition)
+- **Separate:** `mindchallengeai@gmail.com` (Mind Challenger AI project)
+
+**Drive Backup:** Folder ID `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1` (ash.revolution → My Drive → AI)
 
 ---
 
@@ -16,137 +17,61 @@ Digital entrepreneur, SEM/PPC expert, 15+ years in the industry. I run **Rank Hi
 
 | Project | Status | Stack | Firebase | Notes |
 |---|---|---|---|---|
-| Rank Higher Media | 🟢 Active | Next.js 15, React 19, Tailwind | TBD | Current repo — SEM agency marketing site |
-| Ad Creator Web App | 🟡 Planned | TBD | TBD | Full technical spec in Drive ("Breakdown on how to create ad creative site") |
-| Mind Challenger AI | 🟡 In Progress | TBD | `mindchallengerai` account | Separate Gmail + Firebase account |
-| Pricing SaaS | 🔵 Concept | TBD | TBD | Drive folder exists |
-| SEED Initiative | 🔵 Concept | TBD | TBD | SEO services proposal in Drive |
-| ARES Platform | 🟡 Active Dev | React + Firebase + Hybrid LLM | `ashish-ares` | Agentic Resource & Execution System — multi-agent orchestration platform. Includes SEO Auditor as one managed project. |
-| Vanguard: Galactic Rescue | 🔴 Parked | Phaser.js + Firebase | TBD | Game project — parked at P3 |
-| Maze Generator | 🔴 Parked | TBD | TBD | TikTok/Shorts automation — parked at P3 |
-| Children with Anxiety | 🔵 Concept | TBD | TBD | Drive folder exists |
+| Rank Higher Media | 🟢 Active | Next.js 15, React 19, Tailwind, JS | rank-high-media | Marketing site — current repo |
+| Ad Creator | 🟡 In Progress | Next.js 15, Tailwind, Firebase, JS | ashish-ad-creator | Creative tool with canvas editor |
+| ARES Platform | 🟡 Active Dev | Next.js 16, Tailwind 4, Firebase, Ollama | ashish-ares | Agent orchestration + dashboard |
+| Mind Challenger AI | 🟡 In Progress | TBD | mindchallengeai | Separate account |
+| Pricing SaaS | 🔵 Concept | TBD | ashish-pricing-saas | TBD |
+| SEED Initiative | 🔵 Concept | TBD | TBD | SEO services proposal |
+| Vanguard: Galactic Rescue | 🔴 Parked | Phaser.js, Firebase | TBD | Game — P3 |
+| Maze Generator | 🔴 Parked | TBD | TBD | TikTok automation — P3 |
 
-**Status key:** 🟢 Active · 🟡 In Progress/Planned · 🔵 Concept · 🔴 On Hold
-
----
-
-## Current Codebase — Rank Higher Media
-
-### Tech Stack
-- **Framework**: Next.js 15 (App Router, standalone output)
-- **UI**: React 19 + Tailwind CSS 3
-- **Icons**: lucide-react
-- **Language**: JavaScript (no TypeScript — jsconfig.json with `@/*` → `src/*`)
-- **Linting**: ESLint with eslint-config-next
-- **Image processing**: sharp
-
-### Project Structure
-```
-src/
-  app/
-    layout.js        # Root layout (imports globals.css)
-    page.js          # Home page entry
-    globals.css      # Global styles
-  components/
-    RankHigherMedia.js  # Main marketing page component
-```
-
-### Dev Commands
-```bash
-npm run dev    # Start dev server
-npm run build  # Production build
-npm run start  # Serve production build
-```
-
-### Key Conventions
-- **App Router only** — no `pages/` directory
-- **JavaScript** (`.js`) — do not add `.ts`/`.tsx` files
-- Path alias: `@/` maps to `src/`
-- `next.config.js`: `output: 'standalone'` and `trailingSlash: true` — keep both
-- Tailwind only for styling — no CSS Modules or inline styles
-- Components live in `src/components/`
-- `node_modules/` and `.next/` are gitignored — never commit them
-
-### Deployment
-- Vercel (standalone output configured)
-- GitHub: `https://github.com/AshishUzelman/Rank-Higher-Media---Json`
-- Default branch: `claude/intelligent-torvalds` (single branch — `main` not yet set up)
+**Status:** 🟢 Active · 🟡 In Progress · 🔵 Concept · 🔴 Parked
 
 ---
 
-## Firebase Hosting Workflow
+## Shared Tech Conventions
 
-Each new project idea gets its own Firebase project for clean isolation.
+**All projects:**
+- Auth: Firebase Auth (Google SSO preferred)
+- Database: Firestore
+- UI: React + Tailwind CSS (never TS)
+- Hosting: Vercel (Next.js) or Firebase Hosting
+- Naming: `ashish-<slug>` for Firebase/GitHub, `~/<slug>/` or `~/ashish-<slug>/` local
 
-### Spin Up a New Project
-```bash
-# 1. Install Firebase CLI if needed
-npm install -g firebase-tools
+**Key patterns:**
+- App Router only (no pages/)
+- JavaScript (.js) — no TypeScript files
+- Path alias: `@/` → `src/`
+- Every project gets own GitHub repo + Firebase project
+- All deployments managed through respective platforms (Vercel/Firebase)
 
-# 2. Login
-firebase login
-
-# 3. Create new project (do this in Firebase Console or CLI)
-firebase projects:create <project-id>
-
-# 4. Initialize hosting in the project folder
-firebase init hosting
-
-# 5. Deploy
-firebase deploy
-```
-
-### Naming Convention
-- Firebase project ID: `ashish-<project-slug>` (e.g. `ashish-ad-creator`, `ashish-pricing-saas`)
-- Local folder: `~/projects/<project-slug>/`
-- Each project gets its own GitHub repo
+**Project-specific stacks:** See MEMORY.md for active project details
 
 ---
 
-## Shared Skills Across Projects
-These patterns carry over to every project — Claude should apply them by default:
-
-- **Auth**: Firebase Auth (Google SSO preferred)
-- **Database**: Firestore
-- **Hosting**: Firebase Hosting (or Vercel for Next.js)
-- **UI**: React + Tailwind CSS (consistent design language)
-- **AI integration**: Google AI Studio / Gemini API
-- **Domain**: SEM, PPC, digital marketing context throughout
-
----
-
-## Key Drive Documents
-| Document | Location | Description |
-|---|---|---|
-| Ad Creator Web App Spec | My Drive (search "Breakdown on how to create ad creative site") | Full 11-section technical spec |
-| Website that builds ads | My Drive | Related ad tool concept |
-| Trello Rules for Organization | My Drive | Project org system notes |
-| Building SEO Tools and Reports | Resume folder | SEO tooling ideas |
-| SEED Initiative Proposal | Seed Initiative folder | SEO services business plan |
-
----
-
-## Session Memory — Read These Every Session
-> Claude must load ALL of these at the start of every session, in order:
+## Session Memory — Load in Order at Start
 
 | File | Purpose |
 |---|---|
-| `SOUL_BASE.md` | Agent constitution — identity, core principles, behavioral protocols, LLM routing rules |
-| `SOUL_ARES.md` | ARES platform extension — architecture, agent tiers, Firebase rules, dashboard spec |
-| `SOUL.md` | Ashish's personal working style, preferences, and build philosophy |
-| `permanent.json` | Agency facts + active client data (Centre Willow, Goldwater Law via Imajery) |
-| `client_override.json` | Per-client rule exceptions |
-| `rolling_summary.md` | Last 3 session summaries — what was done, open items, next steps |
-| `CONTEXT.md` | Live session log — current tasks, Firebase state, build order |
-| `PROJECT_STATUS.md` | Tiered status: daily/weekly/monthly milestones + open items master list |
+| `SOUL_BASE.md` | Core principles, behavioral protocols, LLM routing rules |
+| `SOUL_ARES.md` | ARES architecture, agent tiers, Firebase rules |
+| `SOUL.md` | Working style, preferences, build philosophy |
+| `permanent.json` | Agency facts + client data (Centre Willow, Goldwater Law) |
+| `CONTEXT.md` | Live session state — current tasks, Firebase state, build order |
+| `PROJECT_STATUS.md` | Tiered milestones: daily/weekly/monthly + open items |
+| `rolling_summary.md` | Last 3 session summaries — what done, next steps |
+| `MEMORY.md` | Cross-project memory index — organized by topic |
 
-> ⚠️ **Cold-start rule:** End of every session → save all memory files to Google Drive folder `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1` (`ash.revolution@gmail.com` → My Drive → AI folder)
+**Cold-start rule:** End of every session → upload all memory to Drive folder `15s6YJyUVIb6bg0ky3WLWSklJAvndCNs1`
 
 ---
 
 ## Organization Rules
-1. **Every new idea** → Create a Drive doc first, then a Firebase project when ready to build
-2. **Every project** → Gets its own GitHub repo and Firebase project
-3. **This CLAUDE.md** → Lives in the Rank Higher Media repo but covers all projects
-4. **Status updates** → Update the Project Registry table above when things change
-5. **Shared components** → Document reusable patterns here so they carry across sessions
+
+1. **New idea** → Drive doc first, then Firebase project when ready
+2. **Every project** → own GitHub repo + Firebase project (clean isolation)
+3. **This file** → router only (details live in memory files + project docs)
+4. **Status updates** → keep Project Registry current
+5. **Shared patterns** → document in MEMORY.md by topic, not CLAUDE.md
+6. **Drive references** → specific docs stay in Drive, this file links via folder ID only
