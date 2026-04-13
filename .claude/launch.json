@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ad-creator",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/ashishuzelman/ad-creator", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "ares",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/ashishuzelman/rank-higher-media/ares", "run", "dev"],
+      "port": 3001
+    }
+  ]
+}
