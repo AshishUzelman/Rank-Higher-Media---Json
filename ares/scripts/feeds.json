@@ -1,0 +1,6 @@
+[
+  { "url": "https://www.anthropic.com/rss.xml",          "tags": ["claude", "anthropic", "ai"] },
+  { "url": "https://ollama.com/blog/rss",                "tags": ["ollama", "local-llm"] },
+  { "url": "https://simonwillison.net/atom/everything/", "tags": ["llm", "ai-tools", "techniques"] },
+  { "url": "https://www.latent.space/feed",              "tags": ["llm", "research", "ai"] }
+]

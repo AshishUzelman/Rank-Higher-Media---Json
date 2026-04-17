@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/ashishuzelman/rank-higher-media/ares/scripts/stop_hook.js"
+          }
+        ]
+      }
+    ],
+    "PermissionDenied": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/ashishuzelman/rank-higher-media/ares/scripts/permission_hook.js"
+          }
+        ]
+      }
+    ]
+  }
+}

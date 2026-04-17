@@ -1,0 +1,52 @@
+{
+  "taskId": "articlecard_component_2026_04_15_retry",
+  "type": "code",
+  "project": "ares",
+  "description": "Generate ArticleCard React component for ARES dashboard. Display article data from Firestore 'articles' collection. Include: title, author, tags, publishedAt (Firestore Timestamp), and error boundary. Use Tailwind dark theme (gray-800/700/600 palette). Make it consistent with ProjectCard styling.",
+  "requirements": [
+    "Error boundary component (class-based)",
+    "Handle Firestore Timestamp: publishedAt.seconds * 1000",
+    "Display: title, author, tags array, formatted date",
+    "Tailwind styling: dark theme, rounded-xl, hover effects",
+    "Props: {article}",
+    "Export default"
+  ],
+  "output": "src/components/ArticleCard.js",
+  "tags": ["component", "react", "firestore"],
+  "assignedTo": "qwen3:30b-a3b",
+  "context": "Reference ProjectCard.js for styling patterns and structure"
+}{
+  "taskId": "articlecard_component_2026_04_15_retry",
+  "type": "code",
+  "project": "ares",
+  "description": "Generate ArticleCard React component for ARES dashboard. Display article data from Firestore 'articles' collection. Include: title, author, tags, publishedAt (Firestore Timestamp), and error boundary. Use Tailwind dark theme (gray-800/700/600 palette). Make it consistent with ProjectCard styling.",
+  "requirements": [
+    "Error boundary component (class-based)",
+    "Handle Firestore Timestamp: publishedAt.seconds * 1000",
+    "Display: title, author, tags array, formatted date",
+    "Tailwind styling: dark theme, rounded-xl, hover effects",
+    "Props: {article}",
+    "Export default"
+  ],
+  "output": "src/components/ArticleCard.js",
+  "tags": ["component", "react", "firestore"],
+  "assignedTo": "qwen3:30b-a3b",
+  "context": "Reference ProjectCard.js for styling patterns and structure"
+}{
+  "taskId": "articlecard_component_2026_04_15_retry",
+  "type": "code",
+  "project": "ares",
+  "description": "Generate ArticleCard React component for ARES dashboard. Display article data from Firestore 'articles' collection. Include: title, author, tags, publishedAt (Firestore Timestamp), and error boundary. Use Tailwind dark theme (gray-800/700/600 palette). Make it consistent with ProjectCard styling.",
+  "requirements": [
+    "Error boundary component (class-based)",
+    "Handle Firestore Timestamp: publishedAt.seconds * 1000",
+    "Display: title, author, tags array, formatted date",
+    "Tailwind styling: dark theme, rounded-xl, hover effects",
+    "Props: {article}",
+    "Export default"
+  ],
+  "output": "src/components/ArticleCard.js",
+  "tags": ["component", "react", "firestore"],
+  "assignedTo": "qwen3:30b-a3b",
+  "context": "Reference ProjectCard.js for styling patterns and structure"
+}

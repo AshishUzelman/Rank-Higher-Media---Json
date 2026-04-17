@@ -1,0 +1,45 @@
+{
+  "name": "ares",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "connector": "node scripts/agent_connector.js",
+    "save": "node scripts/save_to_drive.js",
+    "context": "node scripts/load_context.js",
+    "summarize": "node scripts/summarize_session.js",
+    "summarize:dry": "node scripts/summarize_session.js --dry-run",
+    "log-correction": "node scripts/log_correction.js",
+    "ares-start": "node scripts/ares_daemon.js start",
+    "ares-stop": "node scripts/ares_daemon.js stop",
+    "ares-log": "tail -f logs/connector.log",
+    "ares-status": "node scripts/ares_daemon.js status",
+    "youtube": "node scripts/youtube_ingest.js",
+    "rss": "node scripts/rss_ingest.js",
+    "brainstorm": "node scripts/brainstorm.js",
+    "ash-proxy": "node scripts/ash-proxy.js",
+    "ares-ask": "node scripts/ollama-mcp.js",
+    "auto-pickup": "node scripts/auto_task_pickup.js",
+    "seed": "node scripts/seed_firestore.mjs"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "firebase": "^12.10.0",
+    "firebase-admin": "^13.8.0",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^0.577.0",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4"
+  }
+}

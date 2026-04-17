@@ -1,0 +1,21 @@
+{
+  "taskId": "bookmanager_component_gemma_2026_04_15",
+  "type": "code",
+  "project": "ares",
+  "description": "Build BookManager React component for ARES dashboard. Manage books from Firestore 'books' collection with add/edit/delete, export CSV. Props: {books, onUpdate}. Export default.",
+  "requirements": [
+    "Display list of books from Firestore 'books' collection",
+    "Each book entry shows: title, author, year, status",
+    "Actions: Add Book (form modal), Edit (inline or modal), Delete (with confirmation), Export as CSV",
+    "Firestore operations: create, update, delete documents in 'books' collection",
+    "Tailwind dark theme consistent with ProjectCard/TaskQueue styling",
+    "Props: {books=[], onUpdate=function}",
+    "Error handling for Firestore operations",
+    "Responsive grid or list layout",
+    "Export default function"
+  ],
+  "output": "src/components/BookManager.js",
+  "tags": ["component", "react", "firestore", "crud"],
+  "Worker": "gemma3:12b",
+  "context": "Reference TaskQueue.js for list/table patterns. Use Firestore SDK for CRUD. Books schema: {id, title, author, year, status, createdAt}"
+}

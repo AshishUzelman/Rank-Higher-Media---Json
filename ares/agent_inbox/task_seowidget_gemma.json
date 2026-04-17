@@ -1,0 +1,22 @@
+{
+  "taskId": "seowidget_component_gemma_2026_04_15",
+  "type": "code",
+  "project": "ares",
+  "description": "Build SEOWidget React component for ARES dashboard. Display SEO metrics from Firestore 'seo_tool' collection with stats, trends, insights. Props: {seoData}. Export default.",
+  "requirements": [
+    "Display SEO metrics: keywords tracked, backlinks, organic traffic, domain authority",
+    "Show trending keywords and performance indicators",
+    "Fetch data from Firestore 'seo_tool' collection using Firestore listeners",
+    "Display key metrics in grid or card layout with icons/badges",
+    "Color coding for trends: green (up), red (down), gray (neutral)",
+    "Responsive design matching dashboard (ProjectCard/AgentStatus patterns)",
+    "Tailwind dark theme: gray-800/700/600",
+    "Props: {seoData} (object with metrics)",
+    "Real-time updates via Firestore onSnapshot",
+    "Export default function"
+  ],
+  "output": "src/components/SEOWidget.js",
+  "tags": ["component", "react", "firestore", "analytics"],
+  "Worker": "gemma3:12b",
+  "context": "Reference AgentStatus.js for grid layout and metric display patterns. SEO schema: {keywords, backlinks, organicTraffic, domainAuthority, trends, lastUpdated}"
+}
