@@ -20,11 +20,23 @@
 - Phase C is verification not construction — loop is already built
 - No site/ move yet — deferred, not blocking
 
+**Phase C END-TO-END RUN ✅ CONFIRMED** (task_verify_001 produced valid output via all 5 phases)
+
+**Work completed directly this session (not via ARES):**
+- `ares/scripts/seed_missing_collections.js` — ready to run once .env.local set
+- `ares/docs/phase-b-research.md` — full launchd + MLX LoRA + Ollama merge plan
+
 **Blocked / Open:**
 - `.env.local` needs recreating at `ares/.env.local` (gitignored, lost in migration)
-  - Get Firebase keys: Firebase Console → ashish-ares → Project Settings → Your apps → Config
-  - Get Gemini key: aistudio.google.com/apikey
-- Phase C Task 2 (end-to-end run) blocked until .env.local exists
+  - Firebase keys: Firebase Console → ashish-ares → Project Settings → Your apps → Config
+  - Gemini key: aistudio.google.com/apikey
+- **NEW BUG**: Ollama HTTP 404 on 3 Qwen tasks after supervisor upgrade to gemma3:27b-it-qat.
+  Verify task worked before the upgrade. Likely causes:
+  1. Agent picker routing to a model name Ollama doesn't have
+  2. SUPERVISOR_MODEL mismatch in CRITIC calls
+  Diagnose: `curl http://localhost:11434/api/tags` to confirm all models, then check connector log for exact model name in 404 response.
+- Queued but unprocessed (still in `ares/agent_inbox/archive/` — failed with 404):
+  `task_01_audit_hooks.md`, `task_02_dashboard_component.md`, `task_03_prepare_training_data.md`
 
 **Next Session Should Start With:**
 1. Load memory stack
