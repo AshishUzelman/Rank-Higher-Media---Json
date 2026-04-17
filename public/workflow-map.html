@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARES Workflow — n8n Style</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1b1f2e;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 24px 28px 32px;
+  overflow-x: auto;
+}
+h1 { color: #e6edf3; font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.subtitle { color: #556070; font-size: 12px; margin-bottom: 22px; }
+
+/* ─── Canvas ─── */
+.canvas {
+  position: relative;
+  width: 1560px;
+  height: 470px;
+}
+
+.svg-bg {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* ─── Flow labels ─── */
+.flow-label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+.flow-label.f1 { color: #a78bfa; background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.2); top: 6px; left: 0; }
+.flow-label.f2 { color: #f472b6; background: rgba(190,24,93,.12); border: 1px solid rgba(190,24,93,.2); top: 290px; left: 0; }
+
+/* ─── Node ─── */
+.node {
+  position: absolute;
+  width: 186px;
+  height: 54px;
+  border-radius: 9px;
+  border: 1.5px solid #2a3045;
+  background: #20253a;
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 8px;
+  gap: 9px;
+  transition: border-color .15s, box-shadow .15s;
+  user-select: none;
+}
+.node:hover {
+  border-color: #3d4a68;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  z-index: 10;
+}
+
+/* icon circle */
+.icon {
+  width: 34px; height: 34px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  font-style: normal;
+}
+
+/* text */
+.info { flex: 1; min-width: 0; }
+.name { font-size: 12px; font-weight: 600; color: #dde4f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.desc { font-size: 10px; color: #4d5a72; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+
+/* port dots */
+.pi, .po {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 2px solid #3d4a68;
+  background: #1b1f2e;
+  top: 50%; transform: translateY(-50%);
+}
+.pi { left: -5px; }
+.po { right: -5px; }
+
+/* ─── Node type themes ─── */
+/* trigger */
+.n-trigger { border-color: #5c3a0a; }
+.n-trigger .icon { background: #3d2506; }
+.n-trigger .po { border-color: #d97706; }
+.n-trigger .name { color: #fbbf24; }
+
+/* code/script */
+.n-code .icon { background: #1e1b4b; }
+.n-code .po, .n-code .pi { border-color: #818cf8; }
+
+/* router/switch */
+.n-router .icon { background: #1f2937; }
+.n-router .po, .n-router .pi { border-color: #6b7280; }
+
+/* ollama */
+.n-ollama { border-color: #2d2a27; }
+.n-ollama .icon { background: #1c1917; }
+.n-ollama .po, .n-ollama .pi { border-color: #78716c; }
+.n-ollama .name { color: #a8a29e; }
+
+/* claude */
+.n-claude { border-color: #451a03; }
+.n-claude .icon { background: #2d1002; }
+.n-claude .po, .n-claude .pi { border-color: #f59e0b; }
+.n-claude .name { color: #fbbf24; }
+
+/* gemini */
+.n-gemini { border-color: #0c3052; }
+.n-gemini .icon { background: #082040; }
+.n-gemini .po, .n-gemini .pi { border-color: #38bdf8; }
+.n-gemini .name { color: #7dd3fc; }
+
+/* file system */
+.n-file { border-color: #064e3b; }
+.n-file .icon { background: #022c22; }
+.n-file .po, .n-file .pi { border-color: #34d399; }
+.n-file .name { color: #6ee7b7; }
+
+/* firestore / db */
+.n-db { border-color: #7c2d12; }
+.n-db .icon { background: #431407; }
+.n-db .po, .n-db .pi { border-color: #fb923c; }
+.n-db .name { color: #fed7aa; }
+
+/* ui / dashboard */
+.n-ui { border-color: #312e81; }
+.n-ui .icon { background: #1e1b4b; }
+.n-ui .pi { border-color: #818cf8; }
+.n-ui .name { color: #c7d2fe; }
+
+/* memory */
+.n-memory { border-color: #831843; }
+.n-memory .icon { background: #500724; }
+.n-memory .po, .n-memory .pi { border-color: #f472b6; }
+.n-memory .name { color: #fbcfe8; }
+
+/* cloud / drive */
+.n-cloud { border-color: #1e3a5f; opacity: .55; }
+.n-cloud .icon { background: #0c2040; }
+.n-cloud .pi { border-color: #93c5fd; }
+.n-cloud .name { color: #bfdbfe; }
+
+/* ─── Inline badges ─── */
+.badge {
+  position: absolute;
+  top: -10px; right: 8px;
+  font-size: 9px; font-weight: 700;
+  padding: 1px 6px; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: .4px;
+  white-space: nowrap;
+}
+.badge.warning { background: #451a03; color: #fbbf24; border: 1px solid #78350f; }
+.badge.pending { background: #1e3a5f; color: #93c5fd; border: 1px solid #1e4976; opacity:.8; }
+.badge.live { background: #022c22; color: #34d399; border: 1px solid #065f46; }
+
+/* loop indicator */
+.loop-note {
+  position: absolute;
+  font-size: 10px;
+  color: #38bdf8;
+  background: #082040;
+  border: 1px solid #0c3052;
+  border-radius: 5px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<h1>ARES — Workflow Map</h1>
+<p class="subtitle">Task Execution flow (top) · Memory Compiler flow (bottom) · running simultaneously</p>
+
+<div class="canvas">
+
+  <div class="flow-label f1">⚡ Task Execution — triggered by new file in agent_inbox/</div>
+  <div class="flow-label f2">🧠 Memory Compiler — triggered by session Stop hook</div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  FLOW 1 — Task Execution                       -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <!-- N1 File Watcher -->
+  <div class="node n-trigger" style="left:0;top:95px" title="Watches agent_inbox/ for new .md task files">
+    <div class="icon">📂</div>
+    <div class="info"><div class="name">File Watcher</div><div class="desc">agent_inbox/ · new task</div></div>
+    <div class="po"></div>
+  </div>
+
+  <!-- N2 load_context.js -->
+  <div class="node n-code" style="left:228px;top:95px" title="Builds Agent Context Packet — soul files + Firestore memory">
+    <div class="icon">📋</div>
+    <div class="info"><div class="name">load_context.js</div><div class="desc">Soul stack + Firestore mem</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- N3 Route Task -->
+  <div class="node n-router" style="left:456px;top:95px" title="Reads task_type field — routes to correct LLM">
+    <div class="icon">🔀</div>
+    <div class="info"><div class="name">Route Task</div><div class="desc">bulk · quality · manager</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- N4 Ollama local -->
+  <div class="node n-ollama" style="left:684px;top:36px" title="Free. Handles research, code gen, bulk content, agent-to-agent messages">
+    <div class="icon">💻</div>
+    <div class="info"><div class="name">Ollama · local</div><div class="desc">qwen2.5-coder:14b · free</div></div>
+    <div class="pi"></div><div class="po"></div>
+    <div class="badge live">local · free</div>
+  </div>
+
+  <!-- N5 Claude API -->
+  <div class="node n-claude" style="left:684px;top:112px" title="Quality-critical: strategy, Scrutinizer reviews, client deliverables">
+    <div class="icon">⚡</div>
+    <div class="info"><div class="name">Claude API</div><div class="desc">Scrutinizer · client work</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- N6 Gemini API -->
+  <div class="node n-gemini" style="left:684px;top:190px" title="Manager-tier: Gemini writes new tasks back to agent_inbox/ (loop)">
+    <div class="icon">✦</div>
+    <div class="info"><div class="name">Gemini API</div><div class="desc">Manager decisions · loop</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- N7 Write Outbox -->
+  <div class="node n-file" style="left:912px;top:66px" title="Worker result written to agent_outbox/ as markdown file">
+    <div class="icon">📤</div>
+    <div class="info"><div class="name">Write Outbox</div><div class="desc">agent_outbox/ · result</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- N8 Update Firestore -->
+  <div class="node n-db" style="left:1140px;top:66px" title="Updates tasks collection, token_usage, agent_state in real time">
+    <div class="icon">🔥</div>
+    <div class="info"><div class="name">Update Firestore</div><div class="desc">tasks · token_usage · state</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- N9 Dashboard -->
+  <div class="node n-ui" style="left:1368px;top:66px" title="React dashboard reads Firestore via onSnapshot — updates immediately">
+    <div class="icon">📊</div>
+    <div class="info"><div class="name">Dashboard live</div><div class="desc">onSnapshot → React UI</div></div>
+    <div class="pi"></div>
+    <div class="badge live">real-time</div>
+  </div>
+
+  <!-- Gemini loop indicator -->
+  <div class="loop-note" style="left:912px;top:205px">↩ loops back → agent_inbox/ (new Manager task)</div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  FLOW 2 — Memory Compiler                      -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <!-- M1 Stop Hook -->
+  <div class="node n-trigger" style="left:0;top:320px" title="Claude Code Stop hook — fires automatically when session ends">
+    <div class="icon">🛑</div>
+    <div class="info"><div class="name">Stop Hook</div><div class="desc">session end · auto-fires</div></div>
+    <div class="po"></div>
+  </div>
+
+  <!-- M2 memory_compiler -->
+  <div class="node n-memory" style="left:228px;top:320px" title="compile_memory.js — 14 tests passing, Stop hook registered">
+    <div class="icon">🧠</div>
+    <div class="info"><div class="name">memory_compiler.js</div><div class="desc">14 tests ✅ · Stop hook live</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- M3 Ollama x4 parallel -->
+  <div class="node n-ollama" style="left:456px;top:320px" title="4 parallel Ollama calls — free, fast, no API cost">
+    <div class="icon">⊞</div>
+    <div class="info"><div class="name">Ollama ×4 parallel</div><div class="desc">qwen2.5-coder:14b · free</div></div>
+    <div class="pi"></div><div class="po"></div>
+    <div class="badge live">local · free</div>
+  </div>
+
+  <!-- M4 CONTEXT.md -->
+  <div class="node n-file" style="left:684px;top:278px" title="Live session state — always-current project context">
+    <div class="icon">📄</div>
+    <div class="info"><div class="name">CONTEXT.md</div><div class="desc">session state · always current</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- M5 rolling_summary -->
+  <div class="node n-file" style="left:684px;top:368px" title="Last 3 session summaries — loaded at session start">
+    <div class="icon">🔄</div>
+    <div class="info"><div class="name">rolling_summary.md</div><div class="desc">last 3 sessions buffer</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- M6 Git Commit -->
+  <div class="node n-code" style="left:912px;top:320px" title="Auto-commits memory files to GitHub on session end">
+    <div class="icon">✅</div>
+    <div class="info"><div class="name">Git Commit</div><div class="desc">auto-push memory files</div></div>
+    <div class="pi"></div><div class="po"></div>
+  </div>
+
+  <!-- M7 Drive Backup -->
+  <div class="node n-cloud" style="left:1140px;top:320px" title="save_to_drive.js — Firestore backup active, Drive OAuth pending">
+    <div class="icon">☁️</div>
+    <div class="info"><div class="name">Drive Backup</div><div class="desc">save_to_drive.js</div></div>
+    <div class="pi"></div>
+    <div class="badge warning">⚠ OAuth pending</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  SVG — dot grid + all connection paths         -->
+  <!-- ══════════════════════════════════════════════ -->
+  <svg class="svg-bg" viewBox="0 0 1560 470" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- dot grid -->
+      <pattern id="g" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+        <circle cx="0.8" cy="0.8" r="0.8" fill="#252b3d"/>
+      </pattern>
+
+      <!-- arrow markers -->
+      <marker id="arr"        markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5z" fill="#3d4a5c"/></marker>
+      <marker id="arr-green"  markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5z" fill="#065f46"/></marker>
+      <marker id="arr-amber"  markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5z" fill="#78350f"/></marker>
+      <marker id="arr-blue"   markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5z" fill="#0c4a6e"/></marker>
+      <marker id="arr-pink"   markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5z" fill="#831843"/></marker>
+      <marker id="arr-indigo" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5z" fill="#312e81"/></marker>
+    </defs>
+
+    <!-- background dots -->
+    <rect width="1560" height="470" fill="url(#g)"/>
+
+    <!-- divider between flows -->
+    <line x1="0" y1="268" x2="1560" y2="268" stroke="#232a3a" stroke-width="1" stroke-dasharray="6,4"/>
+
+    <!-- ──── FLOW 1 connections ──── -->
+
+    <!-- N1 out → N2 in : (186,122) → (228,122) -->
+    <path d="M186,122 C207,122 207,122 228,122"
+          stroke="#5c3a0a" stroke-width="2" fill="none" marker-end="url(#arr-amber)"/>
+
+    <!-- N2 out → N3 in : (414,122) → (456,122) -->
+    <path d="M414,122 C435,122 435,122 456,122"
+          stroke="#3d4a5c" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+
+    <!-- N3 out → N4 in (top branch) : (642,122) → (684,63) -->
+    <path d="M642,122 C663,122 663,63 684,63"
+          stroke="#2d2a27" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+
+    <!-- N3 out → N5 in (mid branch) : (642,122) → (684,139) -->
+    <path d="M642,122 C663,122 663,139 684,139"
+          stroke="#451a03" stroke-width="2" fill="none" marker-end="url(#arr-amber)"/>
+
+    <!-- N3 out → N6 in (bot branch) : (642,122) → (684,217) -->
+    <path d="M642,122 C665,122 665,217 684,217"
+          stroke="#0c3052" stroke-width="2" fill="none" marker-end="url(#arr-blue)"/>
+
+    <!-- N4 out → N7 in : (870,63) → (912,93) -->
+    <path d="M870,63 C891,63 891,93 912,93"
+          stroke="#065f46" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
+
+    <!-- N5 out → N7 in : (870,139) → (912,93) -->
+    <path d="M870,139 C891,139 891,93 912,93"
+          stroke="#065f46" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
+
+    <!-- N6 out → loop note : (870,217) → (912,218) dashed -->
+    <path d="M870,217 C891,217 891,218 912,218"
+          stroke="#0c3052" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arr-blue)"/>
+
+    <!-- N7 out → N8 in : (1098,93) → (1140,93) -->
+    <path d="M1098,93 C1119,93 1119,93 1140,93"
+          stroke="#7c2d12" stroke-width="2" fill="none" marker-end="url(#arr-amber)"/>
+
+    <!-- N8 out → N9 in : (1326,93) → (1368,93) -->
+    <path d="M1326,93 C1347,93 1347,93 1368,93"
+          stroke="#312e81" stroke-width="2" fill="none" marker-end="url(#arr-indigo)"/>
+
+    <!-- ──── FLOW 2 connections ──── -->
+
+    <!-- M1 out → M2 in : (186,347) → (228,347) -->
+    <path d="M186,347 C207,347 207,347 228,347"
+          stroke="#831843" stroke-width="2" fill="none" marker-end="url(#arr-pink)"/>
+
+    <!-- M2 out → M3 in : (414,347) → (456,347) -->
+    <path d="M414,347 C435,347 435,347 456,347"
+          stroke="#831843" stroke-width="2" fill="none" marker-end="url(#arr-pink)"/>
+
+    <!-- M3 out → M4 in (top) : (642,347) → (684,305) -->
+    <path d="M642,347 C663,347 663,305 684,305"
+          stroke="#065f46" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
+
+    <!-- M3 out → M5 in (bot) : (642,347) → (684,395) -->
+    <path d="M642,347 C663,347 663,395 684,395"
+          stroke="#065f46" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
+
+    <!-- M4 out → M6 in : (870,305) → (912,347) -->
+    <path d="M870,305 C891,305 891,347 912,347"
+          stroke="#3d4a5c" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+
+    <!-- M5 out → M6 in : (870,395) → (912,347) -->
+    <path d="M870,395 C891,395 891,347 912,347"
+          stroke="#3d4a5c" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+
+    <!-- M6 out → M7 in : (1098,347) → (1140,347) dashed (pending) -->
+    <path d="M1098,347 C1119,347 1119,347 1140,347"
+          stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+  </svg>
+</div>
+
+</body>
+</html>

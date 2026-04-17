@@ -1,0 +1,37 @@
+#!/bin/bash
+# Quick wrapper for ollama-mcp.js
+# Usage: ./ares-ask "What do you want Qwen to build?"
+#        ./ares-ask gemma "Review this code"
+
+MODEL="qwen3:30b-a3b"  # Default worker (code writing)
+PROMPT=""
+
+# If first arg is "qwen" or "gemma", map to full model name
+if [[ "$1" == "qwen" || "$1" == "gemma" ]]; then
+  if [[ "$1" == "qwen" ]]; then
+    MODEL="qwen3:30b-a3b"
+  elif [[ "$1" == "gemma" ]]; then
+    MODEL="gemma3:27b-it-qat"
+  fi
+  shift
+  PROMPT="$@"
+elif [[ "$1" == "qwen3:30b-a3b" || "$1" == "gemma3:27b-it-qat" || "$1" == "gemma3:12b" ]]; then
+  # Full model name provided
+  MODEL="$1"
+  shift
+  PROMPT="$@"
+else
+  # No model specified, use default (Qwen)
+  PROMPT="$@"
+fi
+
+if [[ -z "$PROMPT" ]]; then
+  echo "Usage:"
+  echo "  ares-ask 'What you want built'"
+  echo "  ares-ask qwen 'Build X feature'"
+  echo "  ares-ask gemma 'Review this code'"
+  exit 1
+fi
+
+cd "$(dirname "$0")/.."
+node scripts/ollama-mcp.js "$MODEL" "$PROMPT"

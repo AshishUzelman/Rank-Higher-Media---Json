@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isWhitelisted() {
+      return request.auth != null &&
+             request.auth.token.email in [
+               'ashish.uzelman@gmail.com',
+               'ash.revolution@gmail.com'
+             ];
+    }
+
+    // The daemon uses the Admin SDK (service account) which bypasses these
+    // rules entirely. So these rules only apply to browser/dashboard access.
+    match /{document=**} {
+      allow read, write: if isWhitelisted();
+    }
+  }
+}

@@ -1,0 +1,28 @@
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+};
+
+// Guard: don't call initializeApp with empty credentials — Firebase 12 throws at module load
+const hasConfig = !!(firebaseConfig.apiKey && firebaseConfig.projectId && firebaseConfig.appId);
+
+if (!hasConfig) {
+    console.warn('[ARES] Firebase env vars missing. Fill in .env.local to connect to Firestore.');
+}
+
+const app = hasConfig
+    ? (getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0])
+    : null;
+
+const auth = (hasConfig && typeof window !== 'undefined') ? getAuth(app) : null;
+const db = hasConfig ? getFirestore(app) : null;
+
+export { app, auth, db };

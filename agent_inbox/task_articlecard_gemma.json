@@ -1,0 +1,19 @@
+{
+  "taskId": "articlecard_component_gemma_2026_04_15",
+  "type": "code",
+  "project": "ares",
+  "description": "Build ArticleCard React component for ARES dashboard. Display individual article from Firestore 'articles' collection with error boundary. Props: {article}. Export default.",
+  "requirements": [
+    "Error boundary component (class-based React)",
+    "Handle Firestore Timestamp: article.publishedAt.seconds * 1000 for date formatting",
+    "Display: title, author, tags (array), publishedDate (formatted)",
+    "Tailwind dark theme: gray-800/700/600 palette, rounded-xl, hover effects",
+    "Match ProjectCard styling pattern and structure",
+    "Props: {article} (object with title, author, tags, publishedAt)",
+    "Export default function"
+  ],
+  "output": "src/components/ArticleCard.js",
+  "tags": ["component", "react", "firestore"],
+  "Worker": "gemma3:12b",
+  "context": "Reference src/app/dashboard/components/ProjectCard.js for styling patterns. ArticleCard should be consistent with it but for article data."
+}
