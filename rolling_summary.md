@@ -5,6 +5,36 @@
 
 ---
 
+## Session 16 — 2026-04-17
+**Date:** 2026-04-17
+**Primary Work:**
+- Monorepo migration COMPLETE: ARES moved from broken gitlink → git subtree at `rank-higher-media/ares/`
+- Phase C audit COMPLETE: all 5 phases confirmed built in agent_connector.js (nothing to rebuild)
+- Supervisor upgraded: gemma3:12b → gemma3:27b-it-qat (model was already pulled ✅)
+- npm install run in new ares/ location — @google/generative-ai and all deps installed
+- Wrote `ares/docs/verified-flow.md` — full execution map with phase-by-phase breakdown
+- Revised Phase C spec: 9-task greenfield plan replaced with 3-task verify plan
+
+**Decisions Made:**
+- Monorepo layout: flat (ares/ at root, not apps/ares/) — YAGNI, no packages needed yet
+- Phase C is verification not construction — loop is already built
+- No site/ move yet — deferred, not blocking
+
+**Blocked / Open:**
+- `.env.local` needs recreating at `ares/.env.local` (gitignored, lost in migration)
+  - Get Firebase keys: Firebase Console → ashish-ares → Project Settings → Your apps → Config
+  - Get Gemini key: aistudio.google.com/apikey
+- Phase C Task 2 (end-to-end run) blocked until .env.local exists
+
+**Next Session Should Start With:**
+1. Load memory stack
+2. Recreate `ares/.env.local` (7 Firebase vars + GEMINI_API_KEY)
+3. Run Phase C end-to-end: `cd ~/rank-higher-media/ares && npm run ares-start`
+4. Drop test task: `cp agent_inbox/task_verify_001.md.ready agent_inbox/task_verify_001.md` (see TERMINAL_GUIDE.md)
+5. Watch logs: `npm run ares-log`
+
+---
+
 ## Session 15 — 2026-04-17
 **Date:** 2026-04-17
 **Primary Work:**

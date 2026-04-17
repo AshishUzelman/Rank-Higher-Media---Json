@@ -7,7 +7,7 @@
 // ── LLM Model Constants ─────────────────────────────────────────────────────
 
 const WORKER_MODEL          = 'qwen3:30b-a3b'         // code, agentic, long ctx (128K), MoE 3B active
-const SUPERVISOR_MODEL      = 'gemma3:12b'            // critic/supervisor (lightweight, fast)
+const SUPERVISOR_MODEL      = 'gemma3:27b-it-qat'     // critic/supervisor (upgraded, already pulled)
 const WORKER_FALLBACK_MODEL = 'qwen2.5-coder:32b'    // deep code, fallback if qwen3 unavailable
 const WORKER_FAST_MODEL     = 'qwen2.5-coder:14b'    // fast code tasks, short context
 const MEMORY_MODEL          = 'gemma2:9b'             // session summarizer (lightweight, ~9GB)
