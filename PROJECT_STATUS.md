@@ -28,16 +28,75 @@
 ---
 
 
-## TODAY — 2026-04-09
+## TODAY — 2026-04-14
 
 ### Completed
-- [x] Session 12 summary written by qwen3 ✅
+- [x] Jules CLI research — autonomous code agent, plan-before-execute model, GitHub-native integration
+- [x] Research plan: Hermes Agent architecture (next session focus)
+- [x] Identified Ad Creator blocker: Firestore permissions (deferred to background Qwen task)
+- [x] Error handling improvements: useAuth.js + Providers.js now show actual error messages instead of white page
+
+### In Progress
+- [ ] **PRIORITY SHIFT: ARES All The Way** — Natural language orchestration hub as central focus
+- [ ] Hermes Agent deep-dive (clone repo, study tier coordination patterns)
+- [ ] ARES natural language interface design (like pixel agents in VS Code)
+- [ ] Jules integration as Worker tier for code tasks
+
+### Blocked
+- Ad Creator Firestore permissions error (deferred; Qwen can debug in background)
+
+---
+
+
+## TODAY — 2026-04-17
+
+### Completed
+- [x] Session 13 summary written by qwen3 ✅
 
 ### In Progress
 - [ ] (carry forward from previous session)
 
 ### Blocked
 - (carry forward)
+
+---
+
+
+## TODAY — 2026-04-17
+
+### Completed
+- [x] Session 14 summary written by qwen3 ✅
+
+### In Progress
+- [ ] (carry forward from previous session)
+
+### Blocked
+- (carry forward)
+
+---
+
+## TODAY — 2026-04-17 (Session 15)
+
+### Completed
+- [x] Gemini API integrated into ARES (4 commits — see rolling_summary.md)
+- [x] Gap audit — found multi-phase loop incomplete, dreaming loop unbuilt, dashboard only scaffold
+- [x] Design spec: `ares/docs/superpowers/specs/2026-04-17-ares-pipeline-completion-design.md`
+
+### Priority Order (NEW — supersedes prior "dashboard first")
+**Phase C → B → A** (per user decision 2026-04-17):
+- [ ] **Phase C: Verify foundation** — activate RESEARCH phase, run 5-phase loop end-to-end, fix breaks
+- [ ] **Phase B: Close dreaming loop** — scheduler + LoRA fine-tune + model reload (Active Dreaming)
+- [ ] **Phase A: Dashboard visualization** — live 5-phase loop + agent activity on dashboard
+
+### Blocked
+- Drive OAuth (credentials.json pending)
+- User needs to add `GEMINI_API_KEY` to `ares/.env.local` before Gemini routing works
+
+### Deferred
+- Firecrawl research (free alternatives: Apify, Cheerio/Puppeteer, Browserless, Playwright)
+- Visual Companion for dashboard mockups (defer to Phase A)
+- Meta-Harness pattern implementation (parked)
+- Ash Code delegator / Phase 6 (separate spec later)
 
 ---
 
