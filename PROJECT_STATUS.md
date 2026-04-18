@@ -75,6 +75,30 @@
 
 ---
 
+
+## TODAY — 2026-04-18 (Session 18)
+
+### Completed
+- [x] Memory consolidation — 7 stale files retired, MEMORY.md tightened ✅
+- [x] DNS diagnosis — rankhighermedia.com NXDOMAIN, no records at registrar ✅
+- [x] Phase B scripts on disk — dreamlog_scheduler.js, run_lora_finetune.sh, model_reload.js ✅
+- [x] Phase B dashboard — useLiveTaskPhase.js + PhaseTimeline.jsx committed ✅
+- [x] Phase C — RESEARCH phase activated in agent_connector.js ✅
+- [x] Supervisor upgraded — gemma3:27b-it-qat + SUPERVISOR_SYSTEM_PROMPT strict criteria ✅
+- [x] Phase C VERIFIED — task_13 full 5-phase loop confirmed end-to-end ✅
+- [x] GitHub security — 9 personal/client files removed from tracking ✅
+
+### Next Up
+- [ ] Wire PhaseTimeline into dashboard page (Phase A begins)
+- [ ] Apply for Anthropic Startup Program (claude.com/programs/startups)
+- [ ] Add GEMINI_API_KEY to ares/.env.local
+- [ ] Fix rankhighermedia.com DNS at registrar
+
+### Blocked
+- DNS: rankhighermedia.com — no records at registrar (action needed by Ashish)
+
+---
+
 ## TODAY — 2026-04-17 (Session 15)
 
 ### Completed
