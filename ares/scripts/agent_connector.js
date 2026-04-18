@@ -70,6 +70,7 @@ const {
   ACTOR_CRITIC_ENABLED,
   WORKER_SYSTEM_PROMPT,
   CRITIC_SYSTEM_PROMPT,
+  SUPERVISOR_SYSTEM_PROMPT,
   OLLAMA_URL: CONFIG_OLLAMA_URL,
   GEMINI_MODEL,
   routeModel,
@@ -151,28 +152,29 @@ async function runBackupIfNeeded() {
 // --- Supervisor review (gemma3:12b) ---------------------------------------
 
 async function runSupervisor(taskId, workerResult, originalTask) {
-  const supervisorPrompt = `You are a Supervisor agent reviewing a Worker's completed task output.
-Original task: ${originalTask}
-Worker result: ${workerResult}
+  const supervisorPrompt = `TASK GIVEN TO WORKER:
+${originalTask.slice(0, 2000)}
 
-Review for:
-1. Task completion — did the Worker actually do what was asked?
-2. Quality — is the output coherent and correct?
-3. Safety — does it follow SOUL_BASE.md principles (no deception, no data loss, no unapproved spend)?
+WORKER OUTPUT:
+${workerResult.slice(0, 4000)}
 
-Respond with JSON only:
-{
-  "decision": "APPROVED",
-  "reason": "one sentence",
-  "feedback": ""
-}
+Your job: make a final APPROVED or REJECTED decision.
 
-Or if rejected:
-{
-  "decision": "REJECTED",
-  "reason": "one sentence",
-  "feedback": "specific instruction for Worker to fix"
-}`
+Check for REJECT conditions first:
+- Any partial stubs ("// continues...", "// existing code", "// TODO", "// ...remaining", placeholders)
+- TypeScript syntax (type annotations, interfaces, enums, .ts/.tsx)
+- ESM import/export in a script file (must use CommonJS require/module.exports)
+- Missing required sections from the task
+- Unchecked success criteria checkboxes
+- Truncated or cut-off output
+
+If none of those apply and the task requirements are met → APPROVE.
+
+Respond with JSON only — no extra text:
+{"decision":"APPROVED","reason":"one sentence","feedback":""}
+
+If rejecting:
+{"decision":"REJECTED","reason":"one sentence stating what failed","feedback":"specific instruction telling the Worker exactly what to fix"}`
 
   try {
     const ollamaUrl = CONFIG_OLLAMA_URL || OLLAMA_URL
@@ -181,23 +183,23 @@ Or if rejected:
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: SUPERVISOR_MODEL,
-        system: CRITIC_SYSTEM_PROMPT,
+        system: SUPERVISOR_SYSTEM_PROMPT,
         prompt: supervisorPrompt,
         stream: false,
         format: 'json',
+        options: { temperature: 0.1 },
       }),
-      signal: AbortSignal.timeout(120000), // 2min timeout
+      signal: AbortSignal.timeout(180000), // 3min — 27b needs more time
     })
     const data = await response.json()
     const parsed = JSON.parse(data.response)
-    // Validate shape
     if (!parsed.decision || !['APPROVED', 'REJECTED'].includes(parsed.decision)) {
       console.warn('[supervisor] Unexpected response shape — defaulting APPROVED')
       return { decision: 'APPROVED', reason: 'parse fallback', feedback: '' }
     }
     return parsed
   } catch (err) {
-    console.warn(`[supervisor] runSupervisor failed: ${err.message} — defaulting APPROVED`)
+    console.warn(`[supervisor] failed: ${err.message} — defaulting APPROVED`)
     return { decision: 'APPROVED', reason: `supervisor error: ${err.message}`, feedback: '' }
   }
 }
@@ -668,7 +670,7 @@ async function processTask(filename) {
 
   if (workerSuccess && workerResultFull) {
     console.log('\n   🧐 Phase: SUPERVISOR (reviewing...)')
-    console.log('\n🧐 Supervisor reviewing Worker output (gemma3:12b)...')
+    console.log(`\n🧐 Supervisor reviewing Worker output (${SUPERVISOR_MODEL})...`)
     try {
       await updateTask(taskId, { status: 'supervisor_review' })
       console.log('   📝 Firestore: task status → supervisor_review')
