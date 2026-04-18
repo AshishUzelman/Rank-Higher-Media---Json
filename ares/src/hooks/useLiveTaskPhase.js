@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { getFirestore } from '@/lib/firebase/config';
+import { db } from '@/lib/firebase/config';
 
 export function useLiveTaskPhase(taskId) {
   const [task, setTask] = useState(null);
@@ -23,7 +23,7 @@ export function useLiveTaskPhase(taskId) {
     }
 
     setLoading(true);
-    const taskRef = doc(getFirestore(), 'tasks', taskId);
+    const taskRef = doc(db, 'tasks', taskId);
 
     const unsubscribe = onSnapshot(
       taskRef,

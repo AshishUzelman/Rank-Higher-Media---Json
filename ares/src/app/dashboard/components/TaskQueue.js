@@ -1,5 +1,9 @@
 'use client';
 
+import PhaseTimeline from '@/components/dashboard/PhaseTimeline';
+
+const IN_PROGRESS_STATUSES = new Set(['in_progress', 'supervisor_review']);
+
 export default function TaskQueue({ tasks }) {
   const getStatusColor = (status) => {
     switch (status) {
@@ -23,16 +27,23 @@ export default function TaskQueue({ tasks }) {
           </div>
         ) : (
           tasks.map(task => (
-            <div key={task.id} className="p-4 flex justify-between items-center hover:bg-gray-700 transition-colors">
-              <div>
-                <h3 className="font-medium text-white">{task.title}</h3>
-                <p className="text-gray-400 text-sm mt-1">{task.description}</p>
+            <div key={task.id} className="p-4 hover:bg-gray-700 transition-colors">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-medium text-white">{task.title}</h3>
+                  <p className="text-gray-400 text-sm mt-1">{task.description}</p>
+                </div>
+                <div className="flex items-center space-x-3 ml-4 shrink-0">
+                  <span className={`w-2 h-2 rounded-full ${getStatusColor(task.status)}`}></span>
+                  <span className="text-sm text-gray-300">{task.status}</span>
+                  <span className="text-xs text-gray-500">{task.createdAt ? new Date(task.createdAt.toDate?.() ?? task.createdAt).toLocaleTimeString() : ''}</span>
+                </div>
               </div>
-              <div className="flex items-center space-x-3">
-                <span className={`w-2 h-2 rounded-full ${getStatusColor(task.status)}`}></span>
-                <span className="text-sm text-gray-300">{task.status}</span>
-                <span className="text-xs text-gray-500">{new Date(task.created).toLocaleTimeString()}</span>
-              </div>
+              {IN_PROGRESS_STATUSES.has(task.status) && (
+                <div className="mt-3">
+                  <PhaseTimeline taskId={task.id} />
+                </div>
+              )}
             </div>
           ))
         )}
