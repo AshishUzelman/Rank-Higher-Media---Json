@@ -5,6 +5,45 @@
 
 ---
 
+## Session 17 — 2026-04-18
+**Date:** 2026-04-18
+**Primary Work:**
+- **Ollama 404 bug FIXED** — Gemma picker was hallucinating bare model names (`qwen3` instead of `qwen3:30b-a3b`). Added `normalizeModelName()` + `MODEL_NAME_MAP` in [agent_connector.js](ares/scripts/agent_connector.js). Applied at BOTH the picker response AND the explicit task-file `**Worker**:` tag path.
+- **.env.local recreated** — 7 Firebase vars + GEMINI_API_KEY, validated with seed script.
+- **Firestore migrated to Admin SDK** — `firestore-client.js` rewritten to use `firebase-admin` + `service-account.json` (at `ares/service-account.json`). Bypasses security rules entirely. No more PERMISSION_DENIED noise in daemon. Also updated `seed_missing_collections.js` to Admin SDK API.
+- **4 collections seeded** — articles, books, seo_tool, projects (via temporary open rules, then locked back down).
+- **Qwen executed 5 tasks via the loop:**
+  - task_02: PhaseTimeline React component (in outbox, minor CSS issues noted)
+  - task_04: meta-task — produced Phase B specs inline (split manually into task_05/06/07)
+  - task_05: dreamlog_scheduler.js (in outbox, has relative-path bug — fix queued as task_10)
+  - task_06, task_07 failed with `fetch failed` (Ollama OOM from concurrent load) — re-queued one at a time
+- **Commits:** `11e2c031` — fix(ares): resolve Ollama 404 + migrate Firestore to Admin SDK
+
+**Decisions Made:**
+- Admin SDK is the correct pattern for server-side Firestore. Client SDK stays for `src/lib/firebase/` (browser components).
+- When giving Qwen multi-file tasks, it produces inline content — built task_09 (split_multi_file_output.js) to auto-handle that.
+- Don't run >2 Qwen tasks concurrently on M1 — Ollama evicts and 404/fetch-fails. Queue one at a time.
+
+**Open Items (carried forward):**
+- task_06, task_07 re-queued — should finish in next 10-15 min
+- task_08 (PhaseTimeline live Firestore) queued
+- task_09 (multi-file output splitter) queued
+- task_10 (fix task_05 relative paths) queued
+- Still need to: merge Qwen outputs into src/ after review
+- Phase B remaining: prepare_training_data.js (task_03 completed, verify + merge)
+
+**Code Review Notes (for next session):**
+- `PhaseTimeline.jsx` (task_02 output): absolute positioning without relative parent; dead imports (`useState, useEffect`); border-dashed without border-width. Fix before merging to `src/components/dashboard/`.
+- `dreamlog_scheduler.js` (task_05 output): relative paths break on cwd change (task_10 will fix).
+
+**Next Session Should Start With:**
+1. Load memory stack (SKIP CONTEXT.md — see feedback_session_token_savings.md)
+2. Check `agent_outbox/` for task_06, 07, 08, 09, 10 results
+3. Run `node scripts/split_multi_file_output.js <outbox_file>` on task_04/08 outputs
+4. Review + merge cleaned files into `src/` and `scripts/`
+5. Commit merged work
+6. Begin Phase A dashboard wiring: PhaseTimeline live via task_08 hook → main dashboard page
+
 ## Session 16 — 2026-04-17
 **Date:** 2026-04-17
 **Primary Work:**
@@ -46,7 +85,6 @@
 5. Watch logs: `npm run ares-log`
 
 ---
-
 ## Session 15 — 2026-04-17
 **Date:** 2026-04-17
 **Primary Work:**
@@ -79,64 +117,6 @@
 1. Load memory stack + read `ares/docs/superpowers/specs/2026-04-17-ares-pipeline-completion-design.md`
 2. Begin **Phase C** — verify RESEARCH phase activation and run one full 5-phase task end-to-end
 3. Invoke `writing-plans` skill to break Phase C into executable tasks
-
-## Session 14 —  2026-04-17
-**Date:** 2026-04-17
-**Primary Work:**
-- Implemented initial YouTube pipeline: `yt-dlp` downloads videos, `qwen3` extracts key points and summaries, which are then stored in Firestore and converted to Markdown for the knowledge base.  
-- Added RSS feed ingestion functionality: 4 new feeds (Anthropic blog, Ollama updates, Simon Willison's newsletter, Latent Space) are now parsed and added to the knowledge base.
-
-**Decisions Made:**
-- Decided to use `yt-dlp` for video downloading due to its flexibility and ease of integration.
-
-**Open Items (carried forward):**
-- Rank Higher Media DNS issue needs resolution. 
-
-
-**Next Session Should Start With:**
-1. Load memory stack
-2. Test the YouTube pipeline with a few videos, ensuring accurate key point extraction and Firestore storage.
-3. Investigate potential issues with the RSS feed ingestion process, particularly for feeds with complex HTML structures.
-
-## Session 13 — 2026-04-17
-**Date:** 2026-04-17
-**Primary Work:**
-- Activated ARES research phase: Enabled `RESEARCH_ENABLED=true` in `ares/.env.local`, verified KB retrieval in `load_context.js` (RSS feeds now pull from Obsidian KB during draft phase)
-- Implemented Ad Creator auth scaffolding: Created `src/app/auth/page.tsx` with NextAuth.js integration (tested login flow with mock credentials)
-- Fixed ARES daemon status check: Added `ares-status` verification to startup script (`bin/ares-start`)
-
-**Decisions Made:**
-- Prioritized research phase activation over new features to reduce Claude dependency (validated 30% context retrieval cost savings via local KB)
-
-**Open Items (carried forward):**
-- Ad Creator: Complete Firebase Auth integration (Task 17)
-- ARES: Fill missing API keys in `ares/.env.local` (YouTube, RSS feed endpoints)
-- Rank Higher Media: Resolve DNS block (ongoing)
-
-**Next Session Should Start With:**
-1. Load memory stack
-2. Run `npm run ares-status` to confirm daemon health
-3. Implement Firebase Auth in `src/app/auth/page.tsx`
-## Session 12 — 2026-04-09
-**Date:** 2026-04-09
-**Primary Work:**
-- ARES: Implemented Actor-Critic Loop (qwen3 drafts → gemma3 critiques → qwen3 revises, N turns) via `dee3c8d`.
-- ARES: Wired Obsidian KB (`knowledge_retrieval.js` → `load_context.js` section 5) and RSS Ingestor (4 feeds → knowledge/ via `71ef3a7`).
-- ARES: Added Daemon (`npm run ares-start/stop/status/log`) and System Prompt Injection (WORKER_SYSTEM_PROMPT/CRITIC_SYSTEM_PROMPT in Ollama calls).
-- Ad Creator: Fixed `params.id` bug in editor page (Next.js 15 async params) and completed EditorShell (`5c58879`, `7a955e4`).
-- Ad Creator: Pushed to GitHub (Vercel auto-deploying) and resolved routing for high-priority tasks to use qwen3 MoE (avoiding qwen2.5-coder:32b timeouts).
-
-**Decisions Made:**
-- Prioritized qwen3 MoE for high-priority code tasks to prevent timeouts.
-
-**Open Items (carried forward):**
-- Ad Creator: Dashboard page (project list component) — pending.
-- Rank Higher Media DNS block (ongoing).
-
-**Next Session Should Start With:**
-1. Load memory stack
-2. Ad Creator: Dashboard page (project list component)
-3. Multi-phase Worker loop (research → draft → critic → refine → supervisor)
 
 ## Archive Protocol
 When Session 5 would be overwritten:
