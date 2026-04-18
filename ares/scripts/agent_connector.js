@@ -54,6 +54,7 @@ async function checkLocalLLM() {
 // checkLocalLLM() → if available + task is bulk/research → route to ash-proxy
 // else → route to Claude API (current behavior)
 const { buildContextPacket } = require('./load_context')
+const { retrieveKnowledge } = require('./knowledge_retrieval')
 const {
   createTask,
   updateTask,
@@ -97,6 +98,31 @@ function parseTaskMetadata(content) {
   // ResearchFiles: comma-separated paths to read before retry (optional)
   const researchFiles = (content.match(/^\*\*ResearchFiles\*\*:\s*(.+)/im) || [])[1]?.trim() || ''
   return { title, priority, assignee, initiator, workerType, researchFiles }
+}
+
+// --- Research phase (knowledge base query before first draft) -------------
+
+async function runResearchPhase(taskContent, taskId) {
+  const title = (taskContent.match(/^#\s+(.+)/m) || [])[1]?.trim() || ''
+  const preview = taskContent.slice(0, 200).replace(/\n/g, ' ').trim()
+  const query = (title + ' ' + preview).trim()
+  if (!query) return ''
+
+  console.log(`   🔬 Research query: "${query.slice(0, 80)}..."`)
+  try {
+    await updateTask(taskId, { currentPhase: 'research' })
+  } catch {}
+
+  try {
+    const results = await retrieveKnowledge(query, { topK: 3 })
+    if (!results?.length) { console.log('   🔬 No knowledge results'); return '' }
+    const notes = '## Research Notes\n' + results.map(r => `- [${r.source}]: ${r.content?.slice(0, 300)}`).join('\n')
+    console.log(`   🔬 Research complete (${results.length} results, ${notes.length} chars)`)
+    return notes
+  } catch (err) {
+    console.warn(`   [research] knowledge query failed: ${err.message}`)
+    return ''
+  }
 }
 
 // --- Backup trigger check -------------------------------------------------
@@ -227,12 +253,12 @@ Respond with JSON only:
 
 // --- Actor-Critic loop (qwen3 drafts → gemma3 critiques → qwen3 revises) --
 
-async function runActorCriticLoop(taskContent, contextPacket, outboxFile, researchFiles, initialFeedback, model) {
+async function runActorCriticLoop(taskContent, contextPacket, outboxFile, researchFiles, initialFeedback, model, researchNotes = '') {
   let criticFeedback = initialFeedback // carry in any existing supervisor retry feedback
 
   for (let turn = 1; turn <= ACTOR_CRITIC_TURNS; turn++) {
     console.log(`\n🎭 Actor-Critic — Actor turn ${turn}/${ACTOR_CRITIC_TURNS}`)
-    await runOllamaWorker(taskContent, contextPacket, outboxFile, criticFeedback, researchFiles, model)
+    await runOllamaWorker(taskContent, contextPacket, outboxFile, criticFeedback, researchFiles, model, turn === 1 ? researchNotes : '')
 
     // Skip critic on the final turn — output is ready
     if (turn >= ACTOR_CRITIC_TURNS) break
@@ -240,6 +266,7 @@ async function runActorCriticLoop(taskContent, contextPacket, outboxFile, resear
     const draft = fs.existsSync(outboxFile) ? fs.readFileSync(outboxFile, 'utf8') : ''
     if (!draft) { console.warn('   [actor-critic] empty draft — stopping loop'); break }
 
+    console.log(`\n🎭 Phase: CRITIC (evaluating turn ${turn}...)`)
     console.log(`\n🎭 Actor-Critic — Critic reviewing turn ${turn} output...`)
     const result = await runCriticReview(taskContent, draft, turn)
     const issuesSummary = result.issues.length ? result.issues[0] : 'looks good'
@@ -256,11 +283,11 @@ async function runActorCriticLoop(taskContent, contextPacket, outboxFile, resear
 
 // --- Ollama Worker + improvement loop -------------------------------------
 
-async function runOllamaWorker(taskContent, contextPacket, outboxFile, supervisorFeedback = '', researchFiles = '', model = WORKER_MODEL) {
+async function runOllamaWorker(taskContent, contextPacket, outboxFile, supervisorFeedback = '', researchFiles = '', model = WORKER_MODEL, researchNotes = '') {
   const ollamaUrl = CONFIG_OLLAMA_URL || OLLAMA_URL
 
-  // Research pass — only on retries with feedback
-  let researchNotes = ''
+  // Retry research pass — only on retries with supervisor feedback + researchFiles
+  let retryResearchNotes = ''
   if (supervisorFeedback && researchFiles) {
     const paths = researchFiles.split(',').map(p => p.trim()).filter(Boolean)
     const snippets = paths.map(p => {
@@ -273,7 +300,7 @@ async function runOllamaWorker(taskContent, contextPacket, outboxFile, superviso
       }
     }).join('\n\n')
 
-    const researchPrompt = `You are a research assistant. The following task was REJECTED by a Supervisor.
+    const retryResearchPrompt = `You are a research assistant. The following task was REJECTED by a Supervisor.
 
 Supervisor feedback: ${supervisorFeedback}
 
@@ -286,26 +313,30 @@ Summarize in 200 words or less: what specific changes are needed to satisfy the 
       const res = await fetch(`${ollamaUrl}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: WORKER_MODEL, prompt: researchPrompt, stream: false, options: { num_ctx: 16384, temperature: 0.2 } }),
+        body: JSON.stringify({ model: WORKER_MODEL, prompt: retryResearchPrompt, stream: false, options: { num_ctx: 16384, temperature: 0.2 } }),
         signal: AbortSignal.timeout(120000),
       })
       const data = await res.json()
-      researchNotes = data.response?.trim() || ''
-      if (researchNotes) console.log(`   🔬 Research pass complete (${researchNotes.length} chars)`)
+      retryResearchNotes = data.response?.trim() || ''
+      if (retryResearchNotes) console.log(`   🔬 Retry research complete (${retryResearchNotes.length} chars)`)
     } catch (err) {
-      console.warn(`   [worker] research pass failed: ${err.message}`)
+      console.warn(`   [worker] retry research failed: ${err.message}`)
     }
   }
 
   const retryContext = supervisorFeedback
-    ? `\n\nSUPERVISOR FEEDBACK (previous attempt was rejected):\n${supervisorFeedback}${researchNotes ? `\n\nRESEARCH NOTES:\n${researchNotes}` : ''}\n\nAddress all feedback before producing your output.\n`
+    ? `\n\nSUPERVISOR FEEDBACK (previous attempt was rejected):\n${supervisorFeedback}${retryResearchNotes ? `\n\nRETRY RESEARCH NOTES:\n${retryResearchNotes}` : ''}\n\nAddress all feedback before producing your output.\n`
+    : ''
+
+  const researchContext = (!supervisorFeedback && researchNotes)
+    ? `\n\nRESEARCH NOTES (from knowledge base — use these to inform your response):\n${researchNotes}\n`
     : ''
 
   const workerPrompt = `You are an expert AI coding and analysis assistant working inside the ARES platform.
 
 AGENT CONTEXT:
 ${contextPacket}
-${retryContext}
+${retryContext}${researchContext}
 TASK:
 ${taskContent}
 
@@ -529,7 +560,14 @@ async function processTask(filename) {
     console.warn(`   [Firestore] updateTask failed: ${err.message}`)
   }
 
-  // 5. Invoke Worker — route debate tasks to brainstorm.js, else ollama/claude
+  // 5. RESEARCH phase — query knowledge base before first draft
+  console.log('\n   🔬 Phase: RESEARCH (querying knowledge base...)')
+  const researchNotes = await runResearchPhase(taskContent, taskId)
+
+  // 5b. Invoke Worker — route debate tasks to brainstorm.js, else ollama/claude
+  console.log('   📝 Phase: DRAFT (invoking worker...)')
+  try { await updateTask(taskId, { currentPhase: 'draft' }) } catch {}
+
   let workerSuccess = false
 
   if (taskType === 'debate') {
@@ -570,7 +608,7 @@ async function processTask(filename) {
     // Falls back to cloud claude CLI if ANTHROPIC_BASE_URL not set
     console.log(`\n🤖 Routing to ${CLAUDE_OLLAMA_MODEL} (Ollama-native or cloud fallback)...\n`)
     try {
-      await runOllamaWorker(taskContent, contextPacket, outboxFile, supervisorFeedbackFromTask, researchFiles, CLAUDE_OLLAMA_MODEL)
+      await runOllamaWorker(taskContent, contextPacket, outboxFile, supervisorFeedbackFromTask, researchFiles, CLAUDE_OLLAMA_MODEL, researchNotes)
       workerSuccess = true
     } catch (err) {
       console.warn(`   [claude-ollama] failed: ${err.message} — falling back to claude CLI`)
@@ -603,9 +641,9 @@ async function processTask(filename) {
     // Default: local Ollama Worker — Actor-Critic loop if enabled, single-shot if not
     try {
       if (ACTOR_CRITIC_ENABLED) {
-        await runActorCriticLoop(taskContent, contextPacket, outboxFile, researchFiles, supervisorFeedbackFromTask, routedModel)
+        await runActorCriticLoop(taskContent, contextPacket, outboxFile, researchFiles, supervisorFeedbackFromTask, routedModel, researchNotes)
       } else {
-        await runOllamaWorker(taskContent, contextPacket, outboxFile, supervisorFeedbackFromTask, researchFiles, routedModel)
+        await runOllamaWorker(taskContent, contextPacket, outboxFile, supervisorFeedbackFromTask, researchFiles, routedModel, researchNotes)
       }
       workerSuccess = true
     } catch (err) {
@@ -629,6 +667,7 @@ async function processTask(filename) {
   let supervisorDecision = { decision: 'APPROVED', reason: 'worker failed — skip review', feedback: '' }
 
   if (workerSuccess && workerResultFull) {
+    console.log('\n   🧐 Phase: SUPERVISOR (reviewing...)')
     console.log('\n🧐 Supervisor reviewing Worker output (gemma3:12b)...')
     try {
       await updateTask(taskId, { status: 'supervisor_review' })
