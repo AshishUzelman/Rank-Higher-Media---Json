@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -15,6 +15,7 @@
     "summarize:dry": "node scripts/summarize_session.js --dry-run",
     "log-correction": "node scripts/log_correction.js",
     "ares-start": "node scripts/ares_daemon.js start",
+    "ares-dev": "node scripts/ares_daemon.js start && next dev",
     "ares-stop": "node scripts/ares_daemon.js stop",
     "ares-log": "tail -f logs/connector.log",
     "ares-status": "node scripts/ares_daemon.js status",
