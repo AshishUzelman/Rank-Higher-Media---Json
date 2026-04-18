@@ -417,12 +417,33 @@ Respond with JSON only:
     const data = await response.json()
     const parsed = JSON.parse(data.response)
     if (!parsed.worker || typeof parsed.worker !== 'string') throw new Error('invalid picker response shape')
-    console.log(`   🧭 Agent Picker → ${parsed.worker} (${parsed.reason})`)
-    return parsed.worker
+
+    // Normalize: picker may return bare name (e.g. "qwen3") — resolve to full tagged name
+    const chosen = normalizeModelName(parsed.worker)
+    console.log(`   🧭 Agent Picker → ${chosen} (${parsed.reason})`)
+    return chosen
   } catch (err) {
     console.warn(`   [picker] LLM routing failed: ${err.message} — falling back to routeModel()`)
     return null // caller falls back to routeModel()
   }
+}
+
+// Map bare model names to their full Ollama-tagged equivalents.
+// Picker LLMs sometimes drop the tag suffix (e.g. "qwen3" instead of "qwen3:30b-a3b").
+const MODEL_NAME_MAP = {
+  'qwen3':              'qwen3:30b-a3b',
+  'gemma3':             'gemma3:27b-it-qat',
+  'gemma3:12b':         'gemma3:12b',
+  'claude-sonnet-4-6':  'claude-sonnet-4-6:latest',
+  'qwen2.5-coder':      'qwen2.5-coder:14b',
+  'gemini':             'gemini',
+  'gemini-2.5-flash':   'gemini',
+}
+
+function normalizeModelName(name) {
+  if (!name) return name
+  const lower = name.toLowerCase().trim()
+  return MODEL_NAME_MAP[lower] || MODEL_NAME_MAP[name] || name
 }
 
 // --- Core task processor --------------------------------------------------
@@ -452,8 +473,8 @@ async function processTask(filename) {
   } else if (workerType === 'gemini') {
     routedModel = 'gemini'  // resolved to GEMINI_MODEL at call time
   } else if (workerType !== 'ollama') {
-    // explicit model name in task file — honor it directly
-    routedModel = routeModel({ taskType, contextSize, priority, forceModel: workerType })
+    // explicit model name in task file — normalize bare names then honor it directly
+    routedModel = routeModel({ taskType, contextSize, priority, forceModel: normalizeModelName(workerType) })
   } else {
     // Ask qwen3 Agent Picker first, fall back to rule-based routeModel()
     const pickerChoice = await agentPicker({ taskType, taskTitle: title, taskContent, priority, contextSize })

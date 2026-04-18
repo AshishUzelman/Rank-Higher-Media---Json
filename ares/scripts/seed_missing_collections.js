@@ -47,13 +47,14 @@ const TIMESTAMP_FIELDS = {
   projects: 'updatedAt',
 }
 
-async function seedCollection(db, collectionName, payload, firestore) {
-  const { collection, addDoc, serverTimestamp } = firestore
+const admin = require('firebase-admin')
+
+async function seedCollection(db, collectionName, payload) {
   const tsField = TIMESTAMP_FIELDS[collectionName]
-  const doc = { ...payload, [tsField]: serverTimestamp() }
+  const doc = { ...payload, [tsField]: admin.firestore.FieldValue.serverTimestamp() }
 
   try {
-    const ref = await addDoc(collection(db, collectionName), doc)
+    const ref = await db.collection(collectionName).add(doc)
     console.log(`  ✅ ${collectionName}: seeded doc ${ref.id}`)
     return true
   } catch (err) {
@@ -65,19 +66,17 @@ async function seedCollection(db, collectionName, payload, firestore) {
 async function main() {
   console.log('\n🌱 Seeding missing Firestore collections...\n')
 
-  const db = await getDb()
+  const db = getDb()
   if (!db) {
-    console.error('❌ Firestore unavailable — check ares/.env.local has Firebase credentials')
+    console.error('❌ Firestore unavailable — check ares/service-account.json exists')
     process.exit(1)
   }
-
-  const firestore = await import('firebase/firestore')
 
   let success = 0
   let failed = 0
 
   for (const [name, payload] of Object.entries(SEEDS)) {
-    const ok = await seedCollection(db, name, payload, firestore)
+    const ok = await seedCollection(db, name, payload)
     if (ok) success++
     else failed++
   }

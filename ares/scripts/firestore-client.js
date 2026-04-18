@@ -1,21 +1,19 @@
 #!/usr/bin/env node
 /**
- * ARES Firestore Client (Node.js)
- * Uses Firebase Web SDK (already installed in ares/node_modules)
- * Reads credentials from ares/.env.local — no dotenv dependency needed
+ * ARES Firestore Client (Node.js, Admin SDK)
+ * Uses firebase-admin with a service account key — bypasses security rules.
+ * Service account: ares/service-account.json (gitignored)
  */
 
 const fs = require('fs')
 const path = require('path')
+const admin = require('firebase-admin')
 
-// --- Env loader -----------------------------------------------------------
+// --- Env loader (still used for project_id fallback) ----------------------
 
 function loadEnv() {
   const envPath = path.join(__dirname, '../.env.local')
-  if (!fs.existsSync(envPath)) {
-    console.warn('[firestore-client] .env.local not found')
-    return {}
-  }
+  if (!fs.existsSync(envPath)) return {}
   const env = {}
   for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
     const trimmed = line.trim()
@@ -31,125 +29,106 @@ function loadEnv() {
 
 const env = loadEnv()
 
-const firebaseConfig = {
-  apiKey:            env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain:        env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId:         env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket:     env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId:             env.NEXT_PUBLIC_FIREBASE_APP_ID,
-}
-
-const hasConfig = !!(firebaseConfig.apiKey && firebaseConfig.projectId && firebaseConfig.appId)
+const SERVICE_ACCOUNT_PATH = path.join(__dirname, '../service-account.json')
+const hasServiceAccount = fs.existsSync(SERVICE_ACCOUNT_PATH)
 
 // --- DB singleton ---------------------------------------------------------
 
 let _db = null
 
-async function getDb() {
+function getDb() {
   if (_db) return _db
-  if (!hasConfig) {
-    console.warn('[firestore-client] Firebase config incomplete — Firestore unavailable')
+  if (!hasServiceAccount) {
+    console.warn('[firestore-client] service-account.json not found — Firestore unavailable')
     return null
   }
-  const { initializeApp, getApps } = await import('firebase/app')
-  const { getFirestore } = await import('firebase/firestore')
-  const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
-  _db = getFirestore(app)
+  if (!admin.apps.length) {
+    const serviceAccount = require(SERVICE_ACCOUNT_PATH)
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      projectId: serviceAccount.project_id || env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    })
+  }
+  _db = admin.firestore()
   return _db
 }
+
+const FV = () => admin.firestore.FieldValue.serverTimestamp()
 
 // --- Tasks ----------------------------------------------------------------
 
 async function createTask(taskId, data) {
-  const db = await getDb()
+  const db = getDb()
   if (!db) return null
-  const { doc, setDoc, serverTimestamp } = await import('firebase/firestore')
-  return setDoc(doc(db, 'tasks', taskId), {
+  return db.collection('tasks').doc(taskId).set({
     ...data,
     status: 'pending',
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+    createdAt: FV(),
+    updatedAt: FV(),
   })
 }
 
 async function updateTask(taskId, fields) {
-  const db = await getDb()
+  const db = getDb()
   if (!db) return null
-  const { doc, updateDoc, serverTimestamp } = await import('firebase/firestore')
-  return updateDoc(doc(db, 'tasks', taskId), {
+  return db.collection('tasks').doc(taskId).update({
     ...fields,
-    updatedAt: serverTimestamp(),
+    updatedAt: FV(),
   })
 }
 
 // --- Agent State ----------------------------------------------------------
 
 async function updateAgentState(agentId, fields) {
-  const db = await getDb()
+  const db = getDb()
   if (!db) return null
-  const { doc, setDoc, serverTimestamp } = await import('firebase/firestore')
-  return setDoc(doc(db, 'agent_state', agentId), {
+  return db.collection('agent_state').doc(agentId).set({
     ...fields,
-    lastActive: serverTimestamp(),
+    lastActive: FV(),
   }, { merge: true })
 }
 
 // --- Memory ---------------------------------------------------------------
 
 async function writeSessionSummary(data) {
-  const db = await getDb()
+  const db = getDb()
   if (!db) return null
-  const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
-  return addDoc(collection(db, 'memory'), {
+  return db.collection('memory').add({
     type: 'session_summary',
     ...data,
-    timestamp: serverTimestamp(),
+    timestamp: FV(),
   })
 }
 
 async function getRecentMemory(limitCount = 20) {
-  const db = await getDb()
+  const db = getDb()
   if (!db) return []
-  const { collection, query, orderBy, limit, getDocs } = await import('firebase/firestore')
-  const q = query(collection(db, 'memory'), orderBy('timestamp', 'desc'), limit(limitCount))
-  const snapshot = await getDocs(q)
-  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }))
+  const snap = await db.collection('memory').orderBy('timestamp', 'desc').limit(limitCount).get()
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }))
 }
 
 // --- Backup check ---------------------------------------------------------
 
-/**
- * Returns { hoursSinceLastSave, taskCountSinceLastSave }
- * Used by agent_connector to decide whether to trigger save_to_drive
- */
 async function getBackupStatus() {
-  const db = await getDb()
+  const db = getDb()
   if (!db) return { hoursSinceLastSave: null, taskCountSinceLastSave: 0 }
 
-  const { collection, query, orderBy, getDocs } = await import('firebase/firestore')
   const now = Date.now()
 
-  // Find most recent session_summary
-  const memSnap = await getDocs(
-    query(collection(db, 'memory'), orderBy('timestamp', 'desc'))
-  )
+  const memSnap = await db.collection('memory').orderBy('timestamp', 'desc').get()
   const lastSave = memSnap.docs.map((d) => d.data()).find((d) => d.type === 'session_summary')
   const lastSaveMs = lastSave?.timestamp?.toMillis?.() || null
   const hoursSinceLastSave = lastSaveMs
     ? Math.floor((now - lastSaveMs) / 1000 / 60 / 60)
-    : null // null = never saved
+    : null
 
-  // Count tasks completed since last save
-  const taskSnap = await getDocs(
-    query(collection(db, 'tasks'), orderBy('updatedAt', 'desc'))
-  )
+  const taskSnap = await db.collection('tasks').orderBy('updatedAt', 'desc').get()
   const taskCountSinceLastSave = taskSnap.docs.filter((d) => {
     const data = d.data()
     const updatedMs = data.updatedAt?.toMillis?.()
     const isComplete = data.status === 'complete'
     if (!isComplete || !updatedMs) return false
-    if (!lastSaveMs) return true // never saved = count everything
+    if (!lastSaveMs) return true
     return updatedMs > lastSaveMs
   }).length
 
@@ -157,10 +136,10 @@ async function getBackupStatus() {
 }
 
 async function getTaskStatus(taskId) {
-  const db = await getDb()
-  const { getDoc, doc } = await import('firebase/firestore')
-  const snap = await getDoc(doc(db, 'tasks', taskId))
-  return snap.exists() ? snap.data().status : null
+  const db = getDb()
+  if (!db) return null
+  const snap = await db.collection('tasks').doc(taskId).get()
+  return snap.exists ? snap.data().status : null
 }
 
 module.exports = {
