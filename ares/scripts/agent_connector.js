@@ -98,7 +98,8 @@ function parseTaskMetadata(content) {
   const workerType = (content.match(/^\*\*Worker\*\*:\s*(.+)/im)     || [])[1]?.trim() || 'ollama'
   // ResearchFiles: comma-separated paths to read before retry (optional)
   const researchFiles = (content.match(/^\*\*ResearchFiles\*\*:\s*(.+)/im) || [])[1]?.trim() || ''
-  return { title, priority, assignee, initiator, workerType, researchFiles }
+  const project    = (content.match(/^\*\*Project\*\*:\s*(.+)/im)    || [])[1]?.trim() || 'ares'
+  return { title, priority, assignee, initiator, workerType, researchFiles, project }
 }
 
 // --- Research phase (knowledge base query before first draft) -------------
@@ -493,7 +494,7 @@ async function processTask(filename) {
   console.log(`\n🔔 Task received: ${filename}`)
 
   const taskContent = fs.readFileSync(filePath, 'utf8')
-  const { title, priority, assignee, initiator, workerType, researchFiles } = parseTaskMetadata(taskContent)
+  const { title, priority, assignee, initiator, workerType, researchFiles, project } = parseTaskMetadata(taskContent)
   const supervisorFeedbackFromTask = (taskContent.match(/^\*\*SupervisorFeedback[^:]*\*\*:\s*(.+)/im) || [])[1]?.trim() || ''
 
   // Route to best model — explicit 'claude' tag skips picker
@@ -519,7 +520,7 @@ async function processTask(filename) {
 
   // 1. Write to Firestore (pending)
   try {
-    await createTask(taskId, { title, priority, assignee, initiator, source: 'agent_inbox' })
+    await createTask(taskId, { title, priority, assignee, initiator, project, source: 'agent_inbox' })
     console.log(`   📝 Firestore: task created (pending)`)
   } catch (err) {
     console.warn(`   [Firestore] createTask failed: ${err.message}`)

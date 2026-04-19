@@ -30,8 +30,15 @@ export default function TaskQueue({ tasks }) {
             <div key={task.id} className="p-4 hover:bg-gray-700 transition-colors">
               <div className="flex justify-between items-center">
                 <div>
-                  <h3 className="font-medium text-white">{task.title}</h3>
-                  <p className="text-gray-400 text-sm mt-1">{task.description}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-medium text-white">{task.title}</h3>
+                    {task.project && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-900 text-indigo-300 font-mono">
+                        {task.project}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-gray-400 text-sm">{task.description}</p>
                 </div>
                 <div className="flex items-center space-x-3 ml-4 shrink-0">
                   <span className={`w-2 h-2 rounded-full ${getStatusColor(task.status)}`}></span>

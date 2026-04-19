@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import DashboardLayout from './components/DashboardLayout';
 import { db } from '@/lib/firebase/config';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 export default function Dashboard() {
   const [projects, setProjects] = useState([]);
@@ -23,7 +23,7 @@ export default function Dashboard() {
     });
 
     // Tasks (execution state with currentPhase)
-    const tasksRef = query(collection(db, 'tasks'), orderBy('updatedAt', 'desc'));
+    const tasksRef = collection(db, 'tasks');
     const tasksUnsubscribe = onSnapshot(tasksRef, (snapshot) => {
       const tasksData = snapshot.docs.map(doc => ({
         id: doc.id,
