@@ -120,3 +120,22 @@ export function subscribeToProjects(callback) {
     callback(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
   }, onError('projects'))
 }
+
+// Director Chat — real-time listener, chronological order for display
+export function subscribeToDirectorChat(callback) {
+  if (!db) return notReady('director_chat')
+  const q = query(collection(db, 'director_chat'), orderBy('timestamp', 'asc'), limit(100))
+  return onSnapshot(q, (snapshot) => {
+    callback(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+  }, onError('director_chat'))
+}
+
+// Director Chat — write a user message; Director agent reads and responds
+export async function sendDirectorMessage(content) {
+  if (!db) throw new Error('Firestore not ready')
+  return addDoc(collection(db, 'director_chat'), {
+    role: 'user',
+    content,
+    timestamp: serverTimestamp(),
+  })
+}
