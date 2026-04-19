@@ -6,11 +6,11 @@
 
 // ── LLM Model Constants ─────────────────────────────────────────────────────
 
-const WORKER_MODEL          = 'qwen3:30b-a3b'         // code, agentic, long ctx (128K), MoE 3B active
-const SUPERVISOR_MODEL      = 'gemma3:27b-it-qat'     // critic/supervisor (upgraded, already pulled)
-const WORKER_FALLBACK_MODEL = 'qwen2.5-coder:32b'    // deep code, fallback if qwen3 unavailable
-const WORKER_FAST_MODEL     = 'qwen2.5-coder:14b'    // fast code tasks, short context
-const MEMORY_MODEL          = 'gemma2:9b'             // session summarizer (lightweight, ~9GB)
+const WORKER_MODEL          = 'qwen2.5-coder:7b'      // fast code tasks, ~5GB, cool on M1
+const SUPERVISOR_MODEL      = 'gemma3:4b'             // critic/supervisor, ~3GB, lightweight
+const WORKER_FALLBACK_MODEL = 'qwen3:30b-a3b'         // deep reasoning fallback, MoE 3B active
+const WORKER_FAST_MODEL     = 'qwen2.5-coder:7b'      // same as worker — already fastest local option
+const MEMORY_MODEL          = 'gemma3:4b'             // session summarizer — reuse supervisor model
 const CLAUDE_OLLAMA_MODEL   = 'claude-sonnet-4-6'    // Claude via Ollama native Anthropic API (v0.14+)
 const GEMINI_MODEL          = 'gemini-2.5-flash'      // Google Gemini via API — long context (1M), multimodal, fallback
 const GEMINI_MODEL_PRO      = 'gemini-2.5-pro'        // Gemini Pro — deeper reasoning, higher cost

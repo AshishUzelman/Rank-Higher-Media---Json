@@ -1,0 +1,34 @@
+{
+  "taskId": "ares_crawl_2026_04_19",
+  "type": "code",
+  "project": "ares",
+  "priority": "normal",
+  "assignedTo": "qwen2.5-coder:7b",
+  "description": "Build ares-crawl — Ashish's internal Firecrawl equivalent. A Node.js crawler that takes a URL, follows links up to a configurable depth, converts each page to clean Markdown, and saves results to Firestore.",
+  "requirements": [
+    "File: scripts/ares_crawl.js (CommonJS, no ESM)",
+    "Use playwright for JS-rendered pages (npm install playwright if not present)",
+    "Use turndown or a simple custom function to convert HTML → clean Markdown (strip nav, footer, header, aside, script, style tags before converting)",
+    "Respect robots.txt — fetch and parse it before crawling, skip disallowed paths",
+    "Rate limiting: configurable delay between requests (default 1000ms), never hammer the target",
+    "CLI: node scripts/ares_crawl.js <url> --depth 2 --limit 20",
+    "Export: crawlSite(url, { depth, limit, delay }) — crawls site, returns array of page results",
+    "Export: scrapePage(url) — scrapes a single URL, returns { url, title, markdown, links[], timestamp }",
+    "Save each crawled page to Firestore collection 'crawl_results' using Admin SDK (service-account.json pattern)",
+    "Firestore doc fields: url, title, markdown, links (string[]), crawledAt (Timestamp), crawlId (shared across one crawl run)",
+    "Track visited URLs to avoid duplicates within a crawl run",
+    "Print progress to stdout: 'Crawling [n/limit]: <url>'",
+    "On error (timeout, 404, block): log and continue — never crash the full crawl"
+  ],
+  "successCriteria": [
+    "node scripts/ares_crawl.js https://example.com --depth 1 --limit 5 crawls 5 pages and saves to Firestore",
+    "Each Firestore doc has url, title, markdown (clean, no HTML tags), links[], crawledAt",
+    "robots.txt is fetched and disallowed paths are skipped",
+    "Script does not crash on bad URLs or JS errors on target pages",
+    "crawlSite and scrapePage are exported and usable from other ARES scripts",
+    "No ESM — CommonJS require/module.exports throughout"
+  ],
+  "output": "scripts/ares_crawl.js",
+  "context": "Look at scripts/agent_connector.js and scripts/create-collections.js for Admin SDK and require patterns. Do not use dotenv — use service-account.json directly. The Firestore crawl_results collection may not exist yet — Admin SDK will create it on first write.",
+  "tags": ["crawler", "scraper", "firecrawl", "solution", "playwright", "markdown"]
+}

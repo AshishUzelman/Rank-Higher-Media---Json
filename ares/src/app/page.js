@@ -6,6 +6,7 @@ import TokenUsage from '@/components/TokenUsage'
 import SystemHeader from '@/components/SystemHeader'
 import DirectorChat from '@/components/DirectorChat'
 import AgentPipelineViz from '@/components/AgentPipelineViz'
+import ProjectsPanel from '@/components/ProjectsPanel'
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
           <DirectorChat />
           <SystemHeader />
           <AgentPipelineViz />
+          <ProjectsPanel />
           <AgentStatus />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">

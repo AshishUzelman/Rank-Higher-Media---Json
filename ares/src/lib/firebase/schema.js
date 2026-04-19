@@ -59,4 +59,20 @@
  * - primaryContact: string
  * - reportingCadence: string
  * - notes: string
+ *
+ * 6. projects
+ * - id: string
+ * - name: string
+ * - slug: string  (e.g. 'ares', 'ad-creator')
+ * - status: 'active' | 'in-progress' | 'concept' | 'parked'
+ * - stack: string  (e.g. 'Next.js 16, Tailwind 4, Firebase')
+ * - firebase: string  (Firebase project ID)
+ * - github: string  (repo name)
+ * - localPath: string  (e.g. '~/rank-higher-media/ares')
+ * - description: string
+ * - notes: string
+ * - openBlockers: string[]
+ * - taskCount: number  (cached — updated by agent_connector)
+ * - startDate: timestamp
+ * - updatedAt: timestamp
  */
