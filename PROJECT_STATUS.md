@@ -48,6 +48,37 @@
 ---
 
 
+## TODAY — 2026-04-19
+
+### Completed
+- [x] Identified DirectorChat → agent_inbox/ as the missing natural language → pipeline wire
+- [x] Session 21 design: one-shot dashboard analysis via local LLM debate
+- [x] Session wrap + memory updated
+
+### In Progress
+- [ ] Dashboard analysis task queued to agent_inbox/ (qwen3 + gemma3 debate)
+- [ ] DirectorChat wiring (next after analysis results reviewed)
+
+### Blocked
+- GEMINI_API_KEY not yet added to ares/.env.local
+- DNS: rankhighermedia.com still NXDOMAIN
+
+---
+
+
+## TODAY — 2026-04-20
+
+### Completed
+- [x] Session 22 summary written by qwen3 ✅
+
+### In Progress
+- [ ] (carry forward from previous session)
+
+### Blocked
+- (carry forward)
+
+---
+
 ## TODAY — 2026-04-17
 
 ### Completed
@@ -75,6 +106,73 @@
 
 ---
 
+
+## TODAY — 2026-04-19 (Session 19)
+
+### Completed
+- [x] Phase A COMPLETE — dashboard live at localhost:3001/dashboard ✅
+- [x] PhaseTimeline wired into Task Queue ✅
+- [x] Project badge on tasks (parsed from **Project:** field, defaults to 'ares') ✅
+- [x] Port cleanup — killed 5 zombie processes ✅
+- [x] Dev server hardcoded port 3001, ares-dev combo script ✅
+- [x] Firestore rules opened for dashboard reads ✅
+
+### Next Up
+- [ ] Test project badge with a new task
+- [ ] Apply for Anthropic Startup Program
+- [ ] Add GEMINI_API_KEY to ares/.env.local
+- [ ] Fix rankhighermedia.com DNS at registrar
+- [ ] Re-queue ArticleCard task (task_14 — failed OOM, retry solo)
+
+### Blocked
+- DNS: rankhighermedia.com — no records at registrar (action needed by Ashish)
+
+---
+
+
+## TODAY — 2026-04-19
+
+### Completed
+- [x] Session 20 summary written by qwen3 ✅
+- [x] **Dreaming pipeline unblocked** — MLX installed, `run_lora_finetune.sh` fixed, `build_training_data.js` added, `model_reload.js` fixed for new adapter dir format
+- [x] Smoke test: 100-iter LoRA run on Qwen3-0.6B-4bit succeeded (adapter saved)
+- [x] Filled 3 correction outputs (rss_feed, obsidian_kb, youtube_pipeline) → training set now viable
+
+### In Progress — Delegation Substrate + Tiered Knowledge (NEW PRIORITY)
+Goal: local LLM manages requests, shows progress on dashboard, reports findings — hand off projects to qwen3, monitor from UI.
+
+**P0 — Delegation Substrate (prerequisite — approach B: role-specialized)**
+- [ ] Task queued in agent_inbox: `task_delegation_substrate.md` (qwen3 drafts, Claude applies)
+- [ ] Switch Worker call `/api/generate` → `/api/chat` with `tools` array
+- [ ] 5 core tools: `write_file`, `read_file`, `run_shell`, `firestore_update`, `create_subtask`
+- [ ] Role system prompts: router, wiki-editor, researcher, synthesizer (each gets own corrections/ subfolder)
+- [ ] Dashboard: add progress widget reading `tasks/{id}/progress` Firestore field
+
+**P1 — Level 1: ARES Wiki (topic pages + merging)** (after P0)
+- [ ] Design spec: wiki mechanics + delegated-to-qwen3 + dashboard visibility
+- [ ] Hybrid structure: topic pages (source of truth) + nightly synthesis (read-only snapshot)
+- [ ] Merge on ingest — read existing page, integrate new info, don't overwrite
+- [ ] Run as ARES task → agent_inbox/wiki_update_<topic>.md → qwen3 handles
+- [ ] Dashboard widget: wiki activity feed (topic, status, qwen3 thinking)
+
+**P2 — Level 2: Project Synthesis Layer** (after P1 proves merge mechanic)
+- [ ] Per-project LLM reviews its own wiki → generates project synthesis
+- [ ] Runs nightly, reports to dashboard
+- [ ] Scales to ARES, Ad Creator, RHM, Mind Challenger
+
+**P3 — Level 3: Account Synthesis Layer** (after P2 working across 2+ projects)
+- [ ] Account-level LLM reviews across all project syntheses → cross-project rollup
+- [ ] Reports findings to main dashboard — "what does Ashish know right now"
+
+### Carried Forward
+- [ ] Fill remaining 3 correction outputs (actor_critic_loop, system_prompt_injection, skill_data_scraper)
+- [ ] Download `mlx-community/Qwen3-30B-A3B-4bit` (~17.2 GB) for real LoRA runs
+- [ ] Increase `--max-seq-length` in run_lora_finetune.sh (examples exceed 2048)
+
+### Blocked
+- (carry forward)
+
+---
 
 ## TODAY — 2026-04-18 (Session 18)
 
