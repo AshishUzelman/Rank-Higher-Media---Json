@@ -1,0 +1,55 @@
+# Build artifacts
+.next/
+dist/
+build/
+out/
+coverage/
+.vercel/
+.turbo/
+
+# Dependencies
+node_modules/
+.pnpm-store/
+__pycache__/
+*.pyc
+
+# Locks & logs
+*.log
+*.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Secrets & env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+service-account*.json
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Claude/IDE state
+.claude/worktrees/
+.vscode/
+.idea/
+
+# Stale handoff docs (superseded by rolling_summary + PROJECT_STATUS)
+SESSION_HANDOFF_*.md
+SESSION_STATUS.md
+ARES_HANDOFF.md
+GEMINI_CONTEXT.md
+GEMINI_WORKFLOW.md
+HYBRID_MODEL_RESEARCH.md
+TOKEN_OPTIMIZATION_PLAN.md
+CONTEXT.md
+
+# ARES-specific large/generated
+ares/agent_inbox/
+ares/agent_outbox/
+ares/logs/
+ares/.backup/

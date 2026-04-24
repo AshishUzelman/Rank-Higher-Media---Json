@@ -14,6 +14,7 @@
     "summarize": "node scripts/summarize_session.js",
     "summarize:dry": "node scripts/summarize_session.js --dry-run",
     "log-correction": "node scripts/log_correction.js",
+    "test:dashboard": "bash scripts/test_dashboard.sh",
     "ares-start": "node scripts/ares_daemon.js start",
     "ares-dev": "node scripts/ares_daemon.js start && next dev",
     "ares-stop": "node scripts/ares_daemon.js stop",
